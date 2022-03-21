@@ -47,9 +47,27 @@ ui <- fluidPage(
 server <- function(input, output) {
   Sys.setenv(AW_API_KEY = "9258f994d53042ca9bcbe7f5cc44dfbbfa366e4ca4ac43c19a33268a6e060cb6")
   Sys.setenv(AW_APPLICATION_KEY = "78a34a92bffc4cc8962e87525a8a35f843e1d5dda7a94c3f88114283d16389ed")
-  information = fetch_device_data("E8:DB:84:E4:03:97")
-  print(information[1])
-  output$weatherAlerts <- renderTable(information[1])
+  pws_data = fetch_device_data("E8:DB:84:E4:03:97")$content
+  #output$raw <- renderTable(pws_data)
+  date_time <- pws_data[[1]][288]
+  outtemp <- pws_data[[6]][288]
+  humidity <- pws_data[[7]][288]
+  winddir_10avg <- pws_data[[9]][288]
+  windspeed_10avg <- pws_data[[11]][288]
+  windgust <- pws_data[[12]][288]
+  hourlyrain <- pws_data[[14]][288]
+  dailyrain <- pws_data[[16]][288]
+  weeklyrain <- pws_data[[17]][288]
+  solarrad <- pws_data[[20]][288]
+  uv_index <- pws_data[[21]][288]
+  feelsLike <- pws_data[[22]][288]
+  dewPoint <- pws_data[[23]][288]
+  print(date_time)
+  
+  output$date <- renderText(date_time)
+  output$temp <- renderText(outtemp)
+  output$humidity <- renderText(humidity)
+  output$wind <- renderText(windspeed_10avg)
 }
 # Run the application 
 shinyApp(ui = ui, server = server)
