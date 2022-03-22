@@ -1,20 +1,22 @@
 library(shiny)
 
-tagList(tags$h4(
+tagList(tags$h3(
   "Phoenix Station - East Victor, NY",
-  br(),
-  "Maintained by Michael N.",
-  br(),
-  "Time Received:",
-  verbatimTextOutput("date"),
-  br(),
-  "Temperature (degrees F)",
-  verbatimTextOutput("temp"),
-  br(),
-  "Humidity (%)",
-  verbatimTextOutput("humidity"),
-  br(),
-  "Wind Speed (mph)",
-  verbatimTextOutput("wind"),
-  br(),
+  hr(),
+  "",
+  hr(),
+  textOutput("temp"),
+  hr(),
+  textOutput("humidity"),
+  hr(),
+  textOutput("wind"),
+  hr(),
+  textOutput("pressure"),
+  hr(),
+  textOutput("rain"),
+  hr(),
+  textOutput("solar"),
+  hr(),
+  textOutput("date"),
 ))
+
