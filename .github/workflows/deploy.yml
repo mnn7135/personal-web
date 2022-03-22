@@ -51,7 +51,7 @@ jobs:
         shell: Rscript {0}
         
       - name: Authorize rsconnect
-        run: sconnect::setAccountInfo(name='nersingerm', token='8B3B08DB7D09E6C3CFC17321038BAF7E', secret='ywRZCLQFPQ98dl0PzKowCbvKQptw2WRpdkZsY+kL')
+        run: rsconnect::setAccountInfo(name='nersingerm', token='8B3B08DB7D09E6C3CFC17321038BAF7E', secret='ywRZCLQFPQ98dl0PzKowCbvKQptw2WRpdkZsY+kL')
         shell: Rscript {0}
         
       - name: Deploy App
