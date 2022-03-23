@@ -15,7 +15,6 @@ ui <- fluidPage(
                      #Home Page Tab and Content         
                      tabPanel(icon("home"),
                               tagList(tags$h3(
-                                #source("inputs.R", local=TRUE)$value
                               )),
                      ),
                      
@@ -24,7 +23,6 @@ ui <- fluidPage(
                      # technologies used, along with any artifacts produced.
                      tabPanel("Software Projects",
                               tagList(tags$h3(
-                                #source("munsonMoney.R", local=TRUE)$value
                               )),
                      ),
                      # Show and nicely display weather data pulled from
@@ -43,7 +41,6 @@ ui <- fluidPage(
                      # Contact information
                      tabPanel("Contact",
                               tagList(tags$h3(
-                                #source("compTestUI.R", local=TRUE)$value
                               ))
                      ),
           )
@@ -113,14 +110,24 @@ server <- function(input, output) {
     wind_direction <- "NNW"
   }
   
+  displayText <- ""
   
+  if(pressure >= 1050 && uv_index >= 2 && uv_index <= 6 && outtemp >= 80) {
+    displayText <- "It's a great day for tanning! Be sure to put on sunscreen!"
+  } else if(pressure >= 1050 && outtemp >= 55) {
+    displayText <- "It's going to be a great night for stargazing! Get the telescope out!"
+  } else if(windgust >= 5.00 && outtemp <= 32) {
+    displayText <- "Be sure to bundle up! It's cold and windy!"
+  }
+  
+  output$alert <- renderText(displayText)
   output$date <- renderText(sprintf("Last pull from %s", format(date_time, tz="America/New_York",usetz=TRUE)))
   output$temp <- renderText(sprintf("Temperature: %.0f\u00B0 F, feels like %.0f\u00B0 F", outtemp, feelsLike))
   output$humidity <- renderText(sprintf("Humidity: %.0f%% with a dew point at %.0f\u00B0 F", humidity, dewPoint))
   output$wind <- renderText(sprintf("Wind: %.2f mph from %s\n with gusts of %.2f mph", windspeed_10avg, wind_direction, windgust))
   output$pressure <- renderText(sprintf("Pressure: %.2f mbar", pressure))
   output$rain <- renderText(sprintf("Rain: %.2f in hourly, %.2f in daily, %.2f in weekly", hourlyrain, dailyrain, weeklyrain))
-  output$solar <- renderText(sprintf("Solar: %.0f W per m\u00B2 %.0f UV Index", solarrad, uv_index))
+  output$solar <- renderText(sprintf("Solar: %.0f W per m\u00B2, %.0f UV Index", solarrad, uv_index))
 }
 # Run the application 
 shinyApp(ui = ui, server = server)

@@ -3,7 +3,7 @@ library(shiny)
 tagList(tags$h3(
   "Phoenix Station - East Victor, NY",
   hr(),
-  "",
+  verbatimTextOutput("alert"),
   hr(),
   textOutput("temp"),
   hr(),
@@ -17,6 +17,8 @@ tagList(tags$h3(
   hr(),
   textOutput("solar"),
   hr(),
-  textOutput("date"),
-))
+),
+tags$h4(
+  textOutput("date"),)
+)
 
