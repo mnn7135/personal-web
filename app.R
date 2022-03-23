@@ -3,8 +3,8 @@ library(ambientweatheR)
 
 #UI logic goes here
 ui <- fluidPage(
-  titlePanel(title = "Michael's Personal Website",
-             windowTitle = "Michael's Personal Website"
+  titlePanel(title = "Michael Nersinger's Website",
+             windowTitle = "Welcome!"
   ),
   
   hr(),
@@ -29,10 +29,16 @@ ui <- fluidPage(
                      ),
                      # Show and nicely display weather data pulled from
                      # Phoenix Station
-                     tabPanel("Weather",
+                     tabPanel("Victor, NY Weather",
                               tagList(tags$h3(
                                 source("weather.R", local=TRUE)$value
                               )),
+                     ),
+                     # Digital Resume
+                     tabPanel("Digital Resume",
+                              tagList(tags$h3(
+                                source("resume.R", local=TRUE)$value
+                              ))
                      ),
                      # Contact information
                      tabPanel("Contact",
@@ -45,7 +51,7 @@ ui <- fluidPage(
   hr(),
   "Website developed by Michael Nersinger",
   br(),
-  "Github: [link here]",
+  "Github: https://github.com/mnn7135/personal-web",
   hr()
   )
 
@@ -113,7 +119,7 @@ server <- function(input, output) {
   output$humidity <- renderText(sprintf("Humidity: %.0f%% with a dew point at %.0f\u00B0 F", humidity, dewPoint))
   output$wind <- renderText(sprintf("Wind: %.2f mph from %s\n with gusts of %.2f mph", windspeed_10avg, wind_direction, windgust))
   output$pressure <- renderText(sprintf("Pressure: %.2f mbar", pressure))
-  output$rain <- renderText(sprintf("Rain: %.2f in hourly", hourlyrain, dailyrain, weeklyrain))
+  output$rain <- renderText(sprintf("Rain: %.2f in hourly, %.2f in daily, %.2f in weekly", hourlyrain, dailyrain, weeklyrain))
   output$solar <- renderText(sprintf("Solar: %.0f W per m\u00B2 %.0f UV Index", solarrad, uv_index))
 }
 # Run the application 
