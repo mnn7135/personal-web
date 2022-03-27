@@ -116,8 +116,10 @@ server <- function(input, output) {
     displayText <- "It's a great day for tanning! Be sure to put on sunscreen!"
   } else if(pressure >= 1050 && outtemp >= 55) {
     displayText <- "It's going to be a great night for stargazing! Get the telescope out!"
-  } else if(windgust >= 5.00 && outtemp <= 32) {
+  } else if(windgust >= 5.00 && outtemp <= 36) {
     displayText <- "Be sure to bundle up! It's cold and windy!"
+  } else {
+    displayText <- "Alert: There are no current weather alerts."
   }
   
   output$alert <- renderText(displayText)
@@ -128,6 +130,8 @@ server <- function(input, output) {
   output$pressure <- renderText(sprintf("Pressure: %.2f mbar", pressure))
   output$rain <- renderText(sprintf("Rain: %.2f in hourly, %.2f in daily, %.2f in weekly", hourlyrain, dailyrain, weeklyrain))
   output$solar <- renderText(sprintf("Solar: %.0f W per m\u00B2, %.0f UV Index", solarrad, uv_index))
+  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="l"))
+  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibar)", type="l"))
 }
 # Run the application 
 shinyApp(ui = ui, server = server)
