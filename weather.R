@@ -1,8 +1,9 @@
 library(shiny)
 
-tagList(tags$h3(
-  "Phoenix Station - East Victor, NY",
-  hr(),
+tagList(tags$h1(
+    strong("Phoenix Station - Victor, NY"),
+    hr()
+  ), tags$h3(
   verbatimTextOutput("alert", placeholder=TRUE),
   verbatimTextOutput("additionalWeather"),
   hr(),

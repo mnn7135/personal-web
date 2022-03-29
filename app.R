@@ -3,8 +3,8 @@ library(ambientweatheR)
 
 #UI logic goes here
 ui <- fluidPage(
-  titlePanel(title = "Michael Nersinger's Website",
-             windowTitle = "Welcome!"
+  titlePanel(title = "Welcome to Michael's Personal Website!",
+             windowTitle = "Michael's Personal Website"
   ),
   
   hr(),
@@ -15,6 +15,7 @@ ui <- fluidPage(
                      #Home Page Tab and Content         
                      tabPanel(icon("home"),
                               tagList(tags$h3(
+                                source("home.R", local=TRUE)$value
                               )),
                      ),
                      
@@ -23,6 +24,7 @@ ui <- fluidPage(
                      # technologies used, along with any artifacts produced.
                      tabPanel("Software Projects",
                               tagList(tags$h3(
+                                source("projects.R", local=TRUE)$value
                               )),
                      ),
                      # Show and nicely display weather data pulled from
@@ -41,6 +43,7 @@ ui <- fluidPage(
                      # Contact information
                      tabPanel("Contact",
                               tagList(tags$h3(
+                                source("contact.R", local=TRUE)$value
                               ))
                      ),
           )
@@ -134,11 +137,11 @@ server <- function(input, output) {
   output$temp <- renderText(sprintf("Temperature: %.0f\u00B0 F, feels like %.0f\u00B0 F", outtemp, feelsLike))
   output$humidity <- renderText(sprintf("Humidity: %.0f%% with a dew point at %.0f\u00B0 F", humidity, dewPoint))
   output$wind <- renderText(sprintf("Wind: %.2f mph from %s\n with gusts of %.2f mph", windspeed_10avg, wind_direction, windgust))
-  output$pressure <- renderText(sprintf("Pressure: %.2f mbar", pressure))
+  output$pressure <- renderText(sprintf("Pressure: %.2f millibars", pressure))
   output$rain <- renderText(sprintf("Rain: %.2f in hourly, %.2f in daily, %.2f in weekly", hourlyrain, dailyrain, weeklyrain))
-  output$solar <- renderText(sprintf("Solar: %.0f W per m\u00B2, %.0f UV Index", solarrad, uv_index))
-  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col=139, lwd = 8))
-  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibar)", type="h", col=490, lwd = 8))
+  output$solar <- renderText(sprintf("Solar: %.0f W/m\u00B2, %.0f UV Index", solarrad, uv_index))
+  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col=139, lwd = 6))
+  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col=490, lwd = 6))
 }
 # Run the application 
 shinyApp(ui = ui, server = server)
