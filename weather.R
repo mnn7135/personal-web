@@ -4,6 +4,7 @@ tagList(tags$h3(
   "Phoenix Station - East Victor, NY",
   hr(),
   verbatimTextOutput("alert", placeholder=TRUE),
+  verbatimTextOutput("additionalWeather"),
   hr(),
   textOutput("temp"),
   plotOutput("tempGraph"),
@@ -20,7 +21,8 @@ tagList(tags$h3(
   textOutput("solar"),
   hr(),
 ),
-tags$h4(
-  textOutput("date"),)
+tags$body(
+  textOutput("date"),
+  "Last maintenanced on 2022-03-26 12:53:00 EDT")
 )
 

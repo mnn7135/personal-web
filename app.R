@@ -116,13 +116,20 @@ server <- function(input, output) {
     displayText <- "It's a great day for tanning! Be sure to put on sunscreen!"
   } else if(pressure >= 1050 && outtemp >= 55) {
     displayText <- "It's going to be a great night for stargazing! Get the telescope out!"
-  } else if(windgust >= 5.00 && outtemp <= 36) {
-    displayText <- "Be sure to bundle up! It's cold and windy!"
-  } else {
-    displayText <- "Alert: There are no current weather alerts."
   }
   
-  output$alert <- renderText(displayText)
+  displayAlert <- ""
+  # https://www.weather.gov/ctp/wwaCriteria#:~:text=High%20Wind%20Warning%3A%20sustained%20winds%2040%20mph%20or,%28and%20before%20the%20end%29%20of%20the%20%22growing%20season%22%3A
+  if(windgust >= 46 && windgust <= 57 && windspeed_10avg >= 31 && windspeed_10avg >= 39) {
+    displayAlert <- "Alert: Wind Advisory."
+  }else if(windgust >= 58 && windspeed_10avg >= 40) {
+    displayAlert <- "Alert: High Wind Warning."
+  } else {
+    displayAlert <- "Alert: There are no current weather alerts."
+  }
+  
+  output$additionalWeather <- renderText(displayText)
+  output$alert <- renderText(displayAlert)
   output$date <- renderText(sprintf("Last pull from %s", format(date_time, tz="America/New_York",usetz=TRUE)))
   output$temp <- renderText(sprintf("Temperature: %.0f\u00B0 F, feels like %.0f\u00B0 F", outtemp, feelsLike))
   output$humidity <- renderText(sprintf("Humidity: %.0f%% with a dew point at %.0f\u00B0 F", humidity, dewPoint))
@@ -130,8 +137,8 @@ server <- function(input, output) {
   output$pressure <- renderText(sprintf("Pressure: %.2f mbar", pressure))
   output$rain <- renderText(sprintf("Rain: %.2f in hourly, %.2f in daily, %.2f in weekly", hourlyrain, dailyrain, weeklyrain))
   output$solar <- renderText(sprintf("Solar: %.0f W per m\u00B2, %.0f UV Index", solarrad, uv_index))
-  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="l"))
-  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibar)", type="l"))
+  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col=139, lwd = 8))
+  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibar)", type="h", col=490, lwd = 8))
 }
 # Run the application 
 shinyApp(ui = ui, server = server)
