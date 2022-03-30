@@ -1,6 +1,9 @@
 library(shiny)
 
-tagList(tags$h3(
+tagList(tags$h1(
+  strong("Digital Resume"),
+  hr()
+  ), tags$h3(
   strong("OBJECTIVE"),
   hr(),
   "Seeking a co-op in the Software Engineering field with excellent programming skills in Java, Python, C, and R. Available August 2022 - June 2023, during the fall, spring, and summer semesters.",
@@ -11,7 +14,7 @@ tagList(tags$h3(
   hr(),
   strong("Rochester Institute of Technology (RIT)"), ", Expected Graduation: May 2024",
   br(),
-  "Bachelor of Science, Software Engineering, ", strong("GPA: 3.92"), ", Rochester, NY",
+  "Bachelor of Science, Software Engineering, ", strong("GPA: 3.95"), ", Rochester, NY",
   br(),
   "Awards: Dean's List, NRS Scholarship",
   br(),
@@ -23,7 +26,7 @@ tagList(tags$h3(
   br(),
   strong("SKILLS"),
   hr(),
-  strong("Programming Languages:"), " Java, Python, C, SQL, HTML, C#, JavaScript",
+  strong("Programming Languages:"), " Java, Python, C, R, SQL, HTML, C#, JavaScript",
   br(),
   strong("Operating Systems"), ": Microsoft Windows, iOS, Linux/Unix",
   br(),
