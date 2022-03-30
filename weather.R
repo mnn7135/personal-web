@@ -7,6 +7,9 @@ tagList(tags$h1(
   verbatimTextOutput("alert", placeholder=TRUE),
   verbatimTextOutput("additionalWeather"),
   hr(),
+  textOutput("currentWeather"),
+  imageOutput("weatherImage"),
+  hr(),
   textOutput("temp"),
   plotOutput("tempGraph"),
   hr(),
@@ -21,6 +24,7 @@ tagList(tags$h1(
   hr(),
   textOutput("solar"),
   hr(),
+  #tableOutput("raw") # for testing purposes
 ),
 tags$body(
   textOutput("date"),

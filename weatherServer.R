@@ -11,12 +11,15 @@ server <- {
   windspeed_10avg <- pws_data[[11]][288]
   windgust <- pws_data[[12]][288]
   hourlyrain <- pws_data[[14]][288]
+  eventrain <- pws_data[[15]][288]
   dailyrain <- pws_data[[16]][288]
   weeklyrain <- pws_data[[17]][288]
   solarrad <- pws_data[[20]][288]
   uv_index <- pws_data[[21]][288]
   feelsLike <- pws_data[[22]][288]
   dewPoint <- pws_data[[23]][288]
+  
+  pressureTrend <- (pws_data[[5]][264] * 33.8639) - pressure
   
   wind_direction <- ""
   
@@ -58,7 +61,7 @@ server <- {
   
   if(pressure >= 1050 && uv_index >= 2 && uv_index <= 6 && outtemp >= 80) {
     displayText <- "It's a great day for tanning! Be sure to put on sunscreen!"
-  } else if(pressure >= 1050 && outtemp >= 55) {
+  } else if(pressure >= 1030 && outtemp >= 55 && pressureTrend > 0) {
     displayText <- "It's going to be a great night for stargazing! Get the telescope out!"
   }
   
@@ -78,10 +81,47 @@ server <- {
     displayAlert <- "Alert: Wind Chill Warning"
   } else if(outtemp <= 50 && windspeed_10avg >= 5 && windchill >= 15 && windchill < 25) {
     displayAlert <- "Alert: Wind Chill Advisory"
+  } else if(eventrain >= 1 && windgust >= 58) {
+    displayAlert <- "Alert: Severe Thunderstorm Warning"
+  } else if(eventrain >= 3) {
+    displayAlert <- "Alert: Flash Flood Warning"
   } else {
     displayAlert <- "Alert: There are no current weather alerts."
   }
   
+  currentWeather <- ""
+  image_loc <- ""
+  
+  if(eventrain > 0) {
+    currentWeather <- "Current Weather: Light Rain"
+    image_loc <- "drizzle.png"
+  } else if(eventrain > 0.5) {
+    currentWeather <- "Current Weather: Rain"
+    image_loc <- "rain.png"
+  } else if(pressureTrend > 10) {
+    currentWeather <- "Current Weather: Clear"
+    if(solarrad > 10) {
+      image_loc <- "sunny.png"
+    } else {
+      image_loc <- "moony.png"
+    }
+  } else if(pressureTrend >= -10 && pressureTrend <= 10) {
+    currentWeather <- "Current Weather: Some Clouds"
+    if(solarrad > 10) {
+      image_loc <- "somesun.png"
+    } else {
+      image_loc <- "somemoon.png"
+    }
+  } else if(pressureTrend < -10) {
+    currentWeather <- "Current Weather: Cloudy"
+    image_loc <- "cloudy.png"
+  }
+  
+  output$weatherImage <- renderImage({
+    filename <- normalizePath(file.path('./www', paste(image_loc, sep='')))
+    list(src = filename)}, deleteFile = FALSE)
+  output$currentWeather <- renderText(currentWeather)
+  output$raw <- renderTable(pws_data)
   output$additionalWeather <- renderText(displayText)
   output$alert <- renderText(displayAlert)
   output$date <- renderText(sprintf("Last pull from %s", format(date_time, tz="America/New_York",usetz=TRUE)))
