@@ -26,6 +26,18 @@ jobs:
         with:
           use-public-rspm: true
         
+      - name: Install shiny
+        run: install.packages("shiny")
+        shell: Rscript {0}
+        
+      - name: Install devtools
+        run: install.packages("devtools")
+        shell: Rscript {0}
+      
+      - name: Install ambientweatheR
+        run: devtools::install_github("andrewflack/ambientweatheR")
+        shell: Rscript {0}
+        
       - name: Install rsconnect
         run: install.packages("rsconnect")
         shell: Rscript {0}
