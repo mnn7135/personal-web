@@ -13,7 +13,6 @@ server <- {
   hourlyrain <- pws_data[[14]][288]
   eventrain <- pws_data[[15]][288]
   dailyrain <- pws_data[[16]][288]
-  weeklyrain <- pws_data[[17]][288]
   solarrad <- pws_data[[20]][288]
   uv_index <- pws_data[[21]][288]
   feelsLike <- pws_data[[22]][288]
@@ -86,34 +85,42 @@ server <- {
   } else if(eventrain >= 3) {
     displayAlert <- "Alert: Flash Flood Warning"
   } else {
-    displayAlert <- "Alert: There are no current weather alerts."
+    displayAlert <- "There are no current weather alerts."
   }
   
   currentWeather <- ""
   image_loc <- ""
+  rain_last_hour <-
+  if(hourlyrain > 0) {
+    rain_last_hour <- sprintf("Rainfall in the Last Hour: %.2f in", hourlyrain)
+  }
+    
   
   if(eventrain > 0) {
-    currentWeather <- "Current Weather: Light Rain"
+    currentWeather <- "Light Rain"
     image_loc <- "drizzle.png"
   } else if(eventrain > 0.5) {
-    currentWeather <- "Current Weather: Rain"
+    currentWeather <- "Rain"
     image_loc <- "rain.png"
   } else if(pressureTrend > 10) {
-    currentWeather <- "Current Weather: Clear"
+    currentWeather <- "Clear"
     if(solarrad > 10) {
       image_loc <- "sunny.png"
     } else {
       image_loc <- "moony.png"
     }
+  } else if(windspeed_10avg >= 10.0) {
+    currentWeather <- "Windy"
+    image_loc <- "windy.png"
   } else if(pressureTrend >= -10 && pressureTrend <= 10) {
-    currentWeather <- "Current Weather: Some Clouds"
+    currentWeather <- "Passing Clouds"
     if(solarrad > 10) {
       image_loc <- "somesun.png"
     } else {
       image_loc <- "somemoon.png"
     }
   } else if(pressureTrend < -10) {
-    currentWeather <- "Current Weather: Cloudy"
+    currentWeather <- "Cloudy"
     image_loc <- "cloudy.png"
   }
   
@@ -121,16 +128,23 @@ server <- {
     filename <- normalizePath(file.path('./www', paste(image_loc, sep='')))
     list(src = filename)}, deleteFile = FALSE)
   output$currentWeather <- renderText(currentWeather)
-  output$raw <- renderTable(pws_data)
+  #output$raw <- renderTable(pws_data)
   output$additionalWeather <- renderText(displayText)
+  output$dPoint <- renderText(sprintf("%.0f\u00B0 F", dewPoint))
   output$alert <- renderText(displayAlert)
   output$date <- renderText(sprintf("Last pull from %s", format(date_time, tz="America/New_York",usetz=TRUE)))
-  output$temp <- renderText(sprintf("Temperature: %.0f\u00B0 F, feels like %.0f\u00B0 F", outtemp, feelsLike))
-  output$humidity <- renderText(sprintf("Humidity: %.0f%% with a dew point at %.0f\u00B0 F", humidity, dewPoint))
-  output$wind <- renderText(sprintf("Wind: %.2f mph from %s\n with gusts of %.2f mph", windspeed_10avg, wind_direction, windgust))
-  output$pressure <- renderText(sprintf("Pressure: %.2f millibars", pressure))
-  output$rain <- renderText(sprintf("Rain: %.2f in hourly, %.2f in daily, %.2f in weekly", hourlyrain, dailyrain, weeklyrain))
-  output$solar <- renderText(sprintf("Solar: %.0f W/m\u00B2, %.0f UV Index", solarrad, uv_index))
-  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col=139, lwd = 6))
-  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col=490, lwd = 6))
+  output$temp <- renderText(sprintf("%.0f\u00B0 F", outtemp))
+  output$tempFeels <- renderText(sprintf("Feels like %.0f\u00B0 F", feelsLike))
+  output$humidity <- renderText(sprintf("%.0f%%", humidity))
+  output$wind <- renderText(sprintf("%.0f mph from %s", windspeed_10avg, wind_direction))
+  output$gust <- renderText(sprintf("%.0f mph from %s", windgust, wind_direction))
+  
+  output$pressure <- renderText(sprintf("%.2f mbar", pressure))
+  output$solar <- renderText(sprintf("%.0f", uv_index))
+  output$dailyRain <- renderText(sprintf("%.2f in", dailyrain))
+  output$rainLastHour <- renderText(rain_last_hour)
+  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#4E9A39", lwd = 8))
+  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#F39E43", lwd = 8))
+  output$rainGraph <- renderPlot(plot(pws_data[[1]], (pws_data[[14]][1:288]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#1A67CB", lwd = 8))
+  output$windGraph <- renderPlot(plot(pws_data[[1]], pws_data[[11]][1:288] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#90D1FC", lwd = 8))
 }

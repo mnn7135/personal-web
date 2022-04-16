@@ -2,18 +2,23 @@ library("shiny")
 library(ambientweatheR)
 
 #UI logic goes here
-ui <- fluidPage(
-  titlePanel(title = "Welcome to Michael's Personal Website!",
+ui <- fluidPage(tags$style('.container-fluid {
+                             background-color: black;
+              }', ".container-fluid {color: white;
+                                 font-size: 20px;
+                                 font-style: bold;
+                                 font-family: arial;
+                                 }"),
+  titlePanel(title = tags$h1(strong("Welcome to Michael's Website!")),
              windowTitle = "Michael's Personal Website"
   ),
-  
   hr(),
   
-  tagList(tags$head(tags$style(type = 'text/css', '.navbar-brand{display:none;}')),
+  tagList(tags$head(tags$style('body { word-wrap: break-word; }',  '.navbar-brand{display:none; color: black;}')),
           navbarPage("",
                      
                      #Home Page Tab and Content         
-                     tabPanel(icon("home"),
+                     tabPanel(tags$h4(icon("home")),
                               tagList(tags$h3(
                                 source("home.R", local=TRUE)$value
                               )),
@@ -22,26 +27,26 @@ ui <- fluidPage(
                      # Page showing details of the software projects I have
                      # worked on, including team size, methodology, and
                      # technologies used, along with any artifacts produced.
-                     tabPanel("Software Projects",
+                     tabPanel(tags$h4(strong("Software Projects")),
                               tagList(tags$h3(
                                 source("projects.R", local=TRUE)$value
                               )),
                      ),
                      # Show and nicely display weather data pulled from
                      # Phoenix Station
-                     tabPanel("Victor, NY Weather",
+                     tabPanel(tags$h4(strong("Victor, NY Weather")),
                               tagList(tags$h3(
                                 source("weather.R", local=TRUE)$value
                               )),
                      ),
                      # Digital Resume
-                     tabPanel("Digital Resume",
+                     tabPanel(tags$h4(strong("Digital Resume")),
                               tagList(tags$h3(
                                 source("resume.R", local=TRUE)$value
                               ))
                      ),
                      # Contact information
-                     tabPanel("Contact",
+                     tabPanel(tags$h4(strong("Contact")),
                               tagList(tags$h3(
                                 source("contact.R", local=TRUE)$value
                               ))
@@ -51,7 +56,7 @@ ui <- fluidPage(
   hr(),
   "Website developed by Michael Nersinger",
   br(),
-  "Github: https://github.com/mnn7135/personal-web",
+  tags$a(href="https://github.com/mnn7135/personal-web/", target="_blank", "GitHub: https://github.com/mnn7135/personal-web/"),
   hr()
   )
 
