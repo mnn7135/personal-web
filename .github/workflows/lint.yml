@@ -1,0 +1,26 @@
+# Workflow to lint the R Project that is run manually.
+# Written by Michael Nersinger
+
+on:
+  workflow_dispatch:
+  
+name: lint-project
+
+jobs:
+  lint-project:
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          use-public-rspm: true
+
+      - name: Install lintr
+        run: install.packages("lintr")
+        shell: Rscript {0}
+
+      - name: Lint root directory
+        run: lintr::lint_dir()
+        shell: Rscript {0}
