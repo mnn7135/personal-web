@@ -18,7 +18,7 @@ server <- {
   feelsLike <- pws_data[[22]][288]
   dewPoint <- pws_data[[23]][288]
   
-  pressureTrend <- (pws_data[[5]][264] * 33.8639) - pressure
+  pressureTrend <- (pws_data[[5]][1] * 33.8639) - pressure
   
   wind_direction <- ""
   
@@ -96,30 +96,32 @@ server <- {
   }
     
   
-  if(eventrain > 0) {
+  if(eventrain > 2) {
     currentWeather <- "Light Rain"
     image_loc <- "drizzle.png"
-  } else if(eventrain > 0.5) {
+  } else if(eventrain > 2.5) {
     currentWeather <- "Rain"
     image_loc <- "rain.png"
-  } else if(pressureTrend > 10) {
+  } else if(pressureTrend > -5 && pressureTrend < 5 && windspeed_10avg < 2.5) {
     currentWeather <- "Clear"
     if(solarrad > 10) {
       image_loc <- "sunny.png"
     } else {
       image_loc <- "moony.png"
     }
-  } else if(windspeed_10avg >= 10.0) {
+  } else if(windspeed_10avg >= 15.0 || windgust >= 20.0) {
     currentWeather <- "Windy"
     image_loc <- "windy.png"
-  } else if(pressureTrend >= -10 && pressureTrend <= 10) {
+  } else if(pressureTrend >= -5 && pressureTrend <= 5 && windspeed_10avg > 2.5 
+            && winddir_10avg > 11.25 && winddir_10avg < 348.75) {
     currentWeather <- "Passing Clouds"
     if(solarrad > 10) {
       image_loc <- "somesun.png"
     } else {
       image_loc <- "somemoon.png"
     }
-  } else if(pressureTrend < -10) {
+  } else if(pressureTrend < -10 && pressureTrend <= 10 && windspeed_10avg > 5 
+            && winddir_10avg > 11.25 && winddir_10avg < 348.7) {
     currentWeather <- "Cloudy"
     image_loc <- "cloudy.png"
   }
