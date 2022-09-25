@@ -5,108 +5,158 @@ tagList(tags$h1(
     hr()
   ), tags$h3(
   verbatimTextOutput("alert", placeholder=TRUE),
-  verbatimTextOutput("additionalWeather"),
   hr(),
   
   tags$h2(strong("Current Weather Conditions")),
   hr(),
   fluidRow(
-    column(6, div(imageOutput("weatherImage")),
+    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 250px;"), hr(), 
     ),
-    column(6, div(tags$h1(textOutput("temp"), style="font-size: 150px;"), hr(), 
-                  tags$h1(textOutput("currentWeather")),
-                  tags$h1(textOutput("tempFeels")),
+    column(12, 
+                  tags$h1(textOutput("outFeels")),
                   tags$h1(textOutput("rainLastHour"))),
     ),
   ),
   hr(),
   
-  tags$h2(strong("Today's Details")),
+  tags$h2(strong("Outdoor Details")),
   hr(),
   fluidRow(
-    column(6, div("Wind"),
+    column(2, div("Wind"),
     ),
-    column(6, div(textOutput("wind")),
+    column(2, div(textOutput("windSpeed")),
+    ),
+    column(4, div(),
+    ),
+    column(2, div("Pressure"),
+    ),
+    column(2, div(textOutput("outPressure")),
     ),
   ),
   hr(),
   fluidRow(
-    column(6, div("Wind Gusts"),
+    column(2, div("Wind Gusts"),
     ),
-    column(6, div(textOutput("gust")),
+    column(2, div(textOutput("windGust")),
     ),
-  ),
-  hr(),
-  fluidRow(
-    column(6, div("Humidity"),
+    column(4, div(),
     ),
-    column(6, div(textOutput("humidity")),
+    column(2, div("UV Index"),
     ),
-  ),
-  hr(),
-  fluidRow(
-    column(6, div("Dew Point"),
-    ),
-    column(6, div(textOutput("dPoint")),
+    column(2, div(textOutput("solarData")),
     ),
   ),
   hr(),
   fluidRow(
-    column(6, div("Pressure"),
+    column(2, div("Humidity"),
     ),
-    column(6, div(textOutput("pressure")),
+    column(2, div(textOutput("outHumidity")),
+    ),
+    column(4, div(),
+    ),
+    column(2, div("Daily Rainfall"),
+    ),
+    column(2, div(textOutput("dailyRain")),
     ),
   ),
   hr(),
   fluidRow(
-    column(6, div("UV Index"),
+    column(2, div("Dew Point"),
     ),
-    column(6, div(textOutput("solar")),
+    column(2, div(textOutput("outDewPoint")),
+    ),
+    column(4, div(),
+    ),
+    column(2, div(),
+    ),
+    column(2, div(),
     ),
   ),
   hr(),
+  
   fluidRow(
-    column(6, div("Daily Rainfall"),
+    column(12, tags$h2(strong("Data Graphs")),
+    )
+  ),
+  hr(),
+  fluidRow(
+    column(6, selectInput("graphType1", "Select graph one data.", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "UV Index"), selected = "Temperature"),
     ),
-    column(6, div(textOutput("dailyRain")),
-    ),
+    column(6, selectInput("graphType2", "Select graph two data.", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "UV Index"), selected = "Pressure"),
+    )
   ),
   
-  hr(),
-  tags$h2(strong("Data Graphs")),
+  # Graph 1
+  
   hr(),
   fluidRow(
-    column(6, div("Temperature Graph"),
-    ),
-    column(6, div("Pressure Graph"),
-    ),
+    column(12, textOutput("graph1"),
+    )
   ),
   hr(),
   fluidRow(
-    column(6, div(plotOutput("tempGraph")),
-    ),
-    column(6, div(plotOutput("pressureGraph")),
-    ),
+    column(12, div(plotOutput("dataGraph1")),
+    )
   ),
   br(),
+  
+  # Graph 2
+  
   fluidRow(
-    column(6, div("Rain Graph"),
+    column(12, textOutput("graph2"),
+    )
+  ),
+  hr(),
+  fluidRow(
+    column(12, div(plotOutput("dataGraph2")),
+    )
+  ),
+  hr(),
+  
+  tags$h2(strong("Indoor Details")),
+  hr(),
+  fluidRow(
+    column(2, div("Temperature"),
     ),
-    column(6, div("Wind Graph"),
+    column(2, div(textOutput("inTemp")),
+    ),
+    column(4, div(),
+    ),
+    column(2, div("Pressure"),
+    ),
+    column(2, div(textOutput("inPressure")),
     ),
   ),
   hr(),
   fluidRow(
-    column(6, div(plotOutput("rainGraph")),
+    column(2, div("Humidity"),
     ),
-    column(6, div(plotOutput("windGraph")),
+    column(2, div(textOutput("inHumidity")),
+    ),
+    column(4, div(),
+    ),
+    column(2, div("Feels Like"),
+    ),
+    column(2, div(textOutput("inFeels")),
     ),
   ),
-  #tags$h3(tableOutput("raw"), style="color: black;"), # for testing purposes
-  hr()
+  hr(),
+  fluidRow(
+    column(2, div("Dew Point"),
+    ),
+    column(2, div(textOutput("inDewPoint")),
+    ),
+    column(4, div(),
+    ),
+    column(2, div(),
+    ),
+    column(2, div(),
+    ),
+  ),
+  hr(),
 ),
 tags$body(
   textOutput("date"),
-  "Last maintenanced on 2022-03-26 12:53:00 EDT")
+  "Last maintenanced on 07/26/22 2:33 PM EDT")
 )
 

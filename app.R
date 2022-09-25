@@ -3,22 +3,22 @@ library(ambientweatheR)
 
 #UI logic goes here
 ui <- fluidPage(tags$style('.container-fluid {
-                             background-color: black;
-              }', ".container-fluid {color: white;
+                             background-color: white;
+              }', ".container-fluid {color: black;
                                  font-size: 20px;
                                  font-style: bold;
                                  font-family: arial;
                                  }"),
-  titlePanel(title = tags$h1(strong("Welcome to Michael's Website!")),
-             windowTitle = "Michael's Personal Website"
+  titlePanel(title = tags$h1(strong("")),
+             windowTitle = "Michael's Website"
   ),
   hr(),
   
-  tagList(tags$head(tags$style('body { word-wrap: break-word; }',  '.navbar-brand{display:none; color: black;}')),
+  tagList(tags$head(tags$style('body { word-wrap: break-word; }',  '.navbar-brand{display:none; color: white;}')),
           navbarPage("",
                      
                      #Home Page Tab and Content         
-                     tabPanel(tags$h4(icon("home")),
+                     tabPanel(tags$h1(icon("home")),
                               tagList(tags$h3(
                                 source("home.R", local=TRUE)$value
                               )),
@@ -27,29 +27,17 @@ ui <- fluidPage(tags$style('.container-fluid {
                      # Page showing details of the software projects I have
                      # worked on, including team size, methodology, and
                      # technologies used, along with any artifacts produced.
-                     tabPanel(tags$h4(strong("Software Projects")),
+                     tabPanel(tags$h1(strong("About Me")),
                               tagList(tags$h3(
                                 source("projects.R", local=TRUE)$value
                               )),
                      ),
                      # Show and nicely display weather data pulled from
                      # Phoenix Station
-                     tabPanel(tags$h4(strong("Victor, NY Weather")),
+                     tabPanel(tags$h1(strong(textOutput("weatherTab"))),
                               tagList(tags$h3(
                                 source("weather.R", local=TRUE)$value
                               )),
-                     ),
-                     # Digital Resume
-                     tabPanel(tags$h4(strong("Digital Resume")),
-                              tagList(tags$h3(
-                                source("resume.R", local=TRUE)$value
-                              ))
-                     ),
-                     # Contact information
-                     tabPanel(tags$h4(strong("Contact")),
-                              tagList(tags$h3(
-                                source("contact.R", local=TRUE)$value
-                              ))
                      ),
           )
   ),

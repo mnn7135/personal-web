@@ -1,36 +1,40 @@
 library(shiny)
 
 tagList(tags$h1(
-  strong("Software Projects"),
+  strong("About Me"),
   hr()
 ), 
 tags$h2(
-  strong("Personal Projects"),
+  strong("Software Projects"),
   hr()
 ),
 tags$h3(
-  strong("RShiny Website"),
-  hr(),
-  "Technologies Used: R and RShiny",
-  br(),
-  tags$a(href="https://github.com/mnn7135/personal-web/", target="_blank", "GitHub Repository"),
-  br(),
-  br(),
-  "This is the website you are currently visiting! My inspiration behind building ",
-  "this website was being able to display information received from an API call to ",
-  "my personal weather station. However, this project soon evolved into building a ",
-  "place to serve as a digital portfolio. While developing this website, I adhered ",
-  "to the Scrum methodology, with 1-2 week sprints. In some cases, sprints stretched ",
-  "a bit longer when coursework became the dominant priority. Overall, the website ",
-  "has made steady progress and is a real passion project for me. This website is ",
-  "deployed automatically after every update via GitHub Actions.",
-  hr()
-),
-tags$h2(
-  strong("College Projects"),
-  hr()
+  fluidRow(
+    column(6,
+           hr(),
+           strong("RShiny Website"),
+           hr(),
+           "Technologies Used: R and RShiny",
+           br(),
+           tags$a(href="https://github.com/mnn7135/personal-web/", target="_blank", "GitHub Repository"),
+           br(),
+           br(),
+           "This is the website you are currently visiting! My inspiration behind building ",
+           "this website was being able to display information received from an API call to ",
+           "my personal weather station. However, this project soon evolved into building a ",
+           "place to serve as a digital portfolio. While developing this website, I adhered ",
+           "to the Scrum methodology, with 1-2 week sprints. In some cases, sprints stretched ",
+           "a bit longer when coursework became the dominant priority. Overall, the website ",
+           "has made steady progress and is a real passion project for me. This website is ",
+           "deployed automatically after every update via GitHub Actions.",
+           hr()
+    ),
+  ),
 ),
 tags$h3(
+  fluidRow(
+    column(6),
+    column(6,
   strong("SWEN 340 - Hardware LED Project"),
   hr(),
   "Technologies Used: C",
@@ -46,7 +50,9 @@ tags$h3(
   "went perfectly and I made sure that all of my code was properly documented and ",
   "adhered to good software design (i.e. Single Responsibility Principle for .c files where appropriate).",
   hr(),
-  
+    )),
+  fluidRow(
+    column(6,
   strong("SWEN 356 - TuitionWaster RShiny App"),
   hr(),
   "Technologies Used: R and RShiny",
@@ -65,7 +71,10 @@ tags$h3(
   "our group received great marks from peers, notably because our website was ",
   "interactive during our demo presentation.",
   hr(),
-  
+    )),
+  fluidRow(
+    column(6),
+    column(6,
   strong("CSCI 140 - Reddit Place"),
   hr(),
   "Technologies Used: Java",
@@ -81,5 +90,6 @@ tags$h3(
   "reviews to refine our code and make it better. This project was developed ",
   "alongside two other students. Overall, we performed well with our project due ",
   "to its base quality and the added enhancements.",
-  hr()
+  hr(),
+    )),
 ))

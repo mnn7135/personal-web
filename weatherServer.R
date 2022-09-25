@@ -1,150 +1,165 @@
 library(shiny)
 
-#Application Logic goes here
+# weatherServer.R - written by Michael N.
 server <- {
+  # Pull Weather Station Data
   pws_data = fetch_device_data("E8:DB:84:E4:03:97")$content
   date_time <- pws_data[[1]][288]
-  pressure <- pws_data[[5]][288] * 33.8639
-  outtemp <- pws_data[[6]][288]
-  humidity <- pws_data[[7]][288]
-  winddir_10avg <- pws_data[[9]][288]
-  windspeed_10avg <- pws_data[[11]][288]
-  windgust <- pws_data[[12]][288]
-  hourlyrain <- pws_data[[14]][288]
-  eventrain <- pws_data[[15]][288]
-  dailyrain <- pws_data[[16]][288]
-  solarrad <- pws_data[[20]][288]
+  # Outdoor Information
+  out_pressure <- pws_data[[5]][288] * 33.8639
+  out_temp <- pws_data[[6]][288]
+  out_humidity <- pws_data[[7]][288]
+  wind_dir <- pws_data[[9]][288]
+  wind_speed <- pws_data[[11]][288]
+  wind_gust <- pws_data[[12]][288]
+  hourly_rain <- pws_data[[14]][288]
+  event_rain <- pws_data[[15]][288]
+  daily_rain <- pws_data[[16]][288]
+  solar_rad <- pws_data[[20]][288]
   uv_index <- pws_data[[21]][288]
-  feelsLike <- pws_data[[22]][288]
-  dewPoint <- pws_data[[23]][288]
+  out_feels <- pws_data[[22]][288]
+  out_dewpoint <- pws_data[[23]][288]
+  # Indoor Information
+  in_temp <- pws_data[[2]][288]
+  in_humidity <- pws_data[[3]][288]
+  in_pressure <- pws_data[[4]][288] * 33.8639
+  in_feels <- pws_data[[24]][288]
+  in_dewpoint <- pws_data[[25]][288]
   
-  pressureTrend <- (pws_data[[5]][264] * 33.8639) - pressure
-  
+  # Determine Wind Direction
   wind_direction <- ""
-  
-  if(348.75 <= winddir_10avg && winddir_10avg <= 360 || winddir_10avg < 11.25) {
+  if(348.75 <= wind_dir && wind_dir <= 360 || wind_dir < 11.25) {
     wind_direction <- "N"
-  } else if(11.25 <= winddir_10avg && winddir_10avg < 33.75) {
+  } else if(11.25 <= wind_dir && wind_dir < 33.75) {
     wind_direction <- "NNE"
-  } else if(33.75 <= winddir_10avg && winddir_10avg < 56.25) {
+  } else if(33.75 <= wind_dir && wind_dir < 56.25) {
     wind_direction <- "NE"
-  } else if(56.25 <= winddir_10avg && winddir_10avg < 78.75) {
+  } else if(56.25 <= wind_dir && wind_dir < 78.75) {
     wind_direction <- "ENE"
-  } else if(78.75 <= winddir_10avg && winddir_10avg < 101.25) {
+  } else if(78.75 <= wind_dir && wind_dir < 101.25) {
     wind_direction <- "E"
-  } else if(101.25 <= winddir_10avg && winddir_10avg < 123.75) {
+  } else if(101.25 <= wind_dir && wind_dir < 123.75) {
     wind_direction <- "ESE"
-  } else if(123.75 <= winddir_10avg && winddir_10avg < 146.25) {
+  } else if(123.75 <= wind_dir && wind_dir < 146.25) {
     wind_direction <- "SE"
-  } else if(146.25 <= winddir_10avg && winddir_10avg < 168.75) {
+  } else if(146.25 <= wind_dir && wind_dir < 168.75) {
     wind_direction <- "SSE"
-  } else if(168.75 <= winddir_10avg && winddir_10avg < 191.25) {
+  } else if(168.75 <= wind_dir && wind_dir < 191.25) {
     wind_direction <- "S"
-  } else if(191.25 <= winddir_10avg && winddir_10avg < 213.75) {
+  } else if(191.25 <= wind_dir && wind_dir < 213.75) {
     wind_direction <- "SSW"
-  } else if(213.75 <= winddir_10avg && winddir_10avg < 236.25) {
+  } else if(213.75 <= wind_dir && wind_dir < 236.25) {
     wind_direction <- "SW"
-  } else if(236.25 <= winddir_10avg && winddir_10avg < 258.75) {
+  } else if(236.25 <= wind_dir && wind_dir < 258.75) {
     wind_direction <- "WSW"
-  } else if(258.75 <= winddir_10avg && winddir_10avg < 281.25) {
+  } else if(258.75 <= wind_dir && wind_dir < 281.25) {
     wind_direction <- "W"
-  }else if(281.25 <= winddir_10avg && winddir_10avg < 303.75) {
+  }else if(281.25 <= wind_dir && wind_dir < 303.75) {
     wind_direction <- "WNW"
-  } else if(303.75 <= winddir_10avg && winddir_10avg < 326.25) {
+  } else if(303.75 <= wind_dir && wind_dir < 326.25) {
     wind_direction <- "NW"
-  } else if(326.25 <= winddir_10avg && winddir_10avg < 348.75) {
+  } else if(326.25 <= wind_dir && wind_dir < 348.75) {
     wind_direction <- "NNW"
   }
   
-  displayText <- ""
-  
-  if(pressure >= 1050 && uv_index >= 2 && uv_index <= 6 && outtemp >= 80) {
-    displayText <- "It's a great day for tanning! Be sure to put on sunscreen!"
-  } else if(pressure >= 1030 && outtemp >= 55 && pressureTrend > 0) {
-    displayText <- "It's going to be a great night for stargazing! Get the telescope out!"
-  }
+  # Determine if there is any active weather alerts
   
   displayAlert <- ""
-  
-  windchill <- 35.74 + (0.6215 * outtemp) - (35.75 * windspeed_10avg^0.16) + (0.4275 * outtemp * windspeed_10avg^0.16)
-  
-  if(windgust >= 46 && windgust <= 57 && windspeed_10avg >= 31 && windspeed_10avg >= 39) {
+  windchill <- 35.74 + (0.6215 * out_temp) - (35.75 * wind_speed^0.16) + (0.4275 * out_temp * wind_speed^0.16)
+  if(wind_gust >= 46 && wind_gust <= 57 && wind_speed >= 31 && wind_speed >= 39) {
     displayAlert <- "Alert: Wind Advisory."
-  } else if(windgust >= 58 && windspeed_10avg >= 40) {
+  } else if(wind_gust >= 58 && wind_speed >= 40) {
     displayAlert <- "Alert: High Wind Warning."
-  } else if(outtemp < 105 && outtemp >= 100) {
+  } else if(out_temp < 105 && out_temp >= 100) {
     displayAlert <- "Alert: Heat Advisory."
-  } else if(outtemp >= 105) {
+  } else if(out_temp >= 105) {
     displayAlert <- "Alert: Excessive Heat Warning"
-  } else if(outtemp <= 50 && windspeed_10avg >= 5 && windchill >= 25) {
+  } else if(out_temp <= 50 && wind_speed >= 5 && windchill >= 25) {
     displayAlert <- "Alert: Wind Chill Warning"
-  } else if(outtemp <= 50 && windspeed_10avg >= 5 && windchill >= 15 && windchill < 25) {
+  } else if(out_temp <= 50 && wind_speed >= 5 && windchill >= 15 && windchill < 25) {
     displayAlert <- "Alert: Wind Chill Advisory"
-  } else if(eventrain >= 1 && windgust >= 58) {
+  } else if(event_rain >= 1 && wind_gust >= 58) {
     displayAlert <- "Alert: Severe Thunderstorm Warning"
-  } else if(eventrain >= 3) {
+  } else if(event_rain >= 3) {
     displayAlert <- "Alert: Flash Flood Warning"
   } else {
     displayAlert <- "There are no current weather alerts."
   }
   
-  currentWeather <- ""
-  image_loc <- ""
-  rain_last_hour <-
-  if(hourlyrain > 0) {
-    rain_last_hour <- sprintf("Rainfall in the Last Hour: %.2f in", hourlyrain)
-  }
-    
+  # Determine hourly rain
   
-  if(eventrain > 0) {
-    currentWeather <- "Light Rain"
-    image_loc <- "drizzle.png"
-  } else if(eventrain > 0.5) {
-    currentWeather <- "Rain"
-    image_loc <- "rain.png"
-  } else if(pressureTrend > 10) {
-    currentWeather <- "Clear"
-    if(solarrad > 10) {
-      image_loc <- "sunny.png"
-    } else {
-      image_loc <- "moony.png"
-    }
-  } else if(windspeed_10avg >= 10.0) {
-    currentWeather <- "Windy"
-    image_loc <- "windy.png"
-  } else if(pressureTrend >= -10 && pressureTrend <= 10) {
-    currentWeather <- "Passing Clouds"
-    if(solarrad > 10) {
-      image_loc <- "somesun.png"
-    } else {
-      image_loc <- "somemoon.png"
-    }
-  } else if(pressureTrend < -10) {
-    currentWeather <- "Cloudy"
-    image_loc <- "cloudy.png"
+  rain_last_hour <- ""
+  if(hourly_rain > 0) {
+    rain_last_hour <- sprintf("%.2f in hourly", hourly_rain)
   }
   
-  output$weatherImage <- renderImage({
-    filename <- normalizePath(file.path('./www', paste(image_loc, sep='')))
-    list(src = filename)}, deleteFile = FALSE)
-  output$currentWeather <- renderText(currentWeather)
-  #output$raw <- renderTable(pws_data)
-  output$additionalWeather <- renderText(displayText)
-  output$dPoint <- renderText(sprintf("%.0f\u00B0 F", dewPoint))
+  # Determine UV Risk
+  
+  uv_risk <- ""
+  if(uv_index <= 2) {
+    uv_risk <- "(Low Risk)"
+  } else if (uv_index <= 5) {
+    uv_risk <- "(Moderate Risk)"
+  } else if (uv_index <= 7) {
+    uv_risk <- "(High Risk)"
+  } else if (uv_index <= 10) {
+    uv_risk <- "(Very High Risk)"
+  } else if (uv_index >= 11) {
+    uv_risk <- "(Extreme Risk)"
+  }
+  
+  # Handle graphs
+  
+  g1Type <- reactive({input$graphType1})
+  g2Type <- reactive({input$graphType2})
+  
+  output$graph1 <- renderText(g1Type())
+  output$graph2 <- renderText(g2Type())
+  
+  graphs1 <- reactive({
+    switch(input$graphType1,
+           "Temperature" = plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#90D1FC", lwd = 8), 
+           "Dew Point" = plot(pws_data[[1]], pws_data[[23]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#90D1FC", lwd = 8), 
+           "Humidity" = plot(pws_data[[1]], pws_data[[7]][1:288] , xlab="Time (last 24 hours)", ylab="Humidity (%)", type="h", col="#90D1FC", lwd = 8), 
+           "Pressure" = plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#90D1FC", lwd = 8), 
+           "Rain" = plot(pws_data[[1]], (pws_data[[14]][1:288]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#90D1FC", lwd = 8), 
+           "Wind" = plot(pws_data[[1]], pws_data[[11]][1:288] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#90D1FC", lwd = 8), 
+           "UV Index" = plot(pws_data[[1]], pws_data[[21]], xlab="Time (last 24 hours)", ylab="UV Index", type="h", col="#90D1FC", lwd = 8))
+           grid()  
+    })
+  
+  graphs2 <- reactive({
+    switch(input$graphType2,
+           "Temperature" = plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#F39E43", lwd = 8), 
+           "Dew Point" = plot(pws_data[[1]], pws_data[[23]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#F39E43", lwd = 8), 
+           "Humidity" = plot(pws_data[[1]], pws_data[[7]][1:288] , xlab="Time (last 24 hours)", ylab="Humidity (%)", type="h", col="#90D1FC", lwd = 8), 
+           "Pressure" = plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#F39E43", lwd = 8), 
+           "Rain" = plot(pws_data[[1]], (pws_data[[14]][1:288]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#F39E43", lwd = 8), 
+           "Wind" = plot(pws_data[[1]], pws_data[[11]][1:288] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#F39E43", lwd = 8), 
+           "UV Index" = plot(pws_data[[1]], pws_data[[21]], xlab="Time (last 24 hours)", ylab="UV Index", type="h", col="#F39E43", lwd = 8))
+            grid()
+  })
+  
+  # Render data
+  output$weatherTab <- renderText(sprintf("%.0f\u00B0 F Victor, NY", out_temp))
+  output$dataGraph1 <- renderPlot(graphs1())
+  output$dataGraph2 <- renderPlot(graphs2())
+  output$outDewPoint <- renderText(sprintf("%.0f\u00B0 F", out_dewpoint))
   output$alert <- renderText(displayAlert)
-  output$date <- renderText(sprintf("Last pull from %s", format(date_time, tz="America/New_York",usetz=TRUE)))
-  output$temp <- renderText(sprintf("%.0f\u00B0 F", outtemp))
-  output$tempFeels <- renderText(sprintf("Feels like %.0f\u00B0 F", feelsLike))
-  output$humidity <- renderText(sprintf("%.0f%%", humidity))
-  output$wind <- renderText(sprintf("%.0f mph from %s", windspeed_10avg, wind_direction))
-  output$gust <- renderText(sprintf("%.0f mph from %s", windgust, wind_direction))
-  
-  output$pressure <- renderText(sprintf("%.2f mbar", pressure))
-  output$solar <- renderText(sprintf("%.0f", uv_index))
-  output$dailyRain <- renderText(sprintf("%.2f in", dailyrain))
+  output$date <- renderText(sprintf("Last pull from %s", format(date_time, tz="America/New_York",usetz=TRUE, format="%D %I:%M %p")))
+  output$outTemp <- renderText(sprintf("%.0f\u00B0 F", out_temp))
+  output$outFeels <- renderText(sprintf("Feels like %.0f\u00B0 F", out_feels))
+  output$outHumidity <- renderText(sprintf("%.0f%%", out_humidity))
+  output$windSpeed <- renderText(sprintf("%.0f mph from %s", wind_speed, wind_direction))
+  output$windGust <- renderText(sprintf("%.0f mph from %s", wind_gust, wind_direction))
+  output$outPressure <- renderText(sprintf("%.2f mbar", out_pressure))
+  output$solarData <- renderText(sprintf("%.0f %s", uv_index, uv_risk))
+  output$dailyRain <- renderText(sprintf("%.2f in", daily_rain))
   output$rainLastHour <- renderText(rain_last_hour)
-  output$tempGraph <- renderPlot(plot(pws_data[[1]], pws_data[[6]], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#4E9A39", lwd = 8))
-  output$pressureGraph <- renderPlot(plot(pws_data[[1]], pws_data[[5]][1:288]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#F39E43", lwd = 8))
-  output$rainGraph <- renderPlot(plot(pws_data[[1]], (pws_data[[14]][1:288]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#1A67CB", lwd = 8))
-  output$windGraph <- renderPlot(plot(pws_data[[1]], pws_data[[11]][1:288] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#90D1FC", lwd = 8))
+  
+  output$inTemp <- renderText(sprintf("%.0f\u00B0 F", in_temp))
+  output$inHumidity <- renderText(sprintf("%.0f%%", in_humidity))
+  output$inPressure <- renderText(sprintf("%.2f mbar", in_pressure))
+  output$inFeels <- renderText(sprintf("%.0f\u00B0 F", in_feels))
+  output$inDewPoint <- renderText(sprintf("%.0f\u00B0 F", in_dewpoint))
 }
