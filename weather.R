@@ -82,11 +82,11 @@ tagList(tags$h1(
   fluidRow(
     column(3, selectInput("graphType1", "Graph One", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Temperature"),
     ),
-    column(3, selectInput("graphType2", "Graph Two", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Dew Point"),
+    column(3, selectInput("graphType2", "Graph Two", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Pressure"),
     ),
     column(3, selectInput("graphType3", "Graph Three", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Wind"),
     ),
-    column(3, selectInput("graphType4", "Graph Four", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Pressure"),
+    column(3, selectInput("graphType4", "Graph Four", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Humidity"),
     )
   ),
   
