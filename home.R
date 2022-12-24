@@ -1,16 +1,18 @@
 library(shiny)
 
-tagList(tags$h1(
-  strong("Home"),
-  hr()
-  ),
+tagList(div(tags$h1(
+  strong("Welcome!"),
+  hr(), style="font-size: 80px;"
+  )),
   tags$h1(
     fluidRow(
       column(9, strong(div("Updates")),
              hr(),
+             "December 24th, 2022 - Refined weather page and cleaned up the site.",
+             hr(),
              "September 24th, 2022 - Cleaned up website appearance."
       ),
-      column(3, strong(div("Contact")),
+      column(3, strong(div("Contact Details")),
              hr(),
              "Questions? Feel free to reach out!",
              br(),
@@ -18,7 +20,7 @@ tagList(tags$h1(
              tags$h3(
              "Michael Nersinger",
         br(),
-        "Software Engineering Student at RIT",
+        "Software Engineering Student",
         br(),
         hr(),
         strong("Discord"),
@@ -26,14 +28,6 @@ tagList(tags$h1(
         "Wulvlox#8580",
         br(),
         hr(),
-        strong("Emails"),
-        hr(),
-        "College: mnn7135@rit.edu",
-        br(),
-        "Personal: nersingerm@hotmail.com",
-        br(),
-        hr(),
-        
         strong("Other"),
         hr(),
         tags$a(href="https://www.linkedin.com/in/michael-nersinger/", target="_blank", "Michael's Linkedin"),

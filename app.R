@@ -18,7 +18,7 @@ ui <- fluidPage(tags$style('.container-fluid {
           navbarPage("",
                      
                      #Home Page Tab and Content         
-                     tabPanel(tags$h1(icon("home")),
+                     tabPanel(tags$h1(icon("home"), strong("Home |")),
                               tagList(tags$h3(
                                 source("home.R", local=TRUE)$value
                               )),
@@ -27,14 +27,14 @@ ui <- fluidPage(tags$style('.container-fluid {
                      # Page showing details of the software projects I have
                      # worked on, including team size, methodology, and
                      # technologies used, along with any artifacts produced.
-                     tabPanel(tags$h1(strong("About Me")),
+                     tabPanel(tags$h1(icon("user"), strong("About Me |")),
                               tagList(tags$h3(
                                 source("projects.R", local=TRUE)$value
                               )),
                      ),
                      # Show and nicely display weather data pulled from
                      # Phoenix Station
-                     tabPanel(tags$h1(strong(textOutput("weatherTab"))),
+                     tabPanel(tags$h1(icon("cloud"), strong(textOutput("weatherTab", inline = TRUE))),
                               tagList(tags$h3(
                                 source("weather.R", local=TRUE)$value
                               )),
@@ -44,7 +44,7 @@ ui <- fluidPage(tags$style('.container-fluid {
   hr(),
   "Website developed by Michael Nersinger",
   br(),
-  tags$a(href="https://github.com/mnn7135/personal-web/", target="_blank", "GitHub: https://github.com/mnn7135/personal-web/"),
+  tags$a(href="https://github.com/mnn7135/personal-web/", target="_blank", "https://github.com/mnn7135/personal-web/"),
   hr()
   )
 

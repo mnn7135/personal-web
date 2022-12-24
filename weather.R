@@ -1,9 +1,9 @@
 library(shiny)
 
-tagList(tags$h1(
+tagList(div(tags$h1(
     strong("Phoenix Station - Victor, NY"),
-    hr()
-  ), tags$h3(
+    hr(), style="font-size: 80px;"
+  )), tags$h3(
   verbatimTextOutput("alert", placeholder=TRUE),
   hr(),
   
@@ -90,30 +90,13 @@ tagList(tags$h1(
     )
   ),
   
-  # Graph 1 & 2
+  # Graphs
   
-  hr(),
-  fluidRow(
-    column(6, textOutput("graph1"),
-    ),
-    column(6, textOutput("graph2"),
-    )
-  ),
   hr(),
   fluidRow(
     column(6, div(plotOutput("dataGraph1")),
     ),
     column(6, div(plotOutput("dataGraph2")),
-    )
-  ),
-  br(),
-  
-  # Graph 3 & 4
-  hr(),
-  fluidRow(
-    column(6, textOutput("graph3"),
-    ),
-    column(6, textOutput("graph4"),
     )
   ),
   hr(),
@@ -123,6 +106,7 @@ tagList(tags$h1(
     column(6, div(plotOutput("dataGraph4")),
     )
   ),
+  br(),
   hr(),
   
   tags$h2(strong("Indoor Details")),
@@ -167,8 +151,8 @@ tagList(tags$h1(
   ),
   hr(),
 ),
-div(tags$h1(textOutput("notes"), style="font-size: 12px;")),
-tags$body(
+div(tags$h1("* 1 standard atmosphere of pressure equals 1013.25 millibars at sea level.", style="font-size: 12px;")),
+div(tags$h1(
   textOutput("date"),
-  "Last maintenanced on 07/26/22 2:33 PM EDT")
+  "Last maintenanced on 07/26/22 2:33 PM EDT", style="font-size: 14px;"))
 )

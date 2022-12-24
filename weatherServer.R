@@ -206,7 +206,6 @@ server <- {
     output$inPressure <- renderText(sprintf("%.2f mbar", in_pressure))
     output$inFeels <- renderText(sprintf("%.0f\u00B0 F", in_feels))
     output$inDewPoint <- renderText(sprintf("%.0f\u00B0 F", in_dewpoint))
-    output$notes <- renderText("* 1 standard atmosphere of pressure equals 1013.25 millibars at sea level.")
   } else {
     output$weatherTab <- renderText("??\u00B0 F Victor, NY")
     output$alert <- renderText("Unable to retrieve weather data. Try refreshing the page.")
