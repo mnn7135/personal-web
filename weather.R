@@ -10,7 +10,7 @@ tagList(tags$h1(
   tags$h2(strong("Current Weather Conditions")),
   hr(),
   fluidRow(
-    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 250px;"), hr(), 
+    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 200px;"), hr(), 
     ),
     column(12, 
                   tags$h1(textOutput("outFeels")),
@@ -67,9 +67,9 @@ tagList(tags$h1(
     ),
     column(4, div(),
     ),
-    column(2, div(),
+    column(2, div("Wind Chill"),
     ),
-    column(2, div(),
+    column(2, div(textOutput("windchillValue")),
     ),
   ),
   hr(),
@@ -80,35 +80,47 @@ tagList(tags$h1(
   ),
   hr(),
   fluidRow(
-    column(6, selectInput("graphType1", "Select graph one data.", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "UV Index"), selected = "Temperature"),
+    column(3, selectInput("graphType1", "Graph One", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Temperature"),
     ),
-    column(6, selectInput("graphType2", "Select graph two data.", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "UV Index"), selected = "Pressure"),
+    column(3, selectInput("graphType2", "Graph Two", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Dew Point"),
+    ),
+    column(3, selectInput("graphType3", "Graph Three", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Wind"),
+    ),
+    column(3, selectInput("graphType4", "Graph Four", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Pressure"),
     )
   ),
   
-  # Graph 1
+  # Graph 1 & 2
   
   hr(),
   fluidRow(
-    column(12, textOutput("graph1"),
+    column(6, textOutput("graph1"),
+    ),
+    column(6, textOutput("graph2"),
     )
   ),
   hr(),
   fluidRow(
-    column(12, div(plotOutput("dataGraph1")),
+    column(6, div(plotOutput("dataGraph1")),
+    ),
+    column(6, div(plotOutput("dataGraph2")),
     )
   ),
   br(),
   
-  # Graph 2
-  
+  # Graph 3 & 4
+  hr(),
   fluidRow(
-    column(12, textOutput("graph2"),
+    column(6, textOutput("graph3"),
+    ),
+    column(6, textOutput("graph4"),
     )
   ),
   hr(),
   fluidRow(
-    column(12, div(plotOutput("dataGraph2")),
+    column(6, div(plotOutput("dataGraph3")),
+    ),
+    column(6, div(plotOutput("dataGraph4")),
     )
   ),
   hr(),
