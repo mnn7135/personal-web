@@ -2,7 +2,7 @@ library(shiny)
 
 tagList(div(tags$h1(
   strong("About Me"),
-  hr(), style="font-size: 80px;"
+  hr(), style="font-size: 60px;"
 )), 
 tags$h2(
   strong("Software Projects"),
@@ -11,7 +11,6 @@ tags$h2(
 tags$h3(
   fluidRow(
     column(6,
-           hr(),
            strong("RShiny Website"),
            hr(),
            "Technologies Used: R and RShiny",
@@ -51,7 +50,6 @@ tags$h3(
 tags$h3(
   fluidRow(
     column(6,
-           hr(),
            strong("SWEN 356 - TuitionWaster RShiny App"),
            hr(),
            "Technologies Used: R and RShiny",

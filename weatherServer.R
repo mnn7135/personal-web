@@ -79,9 +79,9 @@ server <- {
       displayAlert <- "Alert: Heat Advisory."
     } else if(out_temp >= 105) {
       displayAlert <- "Alert: Excessive Heat Warning"
-    } else if(out_temp <= 50 && wind_speed >= 5 && abs(windchill >= 25)) {
+    } else if(out_temp <= 50 && wind_speed >= 5 && windchill <= -25) {
       displayAlert <- "Alert: Wind Chill Warning"
-    } else if(out_temp <= 50 && wind_speed >= 5 && abs(windchill) >= 15 && abs(windchill) < 25) {
+    } else if(out_temp <= 50 && wind_speed >= 5 && windchill <= -15 && windchill > -25) {
       displayAlert <- "Alert: Wind Chill Advisory"
     } else if(event_rain >= 1 && wind_gust >= 58) {
       displayAlert <- "Alert: Severe Thunderstorm Warning"
@@ -196,7 +196,7 @@ server <- {
     output$dailyRain <- renderText(sprintf("%.2f in", daily_rain))
     output$rainLastHour <- renderText(rain_last_hour)
     
-    if(abs(windchill) >= 5) {
+    if(windchill <= -5) {
       output$windchillValue <- renderText(sprintf("%.0f\u00B0 F", windchill))
       output$windchillText <- renderText("Wind Chill")
     }

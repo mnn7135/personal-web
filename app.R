@@ -34,7 +34,7 @@ ui <- fluidPage(tags$style('.container-fluid {
                      ),
                      # Show and nicely display weather data pulled from
                      # Phoenix Station
-                     tabPanel(tags$h1(icon("cloud"), strong(textOutput("weatherTab", inline = TRUE))),
+                     tabPanel(tags$h1(icon("cloud"), strong(textOutput("weatherTab", inline = TRUE), " |")),
                               tagList(tags$h3(
                                 source("weather.R", local=TRUE)$value
                               )),

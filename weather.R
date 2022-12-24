@@ -2,7 +2,7 @@ library(shiny)
 
 tagList(div(tags$h1(
     strong("Phoenix Station - Victor, NY"),
-    hr(), style="font-size: 80px;"
+    hr(), style="font-size: 60px;"
   )), tags$h3(
   verbatimTextOutput("alert", placeholder=TRUE),
   hr(),
@@ -10,7 +10,7 @@ tagList(div(tags$h1(
   tags$h2(strong("Current Weather Conditions")),
   hr(),
   fluidRow(
-    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 150px;"), hr(), 
+    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 120px;"), hr(), 
     ),
     column(12, 
                   tags$h1(textOutput("outFeels")),

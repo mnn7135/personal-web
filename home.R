@@ -2,7 +2,7 @@ library(shiny)
 
 tagList(div(tags$h1(
   strong("Welcome!"),
-  hr(), style="font-size: 80px;"
+  hr(), style="font-size: 60px;"
   )),
   tags$h1(
     fluidRow(
