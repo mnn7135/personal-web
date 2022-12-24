@@ -157,8 +157,6 @@ tagList(tags$h1(
 ),
 tags$body(
   textOutput("date"),
-  "Disclaimer: Weather Station is unable to detect snow precipitation.",
-  br(),
   "Last maintenanced on 07/26/22 2:33 PM EDT")
 )
 
