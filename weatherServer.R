@@ -78,10 +78,10 @@ server <- {
       displayAlert <- "Alert: Heat Advisory."
     } else if(out_temp >= 105) {
       displayAlert <- "Alert: Excessive Heat Warning"
-    } else if(out_temp <= 50 && wind_speed >= 5 && windchill >= 25) {
-      displayAlert <- sprintf("Alert: Wind Chill Warning: Effective windchill is %0.f \u00B0 F", windchill)
-    } else if(out_temp <= 50 && wind_speed >= 5 && windchill >= 15 && windchill < 25) {
-      displayAlert <- sprintf("Alert: Wind Chill Advisory: Effective windchill is %0.f \u00B0 F", windchill)
+    } else if(out_temp <= 50 && wind_speed >= 5 && abs(windchill >= 25)) {
+      displayAlert <- "Alert: Wind Chill Warning"
+    } else if(out_temp <= 50 && wind_speed >= 5 && abs(windchill) >= 15 && abs(windchill) < 25) {
+      displayAlert <- "Alert: Wind Chill Advisory"
     } else if(event_rain >= 1 && wind_gust >= 58) {
       displayAlert <- "Alert: Severe Thunderstorm Warning"
     } else if(event_rain >= 3) {
@@ -195,12 +195,17 @@ server <- {
     output$dailyRain <- renderText(sprintf("%.2f in", daily_rain))
     output$rainLastHour <- renderText(rain_last_hour)
     
-    output$windchillValue <- renderText(sprintf("%.0f\u00B0 F", windchill))
+    if(abs(windchill) >= 5) {
+      output$windchillValue <- renderText(sprintf("%.0f\u00B0 F", windchill))
+      output$windchillText <- renderText("Wind Chill")
+    }
+    
     output$inTemp <- renderText(sprintf("%.0f\u00B0 F", in_temp))
     output$inHumidity <- renderText(sprintf("%.0f%%", in_humidity))
     output$inPressure <- renderText(sprintf("%.2f mbar", in_pressure))
     output$inFeels <- renderText(sprintf("%.0f\u00B0 F", in_feels))
     output$inDewPoint <- renderText(sprintf("%.0f\u00B0 F", in_dewpoint))
+    output$notes <- renderText("* 1 standard atmosphere of pressure equals 1013.25 millibars at sea level.")
   } else {
     output$weatherTab <- renderText("??\u00B0 F Victor, NY")
     output$alert <- renderText("Unable to retrieve weather data. Try refreshing the page.")

@@ -10,7 +10,7 @@ tagList(tags$h1(
   tags$h2(strong("Current Weather Conditions")),
   hr(),
   fluidRow(
-    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 200px;"), hr(), 
+    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 150px;"), hr(), 
     ),
     column(12, 
                   tags$h1(textOutput("outFeels")),
@@ -67,7 +67,7 @@ tagList(tags$h1(
     ),
     column(4, div(),
     ),
-    column(2, div("Wind Chill"),
+    column(2, div(textOutput("windchillText")),
     ),
     column(2, div(textOutput("windchillValue")),
     ),
@@ -167,8 +167,8 @@ tagList(tags$h1(
   ),
   hr(),
 ),
+div(tags$h1(textOutput("notes"), style="font-size: 12px;")),
 tags$body(
   textOutput("date"),
   "Last maintenanced on 07/26/22 2:33 PM EDT")
 )
-
