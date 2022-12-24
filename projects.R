@@ -2,7 +2,7 @@ library(shiny)
 
 tagList(div(tags$h1(
   strong("About Me"),
-  hr(), style="font-size: 60px;"
+  hr(), style="font-size: 45px;"
 )), 
 tags$h2(
   strong("Software Projects"),

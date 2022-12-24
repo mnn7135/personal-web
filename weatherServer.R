@@ -178,7 +178,7 @@ server <- {
     })
     
     # Render data
-    output$weatherTab <- renderText(sprintf("%.0f\u00B0 F Victor, NY", out_temp))
+    output$weatherTab <- renderText(sprintf("Victor, NY %.0f\u00B0 F", out_temp))
     output$dataGraph1 <- renderPlot(graphs1())
     output$dataGraph2 <- renderPlot(graphs2())
     output$dataGraph3 <- renderPlot(graphs3())

@@ -2,7 +2,7 @@ library(shiny)
 
 tagList(div(tags$h1(
     strong("Phoenix Station - Victor, NY"),
-    hr(), style="font-size: 60px;"
+    hr(), style="font-size: 45px;"
   )), tags$h3(
   verbatimTextOutput("alert", placeholder=TRUE),
   hr(),

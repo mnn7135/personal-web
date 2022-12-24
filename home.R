@@ -1,8 +1,8 @@
 library(shiny)
 
 tagList(div(tags$h1(
-  strong("Welcome!"),
-  hr(), style="font-size: 60px;"
+  strong("Welcome to My Homepage!"),
+  hr(), style="font-size: 45px;"
   )),
   tags$h1(
     fluidRow(
@@ -10,16 +10,39 @@ tagList(div(tags$h1(
              hr(),
              "December 24th, 2022 - Refined weather page and cleaned up the site.",
              hr(),
-             "September 24th, 2022 - Cleaned up website appearance."
+             "September 24th, 2022 - Cleaned up website appearance.",
+             hr(),
+             strong(div("Quick Links")),
+             hr(),
+             fluidRow(
+               column(4, div(tags$a(href="https://www.bing.com/", target="_blank", img(src="bing.jpg", height=150, length=150))),
+               ),
+               column(4, div(tags$a(href="https://www.google.com/", target="_blank", img(src="google.jpg", height=150, length=150))),
+               ),
+               column(4, div(tags$a(href="https://www.nationstates.net/nation=wolffoxia", target="_blank", img(src="ns.jpg", height=150, length=150))),
+               ),
+             ),
+             hr(),
+             fluidRow(
+               column(2, div(),
+               ),
+               column(4, div(tags$a(href="https://github.com/mnn7135/", target="_blank", img(src="git.jpg", height=150, length=150))),
+               ),
+               column(4, div(tags$a(href="https://twitter.com/wulvlox/", target="_blank", img(src="twit.jpg", height=150, length=150))),
+               ),
+               column(2, div(),
+               ),
+             )
       ),
       column(3, strong(div("Contact Details")),
              hr(),
              "Questions? Feel free to reach out!",
-             br(),
+             hr(),
              div(img(src="michael.jpg", height=250, length=250)),
+             hr(),
              tags$h3(
              "Michael Nersinger",
-        br(),
+        hr(),
         "Software Engineering Student",
         br(),
         hr(),
