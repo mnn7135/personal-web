@@ -2,8 +2,8 @@ library(shiny)
 
 # weatherServer.R - written by Michael N.
 server <- {
-  FINAL_ENTRY = 267
-  START_ENTRY = 123
+  FINAL_ENTRY = 288
+  START_ENTRY = 144
   
   # Pull Weather Station Data
   pws_data = fetch_device_data("E8:DB:84:E4:03:97")$content
@@ -24,12 +24,6 @@ server <- {
     uv_index <- pws_data[[21]][FINAL_ENTRY]
     out_feels <- pws_data[[22]][FINAL_ENTRY]
     out_dewpoint <- pws_data[[23]][FINAL_ENTRY]
-    # Indoor Information
-    in_temp <- pws_data[[2]][FINAL_ENTRY]
-    in_humidity <- pws_data[[3]][FINAL_ENTRY]
-    in_pressure <- pws_data[[4]][FINAL_ENTRY] * 33.8639
-    in_feels <- pws_data[[24]][FINAL_ENTRY]
-    in_dewpoint <- pws_data[[25]][FINAL_ENTRY]
   
     # Determine Wind Direction
     wind_direction <- ""
@@ -200,12 +194,6 @@ server <- {
       output$windchillValue <- renderText(sprintf("%.0f\u00B0 F", windchill))
       output$windchillText <- renderText("Wind Chill")
     }
-    
-    output$inTemp <- renderText(sprintf("%.0f\u00B0 F", in_temp))
-    output$inHumidity <- renderText(sprintf("%.0f%%", in_humidity))
-    output$inPressure <- renderText(sprintf("%.2f mbar", in_pressure))
-    output$inFeels <- renderText(sprintf("%.0f\u00B0 F", in_feels))
-    output$inDewPoint <- renderText(sprintf("%.0f\u00B0 F", in_dewpoint))
   } else {
     output$weatherTab <- renderText("??\u00B0 F Victor, NY")
     output$alert <- renderText("Unable to retrieve weather data. Try refreshing the page.")
