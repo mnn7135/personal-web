@@ -3,7 +3,12 @@ library(shiny)
 tagList(div(tags$h1(
     strong("Weather at Phoenix Station"),
     hr(), style="font-size: 45px;"
-  )), tags$h3(
+  )), 
+  tags$h1(
+    "Phoenix Station is my own personal weather station that I mantain and use to gather weather data. Using the API provided by AmbientWeather, and with support and documentation available for R, I was able to create a small page that displays local weather information for Victor, NY. Sorry if you live elsewhere, you should still check out other AmbientWeather.net weather stations, as almost all are owned by weather enthusiasts like me! The weather station is an AmnientWeather WS-2000 Smart Station.",
+    hr(),
+  ),
+  tags$h3(
   verbatimTextOutput("alert", placeholder=TRUE),
   hr(),
   
