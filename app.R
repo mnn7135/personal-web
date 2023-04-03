@@ -18,7 +18,7 @@ ui <- fluidPage(tags$style('.container-fluid {
           navbarPage("",
                      
                      #Home Page Tab and Content         
-                     tabPanel(tags$h1(icon("home"), strong("Home |")),
+                     tabPanel(tags$h1(strong("Home |")),
                               tagList(tags$h3(
                                 source("home.R", local=TRUE)$value
                               )),
@@ -27,16 +27,27 @@ ui <- fluidPage(tags$style('.container-fluid {
                      # Page showing details of the software projects I have
                      # worked on, including team size, methodology, and
                      # technologies used, along with any artifacts produced.
-                     tabPanel(tags$h1(icon("user"), strong("About Me |")),
+                     tabPanel(tags$h1(strong("Projects |")),
                               tagList(tags$h3(
                                 source("projects.R", local=TRUE)$value
                               )),
                      ),
+                     
                      # Show and nicely display weather data pulled from
                      # Phoenix Station
-                     tabPanel(tags$h1(icon("cloud"), strong(textOutput("weatherTab", inline = TRUE), " |")),
+                     tabPanel(tags$h1(strong(textOutput("weatherTab", inline = TRUE), " |")),
                               tagList(tags$h3(
                                 source("weather.R", local=TRUE)$value
+                              )),
+                     ),
+                     tabPanel(tags$h1(strong("History |")),
+                              tagList(tags$h3(
+                                source("history.R", local=TRUE)$value
+                              )),
+                     ),
+                     tabPanel(tags$h1(strong("Astronomy |")),
+                              tagList(tags$h3(
+                                source("astronomy.R", local=TRUE)$value
                               )),
                      ),
           )
@@ -55,6 +66,7 @@ server <- function(input, output) {
   Sys.setenv(GITHUB_PAT = "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")
   
   source("weatherServer.R", local=TRUE)$value
+  source("historyServer.R", local=TRUE)$value
 }
 # Run the application 
 shinyApp(ui = ui, server = server)

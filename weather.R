@@ -1,7 +1,7 @@
 library(shiny)
 
 tagList(div(tags$h1(
-    strong("Phoenix Station - Victor, NY"),
+    strong("Weather at Phoenix Station"),
     hr(), style="font-size: 45px;"
   )), tags$h3(
   verbatimTextOutput("alert", placeholder=TRUE),
@@ -9,12 +9,22 @@ tagList(div(tags$h1(
   
   tags$h2(strong("Current Weather Conditions")),
   hr(),
+  
   fluidRow(
-    column(12, div(tags$h1(textOutput("outTemp"), style="font-size: 120px;"), hr(), 
+    column(3, div(),
     ),
-    column(12, 
-                  tags$h1(textOutput("outFeels")),
-                  tags$h1(textOutput("rainLastHour"))),
+    column(6, align="center", uiOutput("weatherIcon"), div(tags$h1(textOutput("weatherDesc"), style="font-size: 80px;")), hr(), div(tags$h1(textOutput("outTemp"), style="font-size: 150px;")), hr(), 
+    ),
+    column(3, div(),
+    ),
+  ),
+  fluidRow(
+    column(3, div(),
+    ),
+    column(6, align="center",
+           tags$h1(textOutput("outFeels")),
+           tags$h1(textOutput("rainLastHour"))),
+    column(3, div(),
     ),
   ),
   hr(),
@@ -22,54 +32,78 @@ tagList(div(tags$h1(
   tags$h2(strong("Outdoor Details")),
   hr(),
   fluidRow(
+    column(1,
+    ),
     column(2, div("Wind"),
     ),
     column(2, div(textOutput("windSpeed")),
+           style = 'border-left: 1px solid'
     ),
-    column(4, div(),
+    column(2, div(),
     ),
     column(2, div("Pressure"),
+           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("outPressure")),
     ),
+    column(1,
+    ),
   ),
   hr(),
   fluidRow(
+    column(1,
+    ),
     column(2, div("Wind Gusts"),
     ),
     column(2, div(textOutput("windGust")),
+           style = 'border-left: 1px solid'
     ),
-    column(4, div(),
+    column(2, div(),
     ),
     column(2, div("UV Index"),
+           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("solarData")),
     ),
+    column(1,
+    ),
   ),
   hr(),
   fluidRow(
+    column(1,
+    ),
     column(2, div("Humidity"),
     ),
     column(2, div(textOutput("outHumidity")),
+           style = 'border-left: 1px solid'
     ),
-    column(4, div(),
+    column(2, div(),
     ),
     column(2, div("Daily Rainfall"),
+           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("dailyRain")),
+    ),
+    column(1,
     ),
   ),
   hr(),
   fluidRow(
+    column(1,
+    ),
     column(2, div("Dew Point"),
     ),
     column(2, div(textOutput("outDewPoint")),
+           style = 'border-left: 1px solid'
     ),
-    column(4, div(),
+    column(2, div(),
     ),
     column(2, div(textOutput("windchillText")),
+           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("windchillValue")),
+    ),
+    column(1,
     ),
   ),
   hr(),
@@ -80,14 +114,18 @@ tagList(div(tags$h1(
   ),
   hr(),
   fluidRow(
-    column(3, selectInput("graphType1", "Graph One", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Temperature"),
+    column(2,
     ),
-    column(3, selectInput("graphType2", "Graph Two", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Pressure"),
+    column(2, selectInput("graphType1", "", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Temperature"),
     ),
-    column(3, selectInput("graphType3", "Graph Three", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Wind"),
+    column(2, selectInput("graphType2", "", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Pressure"),
     ),
-    column(3, selectInput("graphType4", "Graph Four", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Humidity"),
-    )
+    column(2, selectInput("graphType3", "", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Wind"),
+    ),
+    column(2, selectInput("graphType4", "", choices = c("Temperature", "Dew Point", "Humidity", "Pressure", "Rain", "Wind", "Wind Gusts", "UV Index"), selected = "Humidity"),
+    ),
+    column(2,
+    ),
   ),
   
   # Graphs
@@ -111,5 +149,6 @@ tagList(div(tags$h1(
 div(tags$h1("* 1 standard atmosphere of pressure equals 1013.25 millibars at sea level.", style="font-size: 12px;")),
 div(tags$h1(
   textOutput("date"),
+  #tableOutput("testTable"),
   "Last maintenanced on 07/26/22 2:33 PM EDT", style="font-size: 14px;"))
 )

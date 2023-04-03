@@ -1,0 +1,75 @@
+library(shiny)
+
+tagList(div(tags$h1(
+  strong("Play Through History"),
+  hr(), style="font-size: 45px;"
+)),
+tags$h1(
+  fluidRow(
+    column(1),
+    column(3, textInput("nname", "Country Name", placeholder="The name of your country."),
+    ),
+    column(1),
+    column(3, textInput("ndemo", "Demonym", placeholder="(ex. American, French, Chinese)"),
+    ),
+    column(1),
+    column(3, textInput("nlead", "Leader", placeholder="The leader of your country."),
+    ),
+  ),
+  hr(),
+  fluidRow(
+    column(3,
+    ),
+    column(6, div(textOutput("natdetails"), align="center"),
+    ),
+    column(3,
+    ),
+  ),
+ hr(),
+ fluidRow(
+   column(1,
+   ),
+   column(1, icon("piggy-bank", "fa-2x"),
+   ),
+   column(3, strong("Wealth"), textOutput("wealth"),
+   ),
+   column(1, icon("star", "fa-2x"),
+   ),
+   column(3, strong("Fame"), textOutput("fame"),
+   ),
+   column(1, icon("chart-bar", "fa-2x"),
+   ),
+   column(2, strong("Progress"), textOutput("progress"),
+   ),
+ ),
+ hr(),
+ fluidRow(
+   column(2,
+   ),
+   column(1, icon("play", "fa-2x"),
+   ),
+   column(3, strong("Turn"), textOutput("turn"),
+   ),
+   column(1,
+   ),
+   column(1, icon("calendar", "fa-2x"),
+   ),
+   column(3, strong("Year"), textOutput("year"),
+   ),
+   column(1,
+   ),
+ ),
+ hr(),
+ #TODO: Choices for the history game
+ fluidRow(
+   column(5,
+   ),
+   column(3, textOutput("issue"), strong("What will we do?"), selectInput("govAction", choices=c(""), label=""),
+   ),
+   column(4,
+   ),
+ ),
+ hr(),
+ div(actionButton("nextTurn", "Confirm Selection, Next Turn", ), align="center")
+)
+)
