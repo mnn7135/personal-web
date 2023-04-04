@@ -5,7 +5,7 @@ tagList(div(tags$h1(
   hr(), style="font-size: 45px;"
 )),
 tags$h1(
-  "This is a game where you experience major historical events through your own civilization. The goal of the game is simply to learn about history. ALthough, if you are looking for a real objective, follow along. As the game goes along, you will encounter issues that will allow you to shape the history of your nation. Will you strive for wealth, fame, or progress? Perhaps a blend of all three? Learn about history, and then write your own.",
+  "This is a game where you experience major historical events through your own civilization. The goal of the game is simply to learn about history. Although, if you are looking for a real objective, follow along. As the game goes along, you will encounter issues that will allow you to shape the history of your nation. Will you strive for wealth, fame, or progress? Perhaps a blend of all three? Learn about history, and then write your own.",
   hr(),
   fluidRow(
     column(1),
@@ -64,11 +64,11 @@ tags$h1(
  hr(),
  #TODO: Choices for the history game
  fluidRow(
-   column(5,
+   column(2,
    ),
-   column(3, textOutput("issue"), strong("What will we do?"), selectInput("govAction", choices=c(""), label=""),
+   column(8, div(textOutput("issue"), strong("What will you do?"), tags$h3(uiOutput("issueBox")), align="center"),
    ),
-   column(4,
+   column(2,
    ),
  ),
  hr(),

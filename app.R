@@ -65,7 +65,7 @@ server <- function(input, output) {
   Sys.setenv(AW_APPLICATION_KEY = "78a34a92bffc4cc8962e87525a8a35f843e1d5dda7a94c3f88114283d16389ed")
   Sys.setenv(GITHUB_PAT = "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")
   
-  source("weatherServer.R", local=TRUE)$value
+  #source("weatherServer.R", local=TRUE)$value
   source("historyServer.R", local=TRUE)$value
 }
 # Run the application 

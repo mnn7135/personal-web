@@ -200,13 +200,13 @@ server <- {
     
     icon_name <- ""
     icon_desc <- ""
-    if(hourly_rain > 0) {
+    if(event_rain > 0.1) {
       icon_name <- "cloud-rain"
       icon_desc <- "Raining"
     } else {
       if(time2 <= time1 && time1 < time3) {
         # Display Daytime Indicators
-        if((pws_data[[5]][FINAL_ENTRY] - pws_data[[5]][FINAL_ENTRY - 24]) > -0.35) {
+        if((pws_data[[5]][FINAL_ENTRY] - pws_data[[5]][FINAL_ENTRY - 24]) <= -0.35) {
           icon_name <- "cloud-sun"
           icon_desc <- "Cloudy"
         } else {
@@ -215,7 +215,7 @@ server <- {
         }
       } else {
         # Display Nighttime Indicators
-        if((pws_data[[5]][FINAL_ENTRY] - pws_data[[5]][FINAL_ENTRY - 24]) > -0.35) {
+        if((pws_data[[5]][FINAL_ENTRY] - pws_data[[5]][FINAL_ENTRY - 24]) <= -0.35) {
           icon_name <- "cloud-moon"
           icon_desc <- "Cloudy"
         } else {
