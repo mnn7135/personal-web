@@ -18,7 +18,7 @@ tagList(div(tags$h1(
   fluidRow(
     column(3, div(),
     ),
-    column(6, align="center", uiOutput("weatherIcon"), div(tags$h1(textOutput("weatherDesc"), style="font-size: 80px;")), hr(), div(tags$h1(textOutput("outTemp"), style="font-size: 150px;")), hr(), 
+    column(6, align="center", uiOutput("weatherIcon"), div(tags$h1(textOutput("weatherDesc"), style="font-size: 80px;")), hr(), div(tags$h1(textOutput("outTemp"), style="font-size: 120px;")), hr(), 
     ),
     column(3, div(),
     ),
@@ -47,9 +47,9 @@ tagList(div(tags$h1(
     column(2, div(),
     ),
     column(2, div("Pressure"),
-           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("outPressure")),
+           style = 'border-left: 1px solid'
     ),
     column(1,
     ),
@@ -66,9 +66,9 @@ tagList(div(tags$h1(
     column(2, div(),
     ),
     column(2, div("UV Index"),
-           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("solarData")),
+           style = 'border-left: 1px solid'
     ),
     column(1,
     ),
@@ -85,9 +85,9 @@ tagList(div(tags$h1(
     column(2, div(),
     ),
     column(2, div("Daily Rainfall"),
-           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("dailyRain")),
+           style = 'border-left: 1px solid'
     ),
     column(1,
     ),
@@ -104,9 +104,9 @@ tagList(div(tags$h1(
     column(2, div(),
     ),
     column(2, div(textOutput("windchillText")),
-           style = 'border-right: 1px solid'
     ),
     column(2, div(textOutput("windchillValue")),
+           style = 'border-left: 1px solid'
     ),
     column(1,
     ),
