@@ -16,7 +16,7 @@ ui <- fluidPage(tags$style(".container-fluid {color: black;
           navbarPage("",
                      
                      #Home Page Tab and Content         
-                     tabPanel(tags$h1(strong("|", icon("home"))),
+                     tabPanel(tags$h1(strong("|", icon("home"), " Home")),
                               tagList(tags$h3(
                                 source("home.R", local=TRUE)$value
                               )),
@@ -38,12 +38,12 @@ ui <- fluidPage(tags$style(".container-fluid {color: black;
                                 source("weather.R", local=TRUE)$value
                               )),
                      ),
-                     tabPanel(tags$h1(strong("| History")),
-                              tagList(tags$h3(
-                                source("history.R", local=TRUE)$value
-                              )),
-                     ),
-                     tabPanel(tags$h1(strong("| Stargaze")),
+                     #tabPanel(tags$h1(strong("| History")),
+                              #tagList(tags$h3(
+                                #source("history.R", local=TRUE)$value
+                              #)),
+                     #),
+                     tabPanel(tags$h1(strong("| Astronomy")),
                               tagList(tags$h3(
                                 source("astronomy.R", local=TRUE)$value
                               )),

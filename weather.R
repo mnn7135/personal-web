@@ -33,7 +33,15 @@ tagList(div(tags$h1(
     ),
   ),
   hr(),
-  
+  tags$h2(strong("Weather Forecast")),
+  fluidRow(
+    column(4, align="center", div(tags$h2("Later Today")), hr(), uiOutput("weatherIconLater"), div(tags$h2(textOutput("weatherDescLater"), style="font-size: 30px;")), hr(), div(tags$h2(textOutput("outHighLater"), style="font-size: 20px;")), hr(),
+    ),
+    column(4, align="center", div(tags$h2("Tomorrow")), hr(), uiOutput("weatherIcon1Day"), div(tags$h2(textOutput("weatherDesc1Day"), style="font-size: 30px;")), hr(), div(tags$h2(textOutput("outHigh1Day"), style="font-size: 20px;")), hr(),
+    ),
+    column(4, align="center", div(tags$h2("2 Day")), hr(), uiOutput("weatherIcon2Day"), div(tags$h2(textOutput("weatherDesc2Day"), style="font-size: 30px;")), hr(), div(tags$h2(textOutput("outHigh2Day"), style="font-size: 20px;")), hr(),
+    ),
+  ),
   tags$h2(strong("Outdoor Details")),
   hr(),
   fluidRow(
@@ -154,6 +162,6 @@ tagList(div(tags$h1(
 div(tags$h1("* 1 standard atmosphere of pressure equals 1013.25 millibars at sea level.", style="font-size: 12px;")),
 div(tags$h1(
   textOutput("date"),
-  #tableOutput("testTable"),
+  tableOutput("testTable"),
   "Last maintenanced on 07/26/22 2:33 PM EDT", style="font-size: 14px;"))
 )

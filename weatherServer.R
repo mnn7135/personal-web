@@ -3,7 +3,9 @@ library(shiny)
 # weatherServer.R - written by Michael N.
 server <- {
   FINAL_ENTRY = 288
-  START_ENTRY = 144
+  QUART_ENTRY = 216
+  HALF_ENTRY = 144
+  START_ENTRY = 1
   
   # Pull Weather Station Data
   pws_data = fetch_device_data("E8:DB:84:E4:03:97")$content
@@ -120,58 +122,58 @@ server <- {
     
     graphs1 <- reactive({
       switch(input$graphType1,
-             "Temperature" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[6]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Dew Point" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[23]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Humidity" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[7]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
-             "Pressure" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[5]][START_ENTRY:FINAL_ENTRY]*33.8639, xlab="Time (last 12 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
-             "Rain" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], (pws_data[[14]][START_ENTRY:FINAL_ENTRY]), xlab="Time (last 12 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
-             "Wind" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[11]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
-             "Wind Gusts" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[12]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
-             "UV Index" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[21]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
+             "Temperature" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[6]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Dew Point" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[23]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Humidity" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[7]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
+             "Pressure" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[5]][FINAL_ENTRY:START_ENTRY]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
+             "Rain" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], (pws_data[[14]][FINAL_ENTRY:START_ENTRY]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
+             "Wind" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[11]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
+             "Wind Gusts" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[12]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
+             "UV Index" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[21]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
              grid()
-             axis.POSIXct(side=1, at=cut(pws_data[[1]][START_ENTRY:FINAL_ENTRY], "2 hours"), x=pws_data[[1]][START_ENTRY:FINAL_ENTRY], format="%I:%M %p")
+             axis.POSIXct(side=1, at=cut(pws_data[[1]][FINAL_ENTRY:START_ENTRY], "4 hours"), x=pws_data[[1]][FINAL_ENTRY:START_ENTRY], format="%I:%M %p")
       })
     
     graphs2 <- reactive({
       switch(input$graphType2,
-             "Temperature" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[6]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Dew Point" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[23]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Humidity" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[7]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
-             "Pressure" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[5]][START_ENTRY:FINAL_ENTRY]*33.8639, xlab="Time (last 12 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
-             "Rain" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], (pws_data[[14]][START_ENTRY:FINAL_ENTRY]), xlab="Time (last 12 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
-             "Wind" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[11]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
-             "Wind Gusts" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[12]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
-             "UV Index" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[21]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
+             "Temperature" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[6]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Dew Point" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[23]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Humidity" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[7]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
+             "Pressure" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[5]][FINAL_ENTRY:START_ENTRY]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
+             "Rain" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], (pws_data[[14]][FINAL_ENTRY:START_ENTRY]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
+             "Wind" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[11]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
+             "Wind Gusts" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[12]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
+             "UV Index" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[21]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
       grid()
-      axis.POSIXct(side=1, at=cut(pws_data[[1]][START_ENTRY:FINAL_ENTRY], "2 hours"), x=pws_data[[1]][START_ENTRY:FINAL_ENTRY], format="%I:%M %p")
+      axis.POSIXct(side=1, at=cut(pws_data[[1]][FINAL_ENTRY:START_ENTRY], "4 hours"), x=pws_data[[1]][FINAL_ENTRY:START_ENTRY], format="%I:%M %p")
     })
     
     graphs3 <- reactive({
       switch(input$graphType3,
-             "Temperature" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[6]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Dew Point" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[23]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Humidity" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[7]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
-             "Pressure" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[5]][START_ENTRY:FINAL_ENTRY]*33.8639, xlab="Time (last 12 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
-             "Rain" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], (pws_data[[14]][START_ENTRY:FINAL_ENTRY]), xlab="Time (last 12 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
-             "Wind" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[11]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
-             "Wind Gusts" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[12]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
-             "UV Index" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[21]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
+             "Temperature" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[6]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Dew Point" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[23]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Humidity" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[7]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
+             "Pressure" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[5]][FINAL_ENTRY:START_ENTRY]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
+             "Rain" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], (pws_data[[14]][FINAL_ENTRY:START_ENTRY]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
+             "Wind" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[11]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
+             "Wind Gusts" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[12]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
+             "UV Index" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[21]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
       grid()
-      axis.POSIXct(side=1, at=cut(pws_data[[1]][START_ENTRY:FINAL_ENTRY], "2 hours"), x=pws_data[[1]][START_ENTRY:FINAL_ENTRY], format="%I:%M %p")
+      axis.POSIXct(side=1, at=cut(pws_data[[1]][FINAL_ENTRY:START_ENTRY], "4 hours"), x=pws_data[[1]][FINAL_ENTRY:START_ENTRY], format="%I:%M %p")
     })
     
     graphs4 <- reactive({
       switch(input$graphType4,
-             "Temperature" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[6]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Dew Point" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[23]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
-             "Humidity" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[7]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
-             "Pressure" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[5]][START_ENTRY:FINAL_ENTRY]*33.8639, xlab="Time (last 12 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
-             "Rain" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], (pws_data[[14]][START_ENTRY:FINAL_ENTRY]), xlab="Time (last 12 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
-             "Wind" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[11]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
-             "Wind Gusts" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[12]][START_ENTRY:FINAL_ENTRY] , xlab="Time (last 12 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
-             "UV Index" = plot(pws_data[[1]][START_ENTRY:FINAL_ENTRY], pws_data[[21]][START_ENTRY:FINAL_ENTRY], xlab="Time (last 12 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
+             "Temperature" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[6]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Dew Point" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[23]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="Temperature (\u00B0 F)", type="h", col="#8db600", lwd = 3, xaxt="n"), 
+             "Humidity" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[7]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Humidity (%)", type="h", col="#cc5500", lwd = 3, xaxt="n"), 
+             "Pressure" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[5]][FINAL_ENTRY:START_ENTRY]*33.8639, xlab="Time (last 24 hours)", ylab="Pressure (millibars)", type="h", col="#cd5c5c", lwd = 3, xaxt="n"), 
+             "Rain" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], (pws_data[[14]][FINAL_ENTRY:START_ENTRY]), xlab="Time (last 24 hours)", ylab="Rainfall (inches)", type="h", col="#5f9ea0", lwd = 3, xaxt="n"), 
+             "Wind" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[11]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"), 
+             "Wind Gusts" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[12]][FINAL_ENTRY:START_ENTRY] , xlab="Time (last 24 hours)", ylab="Wind Speed (mph)", type="h", col="#007fff", lwd = 3, xaxt="n"),
+             "UV Index" = plot(pws_data[[1]][FINAL_ENTRY:START_ENTRY], pws_data[[21]][FINAL_ENTRY:START_ENTRY], xlab="Time (last 24 hours)", ylab="UV Index", type="h", col="#966fd6", lwd = 3, xaxt="n"))
       grid()
-      axis.POSIXct(side=1, at=cut(pws_data[[1]][START_ENTRY:FINAL_ENTRY], "2 hours"), x=pws_data[[1]][START_ENTRY:FINAL_ENTRY], format="%I:%M %p")
+      axis.POSIXct(side=1, at=cut(pws_data[[1]][FINAL_ENTRY:START_ENTRY], "4 hours"), x=pws_data[[1]][FINAL_ENTRY:START_ENTRY], format="%I:%M %p")
     })
     
     # Render data
@@ -193,20 +195,23 @@ server <- {
     output$dailyRain <- renderText(sprintf("%.2f in", daily_rain))
     output$rainLastHour <- renderText(rain_last_hour)
     
-    # The Mean Standard Sea Level Pressure for Victor, NY is 1021 mbar
+
+    
+    
+    # 993
     time1 <- as.POSIXlt(pws_data[[1]][FINAL_ENTRY], format="%H:%M")
-    time2 <- as.POSIXlt("08:00:00", format="%H:%M")
-    time3 <- as.POSIXlt("20:00:00", format="%H:%M")
+    time2 <- as.POSIXlt("08:00:00", format="%H:%M") # 8 AM
+    time3 <- as.POSIXlt("20:00:00", format="%H:%M") # 8 PM
     
     icon_name <- ""
     icon_desc <- ""
-    if(event_rain > 0.1) {
+    if(hourly_rain >= 0.01) {
       icon_name <- "cloud-rain"
       icon_desc <- "Raining"
     } else {
       if(time2 <= time1 && time1 < time3) {
         # Display Daytime Indicators
-        if((pws_data[[5]][FINAL_ENTRY] - pws_data[[5]][FINAL_ENTRY - 24]) <= -0.35) {
+        if((pws_data[[5]][1] - pws_data[[5]][FINAL_ENTRY]) <= -0.20) {
           icon_name <- "cloud-sun"
           icon_desc <- "Cloudy"
         } else {
@@ -215,7 +220,7 @@ server <- {
         }
       } else {
         # Display Nighttime Indicators
-        if((pws_data[[5]][FINAL_ENTRY] - pws_data[[5]][FINAL_ENTRY - 24]) <= -0.35) {
+        if((pws_data[[5]][1] - pws_data[[5]][FINAL_ENTRY]) <= -0.20) {
           icon_name <- "cloud-moon"
           icon_desc <- "Cloudy"
         } else {
@@ -226,6 +231,52 @@ server <- {
     }
     output$weatherIcon <- renderText(as.character(icon(icon_name, "fa-10x")))
     output$weatherDesc <- renderText(icon_desc)
+    
+    # Weather Prediction
+    conf_iterval <- 1.03 #97%
+    high_temp <- conf_iterval*(pws_data[[6]][QUART_ENTRY] - pws_data[[6]][FINAL_ENTRY]) + pws_data[[6]][FINAL_ENTRY]
+    output$outHighLater <- renderText(sprintf("High %.0f\u00B0 F", high_temp))
+    
+    if((pws_data[[5]][QUART_ENTRY] - pws_data[[5]][FINAL_ENTRY])/6 >= 0.20) {
+      output$weatherIconLater <- renderText(as.character(icon("cloud-sun", "fa-4x")))
+      output$weatherDescLater <- renderText("Cloudy")
+    } else if((pws_data[[5]][QUART_ENTRY] - pws_data[[5]][FINAL_ENTRY])/6 >= -0.20) {
+      output$weatherIconLater <- renderText(as.character(icon("cloud-sun", "fa-4x")))
+      output$weatherDescLater <- renderText("Cloudy")
+    } else {
+      output$weatherIconLater <- renderText(as.character(icon(icon_name, "fa-10x")))
+      output$weatherDescLater <- renderText(icon_desc)
+    }
+    
+    conf_iterval_2 <- 1.05 #95%
+    high_temp_2 <- conf_iterval_2*(pws_data[[6]][HALF_ENTRY] - pws_data[[6]][FINAL_ENTRY]) + pws_data[[6]][FINAL_ENTRY]
+    output$outHigh1Day <- renderText(sprintf("High %.0f\u00B0 F", high_temp_2))
+    
+    if((pws_data[[5]][HALF_ENTRY] - pws_data[[5]][FINAL_ENTRY])/12 >= 0.21) {
+      output$weatherIcon1Day <- renderText(as.character(icon("cloud-sun", "fa-4x")))
+      output$weatherDesc1Day <- renderText("Cloudy")
+    } else if((pws_data[[5]][HALF_ENTRY] - pws_data[[5]][FINAL_ENTRY])/12 >= -0.21) {
+      output$weatherIcon1Day <- renderText(as.character(icon("cloud-sun", "fa-4x")))
+      output$weatherDesc1Day <- renderText("Cloudy")
+    } else {
+      output$weatherIcon1Day <- renderText(as.character(icon(icon_name, "fa-10x")))
+      output$weatherDesc1Day <- renderText(icon_desc)
+    }
+    
+    conf_iterval_3 <- 1.11 #90%
+    high_temp_3 <- conf_iterval_3*(pws_data[[6]][START_ENTRY] - pws_data[[6]][FINAL_ENTRY]) + pws_data[[6]][FINAL_ENTRY]
+    output$outHigh2Day <- renderText(sprintf("High %.0f\u00B0 F", high_temp_3))
+    
+    if((pws_data[[5]][START_ENTRY] - pws_data[[5]][FINAL_ENTRY])/24 >= 0.22) {
+      output$weatherIcon2Day <- renderText(as.character(icon("cloud-sun", "fa-4x")))
+      output$weatherDesc2Day <- renderText("Cloudy")
+    } else if((pws_data[[5]][START_ENTRY] - pws_data[[5]][FINAL_ENTRY])/24 >= -0.22) {
+      output$weatherIcon2Day <- renderText(as.character(icon("cloud-sun", "fa-4x")))
+      output$weatherDesc2Day <- renderText("Cloudy")
+    } else {
+      output$weatherIcon2Day <- renderText(as.character(icon(icon_name, "fa-10x")))
+      output$weatherDesc2Day <- renderText(icon_desc)
+    }
     
     #output$testTable <- renderTable(pws_data)
     
