@@ -19,8 +19,5 @@ tags$h1(
           align="center",
    ),
  ),
- hr(),
- div(tags$h1(
-   "Photo Credit @ Michael N", style="font-size: 14px;"))
 )
 )
