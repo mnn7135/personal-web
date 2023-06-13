@@ -1,15 +1,21 @@
 library(shiny)
 
+# written by Michael N
+#
+
 tagList(div(tags$h1(
+    hr(),
     strong("Weather at Phoenix Station"),
-    hr(), style="font-size: 45px;"
+    hr(),
   )), 
   tags$h1(
-    "Phoenix Station is my own personal weather station that I mantain and use to gather weather data. Using the API provided by AmbientWeather, and with support and documentation available for R, I was able to create a small page that displays local weather information for Victor, NY. Sorry if you live elsewhere, you should still check out other AmbientWeather.net weather stations, as almost all are owned by weather enthusiasts like me! The weather station is an AmnientWeather WS-2000 Smart Station.",
+    "Phoenix Station is my personal weather station that I mantain to gather weather data. This data is used to display alerts and make local predictions for Victor, NY. Weather forecasts are made live as new data comes in and are likely to change. The weather station is an AmbientWeather WS-2000 Smart Station.",
     hr(),
   ),
+  tags$h2(strong("Warnings and Advisories")),
+  hr(),
   tags$h3(
-  verbatimTextOutput("alert", placeholder=TRUE),
+  div(align="center", tags$h2(textOutput("alert"))),
   hr(),
   
   tags$h2(strong("Current Weather Conditions")),
@@ -34,6 +40,7 @@ tagList(div(tags$h1(
   ),
   hr(),
   tags$h2(strong("Weather Forecast")),
+  hr(),
   fluidRow(
     column(4, align="center", div(tags$h2("Later Today")), hr(), uiOutput("weatherIconLater"), div(tags$h2(textOutput("weatherDescLater"), style="font-size: 30px;")), hr(), div(tags$h2(textOutput("outHighLater"), style="font-size: 20px;")), hr(),
     ),

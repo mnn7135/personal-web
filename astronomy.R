@@ -1,6 +1,14 @@
+library(shiny)
+
+# written by Michael N
+#
+# Simple page that displays astronomical photographs that I have
+# taken from my telescope.
+
 tagList(div(tags$h1(
   hr(), style="font-size: 45px;"
 )),
+
 tags$h1(
  fluidRow(
    column(12, img(src="astr_moon.jpg", height=500, length=1080),

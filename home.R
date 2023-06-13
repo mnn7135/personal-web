@@ -1,10 +1,13 @@
 library(shiny)
 
+# written by Michael N
+#
+
 tagList(div(tags$h1(
   hr(), style="font-size: 45px;"
   )),
   tags$h1(
-    "Hello, I'm Michael Nersinger, and welcome to my website! I am BS Software Engineering student at the Rochester Institute of Technology pursuing a History minor. I'm most proficient with Java, Python, and R, and I've had experience with Amazon Web Services and Cloud Development. This is a webste I planned, designed, and developed myself to showcase all of my passions and my ability with programming and the Software Engineering process.",
+    "Hello, I'm Michael Nersinger, a BS Software Engineering student at the Rochester Institute of Technology pursuing a History minor. I'm most proficient with Java, Python, and R, and I've had experience with Amazon Web Services and Cloud Development.",
     hr(),
     fluidRow(
       column(9,
@@ -61,11 +64,6 @@ tagList(div(tags$h1(
         strong("Email"),
         hr(),
         "mnn7135@rit.edu",
-        br(),
-        hr(),
-        strong("Resume"),
-        hr(),
-        actionButton("resume", "Resume PDF", onclick = "window.open('resume.pdf')"),
         br(),
         hr(),
       ),

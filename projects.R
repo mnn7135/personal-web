@@ -1,9 +1,12 @@
 library(shiny)
 
+# written by Michael N
+#
+
 tagList(div(tags$h1(
   hr(), style="font-size: 45px;"
 )), 
-tags$h2(
+tags$h1(
   strong("Software Projects"),
   hr()
 ),
@@ -17,7 +20,7 @@ tags$h3(
            tags$a(href="https://github.com/mnn7135/personal-web/", target="_blank", "GitHub Repository"),
            br(),
            br(),
-           "This is the website you are currently visiting! My inspiration behind building ",
+           "This is the website you are currently visiting. My inspiration behind building ",
            "this website was being able to display information received from an API call to ",
            "my personal weather station. However, this project soon evolved into building a ",
            "place to serve as a digital portfolio. While developing this website, I adhered ",

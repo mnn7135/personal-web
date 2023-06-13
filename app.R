@@ -1,7 +1,9 @@
 library("shiny")
 library(ambientweatheR)
 
-#UI logic goes here
+# written by Michael N
+#
+
 ui <- fluidPage(tags$style(".container-fluid {color: black;
                                  font-size: 20px;
                                  font-style: bold;
@@ -15,35 +17,28 @@ ui <- fluidPage(tags$style(".container-fluid {color: black;
                                '.navbar-brand{ display:none; }')),
           navbarPage("",
                      
-                     #Home Page Tab and Content         
+                     # Home    
                      tabPanel(tags$h1(strong("|", icon("home"), " Home")),
                               tagList(tags$h3(
                                 source("home.R", local=TRUE)$value
                               )),
                      ),
                      
-                     # Page showing details of the software projects I have
-                     # worked on, including team size, methodology, and
-                     # technologies used, along with any artifacts produced.
-                     tabPanel(tags$h1(strong("| Projects")),
+                     # Projects
+                     tabPanel(tags$h1(strong("|", icon("chart-bar"), "Projects")),
                               tagList(tags$h3(
                                 source("projects.R", local=TRUE)$value
                               )),
                      ),
                      
-                     # Show and nicely display weather data pulled from
-                     # Phoenix Station
-                     tabPanel(tags$h1(strong("| ", textOutput("weatherTab", inline = TRUE))),
+                     # Weather
+                     tabPanel(tags$h1(strong("| ", uiOutput("weatherTooltip", inline = TRUE), textOutput("weatherTab", inline = TRUE))),
                               tagList(tags$h3(
                                 source("weather.R", local=TRUE)$value
                               )),
                      ),
-                     #tabPanel(tags$h1(strong("| History")),
-                              #tagList(tags$h3(
-                                #source("history.R", local=TRUE)$value
-                              #)),
-                     #),
-                     tabPanel(tags$h1(strong("| Astronomy")),
+                     # Astronomy
+                     tabPanel(tags$h1(strong("| ", icon("star"), "Astronomy")),
                               tagList(tags$h3(
                                 source("astronomy.R", local=TRUE)$value
                               )),
@@ -64,7 +59,6 @@ server <- function(input, output) {
   Sys.setenv(GITHUB_PAT = "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")
   
   source("weatherServer.R", local=TRUE)$value
-  source("historyServer.R", local=TRUE)$value
 }
 # Run the application 
 shinyApp(ui = ui, server = server)
