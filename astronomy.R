@@ -6,7 +6,9 @@ library(shiny)
 # taken from my telescope.
 
 tagList(div(tags$h1(
-  hr(), style="font-size: 45px;"
+  hr(), 
+  strong("Astronomy Photographs"),
+  hr(),
 )),
 
 tags$h1(
