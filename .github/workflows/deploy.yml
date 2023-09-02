@@ -46,6 +46,7 @@ jobs:
         
       - name: Deploy App
         run: |
-          library(rsconnect)
+          library(rsconnect) 
+	  forceUpdate = TRUE
           rsconnect::deployApp()
         shell: Rscript {0}

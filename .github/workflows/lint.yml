@@ -2,7 +2,7 @@
 # Written by Michael Nersinger
 
 on:
-  workflow_dispatch:
+  push:
   
 name: lint-project
 
