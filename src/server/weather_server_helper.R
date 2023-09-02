@@ -66,7 +66,7 @@ server <- {
     } else if (hourly_rain >= 3) {
       displayAlert <- "FLASH FLOOD WARNING"
     } else {
-      displayAlert <- "There are no Warnings or Advisories."
+      displayAlert <- "No active weather alerts."
     }
     return(displayAlert)
   })
@@ -87,12 +87,12 @@ server <- {
     return(uv_risk)
   })
   # Handle building data graphs and options.
-  makeGraph <- (function(inputType) {
+  make_graph <- (function(input_type) {
     switch(
-      inputType,
+      input_type,
       "Temperature" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[6]][NOW_INDEX:TOMORROW_INDEX],
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[6]][now_index:tomorrow_index],
         xlab = "Time (last 24 hours)",
         ylab = "Temperature (\u00B0 F)",
         type = "h",
@@ -101,8 +101,8 @@ server <- {
         xaxt = "n"
       ),
       "Dew Point" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[23]][NOW_INDEX:TOMORROW_INDEX],
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[23]][now_index:tomorrow_index],
         xlab = "Time (last 24 hours)",
         ylab = "Dew Point (\u00B0 F)",
         type = "h",
@@ -111,8 +111,8 @@ server <- {
         xaxt = "n"
       ),
       "Humidity" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[7]][NOW_INDEX:TOMORROW_INDEX],
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[7]][now_index:tomorrow_index],
         xlab = "Time (last 24 hours)",
         ylab = "Humidity (%)",
         type = "h",
@@ -121,8 +121,8 @@ server <- {
         xaxt = "n"
       ),
       "Pressure" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[5]][NOW_INDEX:TOMORROW_INDEX] * 33.8639,
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[5]][now_index:tomorrow_index] * 33.8639,
         xlab = "Time (last 24 hours)",
         ylab = "Pressure (millibars)",
         type = "h",
@@ -131,8 +131,8 @@ server <- {
         xaxt = "n"
       ),
       "Rain" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[14]][NOW_INDEX:TOMORROW_INDEX],
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[14]][now_index:tomorrow_index],
         xlab = "Time (last 24 hours)",
         ylab = "Rainfall (inches)",
         type = "h",
@@ -141,8 +141,8 @@ server <- {
         xaxt = "n"
       ),
       "Wind" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[11]][NOW_INDEX:TOMORROW_INDEX],
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[11]][now_index:tomorrow_index],
         xlab = "Time (last 24 hours)",
         ylab = "Wind Speed (mph)",
         type = "h",
@@ -151,8 +151,8 @@ server <- {
         xaxt = "n"
       ),
       "Wind Gusts" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[12]][NOW_INDEX:TOMORROW_INDEX],
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[12]][now_index:tomorrow_index],
         xlab = "Time (last 24 hours)",
         ylab = "Wind Gust Speed (mph)",
         type = "h",
@@ -161,8 +161,8 @@ server <- {
         xaxt = "n"
       ),
       "UV Index" = plot(
-        pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
-        pws_data[[21]][NOW_INDEX:TOMORROW_INDEX],
+        pws_data[[1]][now_index:tomorrow_index],
+        pws_data[[21]][now_index:tomorrow_index],
         xlab = "Time (last 24 hours)",
         ylab = "UV Index",
         type = "h",
@@ -174,9 +174,9 @@ server <- {
     grid()
     axis.POSIXct(
       side = 1,
-      at = cut(pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
+      at = cut(pws_data[[1]][now_index:tomorrow_index],
                "3 hours"),
-      x = pws_data[[1]][NOW_INDEX:TOMORROW_INDEX],
+      x = pws_data[[1]][now_index:tomorrow_index],
       format = "%I:%M %p"
     )
   })

@@ -61,16 +61,16 @@ server <- {
       renderText(sprintf("%.0f %s", uv_index, get_uv_risk()))
     # Render labels and graphs
     graph1 <- reactive({
-      makeGraph(input$graph_type_1)
+      make_graph(input$graph_type_1)
     })
     graph2 <- reactive({
-      makeGraph(input$graph_type_2)
+      make_graph(input$graph_type_2)
     })
     graph3 <- reactive({
-      makeGraph(input$graph_type_3)
+      make_graph(input$graph_type_3)
     })
     graph4 <- reactive({
-      makeGraph(input$graph_type_4)
+      make_graph(input$graph_type_4)
     })
     output$graph_1 <- renderText(reactive({
       input$graph_type_1
@@ -89,17 +89,16 @@ server <- {
     output$data_graph_3 <- renderPlot(graph3())
     output$data_graph_4 <- renderPlot(graph4())
     # Weather Prediction
-    predict_weather_tonight(PREDICT_INDEX, 1.00)
-    predict_weather_tomorrow(PREDICT_INDEX, 0.90)
+    predict_weather_tonight(predict_index, 1.00)
+    predict_weather_tomorrow(predict_index, 0.90)
     # Windchill should only be displayed when it has a noticeable value
     if (windchill <= -5) {
       output$windchill_value <-
         renderText(sprintf("%.0f\u00B0 F", windchill))
       output$windchill_text <- renderText("Wind Chill")
     }
-  }
-  # Handle if there is no data to pull
-  else {
+  } else {
+    # Handle if there is no data to pull
     output$weather_tab <- renderText("??\u00B0 F Victor, NY")
     output$alert <- renderText("Unable to retrieve weather data.
                                Try refreshing the page.")
