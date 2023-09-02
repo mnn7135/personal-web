@@ -6,28 +6,38 @@ library(shiny)
 # taken from my telescope.
 
 tagList(div(tags$h1(
-  hr(), 
+  hr(),
   strong("Astronomy Photographs"),
   hr(),
 )),
 
 tags$h1(
- fluidRow(
-   column(12, img(src="astr_moon.jpg", height=500, length=1080),
-          align="center",
-   ),
- ),
- hr(),
- fluidRow(
-   column(12, img(src="astr_space_1.jpg", height=500, length=1080),
-          align="center",
-   ),
- ),
- hr(),
- fluidRow(
-   column(12, img(src="astr_space_2.jpg", height=500, length=1080),
-          align="center",
-   ),
- ),
-)
-)
+  fluidRow(column(
+    12, img(
+      src = "astr_moon.jpg",
+      height = 500,
+      length = 1080
+    ),
+    align = "center",
+  ),),
+  hr(),
+  fluidRow(column(
+    12,
+    img(
+      src = "astr_space_1.jpg",
+      height = 500,
+      length = 1080
+    ),
+    align = "center",
+  ),),
+  hr(),
+  fluidRow(column(
+    12,
+    img(
+      src = "astr_space_2.jpg",
+      height = 500,
+      length = 1080
+    ),
+    align = "center",
+  ),),
+))
