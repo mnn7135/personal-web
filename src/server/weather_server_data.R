@@ -25,16 +25,17 @@ server <- {
   prediction_factor_tomorrow <- 0.20
   # Indexes for displaying or predicting weather.
   now_index <- 288 # Most recent data
-  tonight_index <- 252 # Furthest point back for displaying 6-hour changes.
-  tomorrow_index <- 1 # Furthest point back for displaying 24-hour changes.
-  predict_index <- 4 # Furthest point back for predicting weather with buffer.
+  tonight_index <-
+    252 # Furthest point back for displaying 6-hour changes.
+  tomorrow_index <-
+    1 # Furthest point back for displaying 24-hour changes.
+  predict_index <-
+    4 # Furthest point back for predicting weather with buffer.
   # Handle App level server configurations for fetching data.
-  Sys.setenv(
-    AW_API_KEY = 
-      "9258f994d53042ca9bcbe7f5cc44dfbbfa366e4ca4ac43c19a33268a6e060cb6")
-  Sys.setenv(
-    AW_APPLICATION_KEY = 
-      "78a34a92bffc4cc8962e87525a8a35f843e1d5dda7a94c3f88114283d16389ed")
+  Sys.setenv(AW_API_KEY =
+               "9258f994d53042ca9bcbe7f5cc44dfbbfa366e4ca4ac43c19a33268a6e060cb6")
+  Sys.setenv(AW_APPLICATION_KEY =
+               "78a34a92bffc4cc8962e87525a8a35f843e1d5dda7a94c3f88114283d16389ed")
   Sys.setenv(GITHUB_PAT = "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")
   pws_data <- fetch_device_data("E8:DB:84:E4:03:97")$content
   date_time <- pws_data[[1]][now_index]

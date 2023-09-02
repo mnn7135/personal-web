@@ -55,11 +55,11 @@ server <- {
     } else if (out_temp >= 105) {
       display_alert <- "EXCESSIVE HEAT WARNING"
     } else if (out_temp <= 50
-        && wind_speed >= 5 && windchill <= -25) {
+               && wind_speed >= 5 && windchill <= -25) {
       display_alert <- "WIND CHILL WARNING"
-    } else if (out_temp <= 50 
-        && wind_speed >= 5 && windchill <= -15
-        && windchill > -25) {
+    } else if (out_temp <= 50
+               && wind_speed >= 5 && windchill <= -15
+               && windchill > -25) {
       display_alert <- "WIND CHILL ADVISORY"
     } else if (hourly_rain >= 1 && wind_gust >= 58) {
       display_alert <- "SEVERE THUNDERSTORM WARNING"
