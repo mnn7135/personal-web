@@ -41,9 +41,7 @@ server <- {
       wind_direction <- "NNW"
     }
     return(wind_direction)
-    
   })
-  
   # Determine if there is any active weather alerts.
   get_active_alerts <- (function() {
     displayAlert <- ""
@@ -71,9 +69,7 @@ server <- {
       displayAlert <- "There are no Warnings or Advisories."
     }
     return(displayAlert)
-    
   })
-  
   # Determine the risk text for the UV index.
   get_uv_risk <- (function() {
     uv_risk <- ""
@@ -89,9 +85,7 @@ server <- {
       uv_risk <- "(Extreme Risk)"
     }
     return(uv_risk)
-    
   })
-  
   # Handle building data graphs and options.
   makeGraph <- (function(inputType) {
     switch(
@@ -186,5 +180,4 @@ server <- {
       format = "%I:%M %p"
     )
   })
-  
 }

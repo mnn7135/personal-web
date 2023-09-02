@@ -19,7 +19,7 @@ tags$h1(
       length = 1080
     ),
     align = "center",
-  ),),
+  )),
   hr(),
   fluidRow(column(
     12,
@@ -29,7 +29,7 @@ tags$h1(
       length = 1080
     ),
     align = "center",
-  ),),
+  )),
   hr(),
   fluidRow(column(
     12,
@@ -39,5 +39,5 @@ tags$h1(
       length = 1080
     ),
     align = "center",
-  ),),
+  )),
 ))

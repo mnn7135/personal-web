@@ -11,13 +11,11 @@ source("src/server/weather_server_data.R", local = TRUE)
 # displays current weather information. It also looks at general trends in
 # the data over the previous 24 hours to make predictions about weather in the
 # future.
-
 server <- {
   # Ensure that there is data available from the station.
   if (!is.na(date_time)) {
     # Get the icon and description for the current weather.
     get_current_weather()
-    
     # Outdoor Information
     output$weather_tab <-
       renderText(sprintf("Victor, NY %.0f\u00B0 F",
@@ -42,7 +40,6 @@ server <- {
     output$out_pressure <-
       renderText(sprintf("%.2f mbar", out_pressure))
     output$daily_rain <- renderText(sprintf("%.2f in", daily_rain))
-    
     # Determine Wind Direction
     wind_direction <- get_wind_direction(wind_dir)
     output$wind_speed <-
@@ -51,21 +48,17 @@ server <- {
     output$wind_gust <-
       renderText(sprintf("%.0f mph from %s", wind_gust,
                          wind_direction))
-    
     # Get active alerts.
     output$alert <- renderText(get_active_alerts())
-    
     # Determine hourly rain
     rain_last_hour <- ""
     if (hourly_rain >= 0.1) {
       rain_last_hour <- sprintf("%.2f in hourly", hourly_rain)
     }
     output$rain_last_hour <- renderText(rain_last_hour)
-    
     # Determine UV Risk
     output$solar_data <-
       renderText(sprintf("%.0f %s", uv_index, get_uv_risk()))
-    
     # Render labels and graphs
     graph1 <- reactive({
       makeGraph(input$graph_type_1)
@@ -95,18 +88,15 @@ server <- {
     output$data_graph_2 <- renderPlot(graph2())
     output$data_graph_3 <- renderPlot(graph3())
     output$data_graph_4 <- renderPlot(graph4())
-    
     # Weather Prediction
     predict_weather_tonight(PREDICT_INDEX, 1.00)
     predict_weather_tomorrow(PREDICT_INDEX, 0.90)
-    
     # Windchill should only be displayed when it has a noticeable value
     if (windchill <= -5) {
       output$windchill_value <-
         renderText(sprintf("%.0f\u00B0 F", windchill))
       output$windchill_text <- renderText("Wind Chill")
     }
-    
   }
   # Handle if there is no data to pull
   else {
@@ -114,5 +104,4 @@ server <- {
     output$alert <- renderText("Unable to retrieve weather data.
                                Try refreshing the page.")
   }
-  
 }

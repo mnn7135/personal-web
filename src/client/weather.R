@@ -21,12 +21,10 @@ tagList(
   tags$h3(
     div(align = "center", tags$h2(textOutput("alert"))),
     hr(),
-    
     tags$h2(strong("Current Weather Conditions")),
     hr(),
-    
     fluidRow(
-      column(3, div(),),
+      column(3, div()),
       column(
         6,
         align = "center",
@@ -38,14 +36,14 @@ tagList(
                     style = "font-size: 120px;")),
         hr(),
       ),
-      column(3, div(),),
+      column(3, div()),
     ),
     fluidRow(
-      column(3, div(),),
+      column(3, div()),
       column(6, align = "center",
              tags$h1(textOutput("out_feels")),
              tags$h1(textOutput("rain_last_hour"))),
-      column(3, div(),),
+      column(3, div()),
     ),
     hr(),
     tags$h2(strong("Weather Forecast")),
@@ -87,7 +85,7 @@ tagList(
     tags$h2(strong("Outdoor Details")),
     hr(),
     fluidRow(
-      column(1,),
+      column(1),
       column(2, div("Wind"),),
       column(2, div(textOutput("wind_speed")),
              style = 'border-left: 1px solid'),
@@ -95,11 +93,11 @@ tagList(
       column(2, div("Pressure"),),
       column(2, div(textOutput("out_pressure")),
              style = 'border-left: 1px solid'),
-      column(1,),
+      column(1),
     ),
     hr(),
     fluidRow(
-      column(1,),
+      column(1),
       column(2, div("Wind Gusts"),),
       column(2, div(textOutput("wind_gust")),
              style = 'border-left: 1px solid'),
@@ -107,23 +105,23 @@ tagList(
       column(2, div("UV Index"),),
       column(2, div(textOutput("solar_data")),
              style = 'border-left: 1px solid'),
-      column(1,),
+      column(1),
     ),
     hr(),
     fluidRow(
-      column(1,),
+      column(1),
       column(2, div("Humidity"),),
       column(2, div(textOutput("out_humidity")),
              style = 'border-left: 1px solid'),
-      column(2, div(),),
+      column(2, div()),
       column(2, div("Daily Rainfall"),),
       column(2, div(textOutput("daily_rain")),
              style = 'border-left: 1px solid'),
-      column(1,),
+      column(1),
     ),
     hr(),
     fluidRow(
-      column(1,),
+      column(1),
       column(2, div("Dew Point"),),
       column(2, div(textOutput("out_dew_point")),
              style = 'border-left: 1px solid'),
@@ -131,7 +129,7 @@ tagList(
       column(2, div(textOutput("windchill_text")),),
       column(2, div(textOutput("windchill_value")),
              style = 'border-left: 1px solid'),
-      column(1,),
+      column(1),
     ),
     hr(),
     
@@ -140,7 +138,7 @@ tagList(
     ),)),
     hr(),
     fluidRow(
-      column(2,),
+      column(2),
       column(
         2,
         selectInput(
@@ -213,25 +211,23 @@ tagList(
           selected = "Humidity"
         ),
       ),
-      column(2,),
+      column(2),
     ),
-    
     # Graphs
-    
     hr(),
     fluidRow(column(6, div(
       plotOutput("data_graph_1")
     ),),
     column(6, div(
       plotOutput("data_graph_2")
-    ),)),
+    ))),
     hr(),
     fluidRow(column(6, div(
       plotOutput("data_graph_3")
-    ),),
+    )),
     column(6, div(
       plotOutput("data_graph_4")
-    ),)),
+    ))),
     hr(),
   ),
   div(
