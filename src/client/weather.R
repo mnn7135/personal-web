@@ -86,7 +86,7 @@ tagList(
     hr(),
     fluidRow(
       column(1),
-      column(2, div("Wind"),),
+      column(2, div("Wind")),
       column(2, div(textOutput("wind_speed")),
              style = "border-left: 1px solid"),
       column(2, div()),

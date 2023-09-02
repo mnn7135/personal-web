@@ -103,7 +103,7 @@ tagList(
       )
     ),
     fluidRow(
-      column(3,),
+      column(3),
       column(
         6,
         strong("SWEN 262 - Muze Music Library System"),
@@ -131,7 +131,7 @@ tagList(
         br(),
         hr(),
       ),
-      column(3,)
+      column(3)
     ),
   )
 )

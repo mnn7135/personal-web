@@ -60,9 +60,7 @@ server <- {
       sprintf(
         "Low %.0f\u00B0 F",
         (pws_data[[6]][now_index] - pws_data[[6]][index]) 
-        / prediction_factor_tonight
-        * temp_trend
-        + pws_data[[6]][now_index]
+        / prediction_factor_tonight * temp_trend + pws_data[[6]][now_index]
       )
     )
     output$out_high_later <- temp_out
@@ -111,9 +109,7 @@ server <- {
       sprintf(
         "High %.0f\u00B0 F",
         (pws_data[[6]][now_index] - pws_data[[6]][index])
-        / prediction_factor_tomorrow 
-        * temp_trend
-        + pws_data[[6]][now_index]
+        / prediction_factor_tomorrow * temp_trend + pws_data[[6]][now_index]
       )
     )
     output$out_high_1_day <- temp_out

@@ -92,7 +92,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(2),
         ),
         hr(),

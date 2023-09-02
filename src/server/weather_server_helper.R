@@ -44,31 +44,31 @@ server <- {
   })
   # Determine if there is any active weather alerts.
   get_active_alerts <- (function() {
-    displayAlert <- ""
+    display_alert <- ""
     if (wind_gust >= 46 && wind_gust <= 57 || wind_speed >= 31
         && wind_speed >= 39) {
-      displayAlert <- "WIND ADVISORY"
+      display_alert <- "WIND ADVISORY"
     } else if (wind_gust >= 58 || wind_speed >= 40) {
-      displayAlert <- "HIGH WIND WARNING"
+      display_alert <- "HIGH WIND WARNING"
     } else if (out_temp < 105 && out_temp >= 100) {
-      displayAlert <- "HEAT ADVISORY"
+      display_alert <- "HEAT ADVISORY"
     } else if (out_temp >= 105) {
-      displayAlert <- "EXCESSIVE HEAT WARNING"
-    } else if (out_temp <= 50 &&
-               wind_speed >= 5 && windchill <= -25) {
-      displayAlert <- "WIND CHILL WARNING"
-    } else if (out_temp <= 50 &&
-               wind_speed >= 5 && windchill <= -15
-               && windchill > -25) {
-      displayAlert <- "WIND CHILL ADVISORY"
+      display_alert <- "EXCESSIVE HEAT WARNING"
+    } else if (out_temp <= 50
+        && wind_speed >= 5 && windchill <= -25) {
+      display_alert <- "WIND CHILL WARNING"
+    } else if (out_temp <= 50 
+        && wind_speed >= 5 && windchill <= -15
+        && windchill > -25) {
+      display_alert <- "WIND CHILL ADVISORY"
     } else if (hourly_rain >= 1 && wind_gust >= 58) {
-      displayAlert <- "SEVERE THUNDERSTORM WARNING"
+      display_alert <- "SEVERE THUNDERSTORM WARNING"
     } else if (hourly_rain >= 3) {
-      displayAlert <- "FLASH FLOOD WARNING"
+      display_alert <- "FLASH FLOOD WARNING"
     } else {
-      displayAlert <- "No active weather alerts."
+      display_alert <- "No active weather alerts."
     }
-    return(displayAlert)
+    return(display_alert)
   })
   # Determine the risk text for the UV index.
   get_uv_risk <- (function() {
