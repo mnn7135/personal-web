@@ -28,7 +28,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(1),
           column(2, div(
             tags$a(
@@ -40,7 +40,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(1),
           column(2, div(
             tags$a(
@@ -52,7 +52,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(2),
         ),
         hr(),
@@ -68,7 +68,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(1),
           column(2, div(
             tags$a(
@@ -80,7 +80,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(1),
           column(2, div(
             tags$a(
@@ -92,7 +92,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(2),
         ),
         hr(),
@@ -108,7 +108,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(1),
           column(2, div(
             tags$a(
@@ -120,7 +120,7 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(1),
           column(2, div(
             tags$a(
@@ -132,10 +132,9 @@ tagList(
                 length = 180
               )
             )
-          ),),
+          )),
           column(2),
         )
-        
       ),
       column(
         3,

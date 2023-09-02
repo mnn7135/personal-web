@@ -11,27 +11,24 @@ ui <- fluidPage(
                                  font-family: arial;
                                  }"
   ),
-  
   titlePanel(title = tags$h1(strong("")),
              windowTitle = "Michael's Homepage"),
   tagList(
     tags$head(
       tags$style(
-        'body { word-wrap: break-word; }',
-        '.navbar-brand{ display:none; }'
+        "body { word-wrap: break-word; }",
+        ".navbar-brand{ display:none; }"
       )
     ),
     navbarPage(
       "",
-      
       # Home
       tabPanel(tags$h1(strong(
         "|", icon("home"), " Home"
       )),
       tagList(tags$h3(source(
         "src/client/home.R", local = TRUE
-      )$value)),),
-      
+      )$value))),
       # Projects
       tabPanel(tags$h1(strong(
         "|", icon("chart-bar"),
@@ -39,8 +36,7 @@ ui <- fluidPage(
       )),
       tagList(tags$h3(source(
         "src/client/projects.R", local = TRUE
-      )$value)),),
-      
+      )$value))),
       # Weather
       tabPanel(tags$h1(strong(
         "| ",
@@ -51,14 +47,14 @@ ui <- fluidPage(
       )),
       tagList(tags$h3(source(
         "src/client/weather.R", local = TRUE
-      )$value)),),
+      )$value))),
       # Astronomy
       tabPanel(tags$h1(strong(
         "| ", icon("star"), "Astronomy"
       )),
       tagList(tags$h3(source(
         "src/client/astronomy.R", local = TRUE
-      )$value)),),
+      )$value))),
     )
   ),
   hr(),
@@ -71,13 +67,8 @@ ui <- fluidPage(
   ),
   hr()
 )
-
-
 server <- function(input, output) {
   source("src/server/weather_server.R", local = TRUE)$value
-  
-  
 }
-
 # Run the application.
 shinyApp(ui = ui, server = server)
