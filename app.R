@@ -19,7 +19,7 @@ ui <- fluidPage(tags$style(".container-fluid {color: black;
                      # Home    
                      tabPanel(tags$h1(strong("|", icon("home"), " Home")),
                               tagList(tags$h3(
-                                source("client/home.R", local=TRUE)$value
+                                source("src/client/home.R", local=TRUE)$value
                               )),
                      ),
                      
@@ -27,7 +27,7 @@ ui <- fluidPage(tags$style(".container-fluid {color: black;
                      tabPanel(tags$h1(strong("|", icon("chart-bar"), 
                                              "Projects")),
                               tagList(tags$h3(
-                                source("client/projects.R", local=TRUE)$value
+                                source("src/client/projects.R", local=TRUE)$value
                               )),
                      ),
                      
@@ -37,13 +37,13 @@ ui <- fluidPage(tags$style(".container-fluid {color: black;
                                              textOutput("weather_tab", 
                                                         inline = TRUE))),
                               tagList(tags$h3(
-                                source("client/weather.R", local=TRUE)$value
+                                source("src/client/weather.R", local=TRUE)$value
                               )),
                      ),
                      # Astronomy
                      tabPanel(tags$h1(strong("| ", icon("star"), "Astronomy")),
                               tagList(tags$h3(
-                                source("client/astronomy.R", local=TRUE)$value
+                                source("src/client/astronomy.R", local=TRUE)$value
                               )),
                      ),
           )
@@ -59,9 +59,7 @@ ui <- fluidPage(tags$style(".container-fluid {color: black;
 
 server <- function(input, output) {
   
-  source("app_server.R", local=TRUE)$value
-  
-  source("server/weather_server.R", local=TRUE)$value
+  source("src/server/weather_server.R", local=TRUE)$value
   
 }
 

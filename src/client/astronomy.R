@@ -19,13 +19,13 @@ tags$h1(
  ),
  hr(),
  fluidRow(
-   column(12, img(src="astr_space1.jpg", height=500, length=1080),
+   column(12, img(src="astr_space_1.jpg", height=500, length=1080),
           align="center",
    ),
  ),
  hr(),
  fluidRow(
-   column(12, img(src="astr_space2.jpg", height=500, length=1080),
+   column(12, img(src="astr_space_2.jpg", height=500, length=1080),
           align="center",
    ),
  ),

@@ -1,6 +1,6 @@
 library(shiny)
 
-source("server/weather_server_data.R", local=TRUE)
+source("src/server/weather_server_data.R", local=TRUE)
 
 server <- {
   
