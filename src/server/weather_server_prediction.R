@@ -139,7 +139,7 @@ server <- {
           icon_name <- icon_cloudy_moon
           icon_desc <- weather_cloudy
         } else {
-          icon_name <- ICON_MOON
+          icon_name <- icon_clear
           icon_desc <- weather_clear
         }
       }
