@@ -6,8 +6,8 @@ server <- {
   # Determine the direction of the wind from angle.
   get_wind_direction <- (function(wind_angle) {
     wind_direction <- ""
-    if (wind_angle >= 348.75 &&
-        wind_angle <= 360 || wind_angle < 11.25) {
+    if (wind_angle >= 348.75
+        && wind_angle <= 360 || wind_angle < 11.25) {
       wind_direction <- "N"
     } else if (11.25 <= wind_angle && wind_angle < 33.75) {
       wind_direction <- "NNE"

@@ -37,6 +37,7 @@ server <- {
   Sys.setenv(AW_APPLICATION_KEY =
                "78a34a92bffc4cc8962e87525a8a35f843e1d5dda7a94c3f88114283d16389ed")
   Sys.setenv(GITHUB_PAT = "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")
+  Sys.setenv(TZ = "America/New_York")
   pws_data <- fetch_device_data("E8:DB:84:E4:03:97")$content
   date_time <- pws_data[[1]][now_index]
   # Times for use in determining icons/prediction formulas.

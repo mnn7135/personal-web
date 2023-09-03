@@ -53,13 +53,11 @@ server <- {
       temp_trend <- -0.66
     }
     output$weather_icon_later <-
-      renderText(as.character(icon(icon_temp,
-                                   size_predict)))
+      renderText(as.character(icon(icon_temp, size_predict)))
     output$weather_desc_later <- renderText(desc_temp)
     temp_out <- renderText(
       sprintf(
-        "Low %.0f\u00B0 F",
-        (pws_data[[6]][now_index] - pws_data[[6]][index]) 
+        "Low %.0f\u00B0 F", (pws_data[[6]][now_index] - pws_data[[6]][index]) 
         / prediction_factor_tonight * temp_trend + pws_data[[6]][now_index]
       )
     )
@@ -102,13 +100,11 @@ server <- {
     }
     temp_trend <- 0.33
     output$weather_icon_1_day <-
-      renderText(as.character(icon(icon_temp,
-                                   size_predict)))
+      renderText(as.character(icon(icon_temp, size_predict)))
     output$weather_desc_1_day <- renderText(desc_temp)
     temp_out <- renderText(
       sprintf(
-        "High %.0f\u00B0 F",
-        (pws_data[[6]][now_index] - pws_data[[6]][index])
+        "High %.0f\u00B0 F", (pws_data[[6]][now_index] - pws_data[[6]][index])
         / prediction_factor_tomorrow * temp_trend + pws_data[[6]][now_index]
       )
     )
