@@ -66,7 +66,7 @@ server <- {
     } else if (hourly_rain >= 3) {
       display_alert <- "FLASH FLOOD WARNING"
     } else {
-      display_alert <- "No active weather alerts."
+      display_alert <- "There are no current Warnings or Advisories."
     }
     return(display_alert)
   })

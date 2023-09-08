@@ -6,15 +6,10 @@ library(shiny)
 tagList(
   div(tags$h1(hr(), style = "font-size: 45px;")),
   tags$h1(
-    "Hello, I'm Michael Nersinger, a BS Software Engineering student at the
-    Rochester Institute of Technology pursuing a History minor. I'm most
-    proficient with Java, Python, and R, and I've had experience with
-    Amazon Web Services and Cloud Development.",
-    hr(),
     fluidRow(
       column(
         9,
-        strong(div("Quick Links")),
+        strong(div(align = "center", "Personal Web | Quick Links")),
         hr(),
         fluidRow(
           column(2),
@@ -143,16 +138,53 @@ tagList(
         tags$h3(
           strong("Michael Nersinger"),
           hr(),
-          "Software Engineer BS at RIT",
+          "BS Software Engineering @ RIT",
+          br(),
+          "History Minor",
           br(),
           hr(),
-          "Research Intern at GTRI",
+          "Research Intern @ GTRI",
           br(),
           hr(),
           strong("Email"),
           hr(),
           "mnn7135@rit.edu",
           br(),
+          hr(),
+          strong("Languages"),
+          hr(),
+          fluidRow(
+            column(6, div("Java"
+            )),
+            column(6, div("Python"
+          ))),
+          hr(),
+          fluidRow(
+            column(6, div("R"
+            )),
+            column(6, div("REACT"
+            ))),
+          hr(),
+          fluidRow(
+            column(6, div("C"
+            )),
+            column(6, div("JavaScript"
+            ))),
+          br(),
+          hr(),
+          strong("Other"),
+          hr(),
+          fluidRow(
+            column(6, div("AWS Cloud"
+            )),
+            column(6, div("PostgreSQL"
+            ))),
+          hr(),
+          fluidRow(
+            column(4),
+            column(4, div("Scrum"
+            )),
+            column(4)),
           hr(),
         ),
       ),

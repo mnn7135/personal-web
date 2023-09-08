@@ -5,14 +5,14 @@ library(shiny)
 
 tagList(
   div(tags$h1(hr(), style = "font-size: 45px;")),
-  tags$h1(strong("Software Projects"),
+  tags$h1(div(align="center", strong("Personal Web | Software Projects")),
           hr()),
   tags$h3(fluidRow(
     column(
       6,
       strong("RShiny Website"),
       hr(),
-      "Technologies Used: R and RShiny",
+      "R and RShiny",
       br(),
       tags$a(href = "https://github.com/mnn7135/personal-web/", target =
                "_blank", "GitHub Repository"),
@@ -34,7 +34,7 @@ tagList(
       6,
       strong("SWEN 340 - Hardware LED Project"),
       hr(),
-      "Technologies Used: C",
+      "C",
       br(),
       tags$a(href = "https://github.com/mnn7135/LED_Final", target =
                "_blank", "GitHub Repository"),
@@ -58,9 +58,7 @@ tagList(
         6,
         strong("SWEN 356 - TuitionWaster RShiny App"),
         hr(),
-        "Technologies Used: R and RShiny",
-        br(),
-        "Private Repository",
+        "R and RShiny",
         br(),
         br(),
         "For this project, we were tasked to build an app to display what ",
@@ -81,9 +79,7 @@ tagList(
         6,
         strong("CSCI 140 - Reddit Place"),
         hr(),
-        "Technologies Used: Java",
-        br(),
-        "Private Repository",
+        "Java",
         br(),
         br(),
         "This class project required us to re-create the Reddit Place tile ",
@@ -108,9 +104,7 @@ tagList(
         6,
         strong("SWEN 262 - Muze Music Library System"),
         hr(),
-        "Technologies Used: Java",
-        br(),
-        "Private Repository",
+        "Java",
         br(),
         br(),
         "This class project required us to create the Muze Music Library ",

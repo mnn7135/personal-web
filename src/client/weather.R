@@ -5,23 +5,13 @@ library(shiny)
 tagList(
   div(tags$h1(
     hr(),
-    strong("Weather at Phoenix Station"),
+    div(align="center", strong("Phoenix Station | Weather Report")),
     hr(),
   )),
-  tags$h1(
-    "Phoenix Station is my personal weather station that I mantain to gather
-    weather data. This data is used to display alerts and make local
-    predictions for Victor, NY. Weather forecasts are made live as new data
-    comes in and are likely to change. The weather station is an
-    AmbientWeather WS-2000 Smart Station.",
-    hr(),
-  ),
-  tags$h2(strong("Warnings and Advisories")),
-  hr(),
   tags$h3(
     div(align = "center", tags$h2(textOutput("alert"))),
     hr(),
-    tags$h2(strong("Current Weather Conditions")),
+    tags$h2(div(align = "center", strong("Right Now"))),
     hr(),
     fluidRow(
       column(3, div()),
@@ -46,14 +36,14 @@ tagList(
       column(3, div()),
     ),
     hr(),
-    tags$h2(strong("Weather Forecast")),
+    tags$h2(div(align="center", strong("Phoenix Station | Weather Forecast"))),
     hr(),
     fluidRow(
       column(2),
       column(
         4,
         align = "center",
-        div(tags$h2("Later Today")),
+        div(tags$h2("Later")),
         hr(),
         uiOutput("weather_icon_later"),
         div(tags$h2(
@@ -82,7 +72,19 @@ tagList(
       ),
       column(2),
     ),
-    tags$h2(strong("Outdoor Details")),
+    tags$h2(div(align="center", strong("Right Now | Outdoor Conditions"))),
+    hr(),
+    fluidRow(
+      column(1),
+      column(2, div("Sunrise")),
+      column(2, div(textOutput("sunrise_time")),
+             style = "border-left: 1px solid"),
+      column(2, div()),
+      column(2, div("Sunset")),
+      column(2, div(textOutput("sunset_time")),
+             style = "border-left: 1px solid"),
+      column(1),
+    ),
     hr(),
     fluidRow(
       column(1),
@@ -132,12 +134,15 @@ tagList(
       column(1),
     ),
     hr(),
+    fluidRow(
+      column(12)
+    ),
+    hr(),
     fluidRow(column(12, tags$h2(
-      strong("Data Graphs")
+      div(align="center", strong("Phoenix Station | Live Data"))
     ))),
     hr(),
     fluidRow(
-      column(2),
       column(
         2,
         selectInput(
@@ -156,6 +161,7 @@ tagList(
           selected = "Temperature"
         ),
       ),
+      column(1),
       column(
         2,
         selectInput(
@@ -174,6 +180,7 @@ tagList(
           selected = "Pressure"
         ),
       ),
+      column(2),
       column(
         2,
         selectInput(
@@ -192,6 +199,7 @@ tagList(
           selected = "Wind"
         ),
       ),
+      column(1),
       column(
         2,
         selectInput(
@@ -210,7 +218,6 @@ tagList(
           selected = "Humidity"
         ),
       ),
-      column(2),
     ),
     # Graphs
     hr(),
@@ -231,15 +238,19 @@ tagList(
   ),
   div(
     tags$h1(
-      "* 1 standard atmosphere of pressure equals 1013.25 millibars at sea 
+      "* One standard atmosphere of pressure equals 1013.25 millibars at sea 
       level.",
+      br(),
+      "* Sunrise and sunset data provided by https://sunrise-sunset.org/api.",
       style = "font-size: 12px;"
     )
   ),
   div(
     tags$h1(
       textOutput("date"),
-      "Last maintenanced on 07/26/22 2:33 PM EDT",
+      "Last maintenanced on 08/04/23 11:45 AM EDT",
+      br(),
+      "Phoenix Station is my personal AmbientWeather WS-2000 Smart Station",
       style = "font-size: 14px;"
     )
   )

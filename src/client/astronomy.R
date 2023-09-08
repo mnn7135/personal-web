@@ -7,7 +7,7 @@ library(shiny)
 
 tagList(div(tags$h1(
   hr(),
-  strong("Astronomy Photographs"),
+  div(align="center", strong("Personal Web | Astronomy")),
   hr(),
 )),
 

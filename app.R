@@ -58,12 +58,12 @@ ui <- fluidPage(
     )
   ),
   hr(),
-  "Website developed by Michael Nersinger",
-  br(),
+  div("Website developed by Michael Nersinger", style = "font-size: 14px;"),
   tags$a(
     href = "https://github.com/mnn7135/personal-web/",
     target = "_blank",
-    "https://github.com/mnn7135/personal-web/"
+    "https://github.com/mnn7135/personal-web/",
+    style = "font-size: 14px;"
   ),
   hr()
 )
