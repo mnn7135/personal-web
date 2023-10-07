@@ -8,12 +8,12 @@ tagList(
   tags$h1(
     fluidRow(
       column(
-        9,
+        8,
         strong(div(align = "center", "Personal Web | Quick Links")),
         hr(),
         fluidRow(
           column(2),
-          column(2, div(
+          column(4, div(
             tags$a(
               href = "https://www.bing.com/",
               target = "_blank",
@@ -25,7 +25,7 @@ tagList(
             )
           )),
           column(1),
-          column(2, div(
+          column(5, div(
             tags$a(
               href = "https://www.google.com/",
               target = "_blank",
@@ -36,8 +36,11 @@ tagList(
               )
             )
           )),
-          column(1),
-          column(2, div(
+        ),
+        hr(),
+        fluidRow(
+          column(2),
+          column(3, div(
             tags$a(
               href = "https://www.rit.edu/",
               target = "_blank",
@@ -49,11 +52,7 @@ tagList(
             )
           )),
           column(2),
-        ),
-        hr(),
-        fluidRow(
-          column(2),
-          column(2, div(
+          column(3, div(
             tags$a(
               href = "https://github.com/mnn7135/",
               target = "_blank",
@@ -64,8 +63,12 @@ tagList(
               )
             )
           )),
-          column(1),
-          column(2, div(
+          column(2)
+        ),
+        hr(),
+        fluidRow(
+          column(2),
+          column(3, div(
             tags$a(
               href = "https://www.linkedin.com/in/michael-nersinger/",
               target = "_blank",
@@ -76,8 +79,8 @@ tagList(
               )
             )
           )),
-          column(1),
-          column(2, div(
+          column(2),
+          column(3, div(
             tags$a(
               href = "https://trello.com/",
               target = "_blank",
@@ -88,12 +91,12 @@ tagList(
               )
             )
           )),
-          column(2),
+          column(2)
         ),
         hr(),
         fluidRow(
           column(2),
-          column(2, div(
+          column(3, div(
             tags$a(
               href = "https://stackoverflow.com/",
               target = "_blank",
@@ -104,8 +107,8 @@ tagList(
               )
             )
           )),
-          column(1),
-          column(2, div(
+          column(2),
+          column(3, div(
             tags$a(
               href = "https://www.firstinspires.org/robotics/frc",
               target = "_blank",
@@ -116,34 +119,22 @@ tagList(
               )
             )
           )),
-          column(1),
-          column(2, div(
-            tags$a(
-              href = "https://www.indeed.com/?from=gnav-homepage",
-              target = "_blank",
-              img(
-                src = "indeed.jpg",
-                height = 180,
-                length = 180
-              )
-            )
-          )),
           column(2),
         )
       ),
       column(
-        3,
+        4,
         strong(div("Contact Details")),
         hr(),
         tags$h3(
           strong("Michael Nersinger"),
           hr(),
-          "BS Software Engineering @ RIT",
+          "Software Engineering BS at RIT",
           br(),
           "History Minor",
           br(),
           hr(),
-          "Research Intern @ GTRI",
+          "Research Intern at GTRI",
           br(),
           hr(),
           strong("Email"),
@@ -154,37 +145,39 @@ tagList(
           strong("Languages"),
           hr(),
           fluidRow(
-            column(6, div("Java"
-            )),
             column(6, div("Python"
-          ))),
+            )),
+            column(1),
+            column(5, div("Java"
+            ))),
           hr(),
           fluidRow(
-            column(6, div("R"
-            )),
             column(6, div("REACT"
+            )),
+            column(1),
+            column(5, div("R"
             ))),
           hr(),
           fluidRow(
             column(6, div("C"
             )),
-            column(6, div("JavaScript"
+            column(1),
+            column(5, div("JS"
             ))),
-          br(),
           hr(),
+          br(),
           strong("Other"),
           hr(),
           fluidRow(
-            column(6, div("AWS Cloud"
+            column(6, div("AWS"
             )),
-            column(6, div("PostgreSQL"
+            column(1),
+            column(5, div("SQL"
             ))),
           hr(),
           fluidRow(
-            column(4),
-            column(4, div("Scrum"
-            )),
-            column(4)),
+            column(12, div("Scrum"
+            ))),
           hr(),
         ),
       ),
