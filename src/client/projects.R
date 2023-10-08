@@ -5,8 +5,10 @@ library(shiny)
 
 tagList(
   div(tags$h1(hr(), style = "font-size: 45px;")),
-  tags$h1(div(align="center", strong("Personal Web | Software Projects")),
-          hr()),
+  tags$h1(
+    div(align = "center", strong("Personal Web | Software Projects")),
+    hr()
+  ),
   tags$h3(fluidRow(
     column(
       6,
@@ -14,8 +16,10 @@ tagList(
       hr(),
       "R and RShiny",
       br(),
-      tags$a(href = "https://github.com/mnn7135/personal-web/", target =
-               "_blank", "GitHub Repository"),
+      tags$a(
+        href = "https://github.com/mnn7135/personal-web/", target =
+          "_blank", "GitHub Repository"
+      ),
       br(),
       br(),
       "This is the website you are currently visiting. My inspiration behind ",
@@ -36,8 +40,10 @@ tagList(
       hr(),
       "C",
       br(),
-      tags$a(href = "https://github.com/mnn7135/LED_Final", target =
-               "_blank", "GitHub Repository"),
+      tags$a(
+        href = "https://github.com/mnn7135/LED_Final", target =
+          "_blank", "GitHub Repository"
+      ),
       br(),
       br(),
       "This class project was an individual assignment. We were tasked to ",

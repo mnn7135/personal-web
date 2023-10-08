@@ -145,39 +145,35 @@ tagList(
           strong("Languages"),
           hr(),
           fluidRow(
-            column(6, div("Python"
-            )),
+            column(6, div("Python")),
             column(1),
-            column(5, div("Java"
-            ))),
+            column(5, div("Java"))
+          ),
           hr(),
           fluidRow(
-            column(6, div("REACT"
-            )),
+            column(6, div("REACT")),
             column(1),
-            column(5, div("R"
-            ))),
+            column(5, div("R"))
+          ),
           hr(),
           fluidRow(
-            column(6, div("C"
-            )),
+            column(6, div("C")),
             column(1),
-            column(5, div("JS"
-            ))),
+            column(5, div("JS"))
+          ),
           hr(),
           br(),
           strong("Other"),
           hr(),
           fluidRow(
-            column(6, div("AWS"
-            )),
+            column(6, div("AWS")),
             column(1),
-            column(5, div("SQL"
-            ))),
+            column(5, div("SQL"))
+          ),
           hr(),
           fluidRow(
-            column(12, div("Scrum"
-            ))),
+            column(12, div("Scrum"))
+          ),
           hr(),
         ),
       ),
