@@ -3,8 +3,6 @@ library(jsonlite)
 library(lubridate)
 
 server <- {
-  # This class defines all constants and values to be used by weatherServer
-  # related functions.
   # Data Positions
   time_pos <- 1
   pressure_pos <- 5
@@ -32,7 +30,6 @@ server <- {
   icon_cloudy_sun <- "cloud-sun"
   icon_cloudy_moon <- "cloud-moon"
   icon_windy <- "wind"
-  icon_rain <- "cloud-sun-rain" # REMOVE THIS AFTER UPGRADES
   icon_rain_sun <- "cloud-sun-rain"
   icon_rain_moon <- "cloud-moon-rain"
   # Icon Sizes
@@ -52,14 +49,18 @@ server <- {
     pws_data <- fetch_device_data("E8:DB:84:E4:03:97")$content
     date_time <- pws_data[[1]][now_index]
     # Get the current sunrise and sunset information for today.
-    sun_data_json <- httr::GET("https://api.sunrise-sunset.org/json?lat=42.982563&lng=-77.408882&date=today&formatted=0")
-    sun_data = fromJSON(rawToChar(sun_data_json$content))[[1]]
+    sun_data_json <-
+      httr::GET(
+        "https://api.sunrise-sunset.org/json?lat=42.982563&lng=-77.408882&date=today&formatted=0"
+      )
+    sun_data <- fromJSON(rawToChar(sun_data_json$content))[[1]]
     has_run <- TRUE
   }
   # Check to make sure data was retrieved.
   if (!is.null(pws_data) && !is.null(sun_data)) {
     # Weather Data
-    out_pressure <- pws_data[[pressure_pos]][now_index] * 33.8639 # inHg to mbar
+    out_pressure <-
+      pws_data[[pressure_pos]][now_index] * 33.8639 # inHg to mbar
     out_temp <- pws_data[[temp_pos]][now_index]
     out_humidity <- pws_data[[humidity_pos]][now_index]
     wind_dir <- pws_data[[wind_dir_pos]][now_index]
@@ -80,11 +81,11 @@ server <- {
       as.POSIXlt(pws_data[[time_pos]][now_index])
     current_time <-
       as.POSIXlt(pws_data[[time_pos]][now_index], format = "%H:%M")
-    morning_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$sunrise), 
+    morning_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$sunrise),
                                        tz = "America/New_York"), format = "%H:%M")
-    noon_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$solar_noon), 
+    noon_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$solar_noon),
                                     tz = "America/New_York"), format = "%H:%M")
-    evening_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$sunset), 
+    evening_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$sunset),
                                        tz = "America/New_York"), format = "%H:%M")
   }
 }
