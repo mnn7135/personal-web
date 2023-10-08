@@ -5,10 +5,12 @@ source("src/server/weather_server_data.R", local = TRUE)
 server <- {
   # Determine the current weather icons to display.
   get_weather_icon <- (function(weather_condition, predict_time) {
-    use_day_icon <- predict_time >= morning_time && predict_time < evening_time
+    use_day_icon <-
+      predict_time >= morning_time && predict_time < evening_time
     display_icon <- ""
-
-    switch(weather_condition,
+    
+    switch(
+      weather_condition,
       Rain = {
         if (use_day_icon) {
           display_icon <- icon_rain_sun
@@ -35,16 +37,16 @@ server <- {
     )
     return(display_icon)
   })
-
+  
   # Determine the trend of the specified weather condition at a given time.
   get_weather_trend <- (function(data_pos, date_index) {
     numerator <- pws_data[[data_pos]][now_index]
-    -pws_data[[data_pos]][date_index]
-
+    - pws_data[[data_pos]][date_index]
+    
     denominator <- ((now_index - date_index))
     return(numerator / denominator)
   })
-
+  
   # Determine the current weather condition description.
   get_weather_condition <- (function(predict_pos) {
     weather_condition <- ""
@@ -64,7 +66,7 @@ server <- {
       } else {
         # Display Nighttime Indicators
         if (get_weather_trend(pressure_pos, predict_pos)
-        <= -0.20) {
+            <= -0.20) {
           weather_condition <- weather_cloudy
         } else {
           weather_condition <- weather_clear
@@ -73,12 +75,12 @@ server <- {
     }
     return(weather_condition)
   })
-
+  
   # Determine the direction of the wind from angle.
   get_wind_direction <- (function(wind_angle) {
     wind_direction <- ""
     if (wind_angle >= 348.75 &&
-      wind_angle <= 360 || wind_angle < 11.25) {
+        wind_angle <= 360 || wind_angle < 11.25) {
       wind_direction <- "N"
     } else if (11.25 <= wind_angle && wind_angle < 33.75) {
       wind_direction <- "NNE"
@@ -113,7 +115,7 @@ server <- {
     }
     return(wind_direction)
   })
-
+  
   # Gets the max data point for the previous hour.
   get_data_max <- (function(data_pos) {
     data_max <- -200
@@ -124,16 +126,16 @@ server <- {
     }
     return(data_max)
   })
-
+  
   # Determine if there is any active weather alerts.
   get_active_alerts <- (function() {
     display_alert <- ""
     gust_max <- get_data_max(wind_gust_pos)
     wind_max <- get_data_max(wind_speed_pos)
     temp_max <- get_data_max(temp_pos)
-
+    
     if (gust_max >= 46 && gust_max <= 57 ||
-      wind_max >= 31 && wind_max >= 39) {
+        wind_max >= 31 && wind_max >= 39) {
       display_alert <- "WIND ADVISORY"
     } else if (gust_max >= 58 || wind_max >= 40) {
       display_alert <- "HIGH WIND WARNING"
@@ -142,11 +144,11 @@ server <- {
     } else if (temp_max >= 105) {
       display_alert <- "EXCESSIVE HEAT WARNING"
     } else if (temp_max <= 50 &&
-      wind_max >= 5 && windchill <= -25) {
+               wind_max >= 5 && windchill <= -25) {
       display_alert <- "WIND CHILL WARNING"
     } else if (temp_max <= 50 &&
-      wind_max >= 5 && windchill <= -15 &&
-      windchill > -25) {
+               wind_max >= 5 && windchill <= -15 &&
+               windchill > -25) {
       display_alert <- "WIND CHILL ADVISORY"
     } else if (hourly_rain >= 1 && gust_max >= 58) {
       display_alert <- "SEVERE THUNDERSTORM WARNING"
@@ -157,7 +159,7 @@ server <- {
     }
     return(display_alert)
   })
-
+  
   # Determine the risk text for the UV index.
   get_uv_risk <- (function() {
     uv_risk <- ""
@@ -174,10 +176,11 @@ server <- {
     }
     return(uv_risk)
   })
-
+  
   # Handle building data graphs and options.
   make_graph <- (function(input_type) {
-    switch(input_type,
+    switch(
+      input_type,
       "Temperature" = plot(
         pws_data[[1]][now_index:last_day_index],
         pws_data[[6]][now_index:last_day_index],
@@ -262,10 +265,8 @@ server <- {
     grid()
     axis.POSIXct(
       side = 1,
-      at = cut(
-        pws_data[[1]][now_index:last_day_index],
-        "3 hours"
-      ),
+      at = cut(pws_data[[1]][now_index:last_day_index],
+               "3 hours"),
       x = pws_data[[1]][now_index:last_day_index],
       format = "%I:%M %p"
     )

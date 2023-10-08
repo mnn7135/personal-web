@@ -49,14 +49,18 @@ server <- {
     pws_data <- fetch_device_data("E8:DB:84:E4:03:97")$content
     date_time <- pws_data[[1]][now_index]
     # Get the current sunrise and sunset information for today.
-    sun_data_json <- httr::GET("https://api.sunrise-sunset.org/json?lat=42.982563&lng=-77.408882&date=today&formatted=0")
+    sun_data_json <-
+      httr::GET(
+        "https://api.sunrise-sunset.org/json?lat=42.982563&lng=-77.408882&date=today&formatted=0"
+      )
     sun_data <- fromJSON(rawToChar(sun_data_json$content))[[1]]
     has_run <- TRUE
   }
   # Check to make sure data was retrieved.
   if (!is.null(pws_data) && !is.null(sun_data)) {
     # Weather Data
-    out_pressure <- pws_data[[pressure_pos]][now_index] * 33.8639 # inHg to mbar
+    out_pressure <-
+      pws_data[[pressure_pos]][now_index] * 33.8639 # inHg to mbar
     out_temp <- pws_data[[temp_pos]][now_index]
     out_humidity <- pws_data[[humidity_pos]][now_index]
     wind_dir <- pws_data[[wind_dir_pos]][now_index]
@@ -70,21 +74,18 @@ server <- {
     out_feels <- pws_data[[feels_pos]][now_index]
     out_dewpoint <- pws_data[[dewpoint_pos]][now_index]
     windchill <- 35.74 + (0.6215 * out_temp)
-    -(35.75 * wind_speed^0.16) + (0.4275 * out_temp * wind_speed^0.16)
-
+    - (35.75 * wind_speed ^ 0.16) + (0.4275 * out_temp * wind_speed ^ 0.16)
+    
     # Times for use in determining icons/prediction formulas.
     current_time_unformatted <-
       as.POSIXlt(pws_data[[time_pos]][now_index])
     current_time <-
       as.POSIXlt(pws_data[[time_pos]][now_index], format = "%H:%M")
     morning_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$sunrise),
-      tz = "America/New_York"
-    ), format = "%H:%M")
+                                       tz = "America/New_York"), format = "%H:%M")
     noon_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$solar_noon),
-      tz = "America/New_York"
-    ), format = "%H:%M")
+                                    tz = "America/New_York"), format = "%H:%M")
     evening_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$sunset),
-      tz = "America/New_York"
-    ), format = "%H:%M")
+                                       tz = "America/New_York"), format = "%H:%M")
   }
 }
