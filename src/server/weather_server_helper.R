@@ -3,9 +3,7 @@ library(shiny)
 source("src/server/weather_server_data.R", local = TRUE)
 
 server <- {
-  
   # Determine the current weather icons to display.
-
   get_weather_icon <- (function(weather_condition, predict_time) {
     use_day_icon <- predict_time >= morning_time && predict_time < evening_time
     display_icon <- ""
@@ -39,7 +37,6 @@ server <- {
   })
 
   # Determine the trend of the specified weather condition at a given time.
-
   get_weather_trend <- (function(data_pos, date_index) {
     numerator <- pws_data[[data_pos]][now_index]
     -pws_data[[data_pos]][date_index]
@@ -47,39 +44,37 @@ server <- {
     denominator <- ((now_index - date_index))
     return(numerator / denominator)
   })
-  
-  # Determine the current weather condition description.
 
+  # Determine the current weather condition description.
   get_weather_condition <- (function(predict_pos) {
     weather_condition <- ""
     predict_time <- pws_data[[time_pos]][predict_pos]
-      if (hourly_rain > 0) {
-        weather_condition <- weather_rain
-      } else if (wind_speed >= 20) {
-        weather_condition <- weather_windy
-      } else {
-        if (morning_time <= predict_time && predict_time < evening_time) {
-          # Display Daytime Indicators
-          if (uv_index > 3) {
-            weather_condition <- weather_sunny
-          } else {
-            weather_condition <- weather_cloudy
-          }
+    if (hourly_rain > 0) {
+      weather_condition <- weather_rain
+    } else if (wind_speed >= 20) {
+      weather_condition <- weather_windy
+    } else {
+      if (morning_time <= predict_time && predict_time < evening_time) {
+        # Display Daytime Indicators
+        if (uv_index > 3) {
+          weather_condition <- weather_sunny
         } else {
-          # Display Nighttime Indicators
-          if (get_weather_trend(pressure_pos, predict_pos) 
-              <= -0.20) {
-            weather_condition <- weather_cloudy
-          } else {
-            weather_condition <- weather_clear
-          }
+          weather_condition <- weather_cloudy
+        }
+      } else {
+        # Display Nighttime Indicators
+        if (get_weather_trend(pressure_pos, predict_pos)
+        <= -0.20) {
+          weather_condition <- weather_cloudy
+        } else {
+          weather_condition <- weather_clear
         }
       }
+    }
     return(weather_condition)
   })
 
   # Determine the direction of the wind from angle.
-
   get_wind_direction <- (function(wind_angle) {
     wind_direction <- ""
     if (wind_angle >= 348.75 &&
@@ -119,27 +114,41 @@ server <- {
     return(wind_direction)
   })
 
-  # Determine if there is any active weather alerts.
+  # Gets the max data point for the previous hour.
+  get_data_max <- (function(data_pos) {
+    data_max <- -200
+    for (data_element in pws_data[[data_pos]][(now_index - 12):now_index]) {
+      if (data_element > data_max) {
+        data_max <- data_element
+      }
+    }
+    return(data_max)
+  })
 
+  # Determine if there is any active weather alerts.
   get_active_alerts <- (function() {
     display_alert <- ""
-    if (wind_gust >= 46 && wind_gust <= 57 || wind_speed >= 31 &&
-      wind_speed >= 39) {
+    gust_max <- get_data_max(wind_gust_pos)
+    wind_max <- get_data_max(wind_speed_pos)
+    temp_max <- get_data_max(temp_pos)
+
+    if (gust_max >= 46 && gust_max <= 57 ||
+      wind_max >= 31 && wind_max >= 39) {
       display_alert <- "WIND ADVISORY"
-    } else if (wind_gust >= 58 || wind_speed >= 40) {
+    } else if (gust_max >= 58 || wind_max >= 40) {
       display_alert <- "HIGH WIND WARNING"
-    } else if (out_temp < 105 && out_temp >= 100) {
+    } else if (temp_max < 105 && temp_max >= 100) {
       display_alert <- "HEAT ADVISORY"
-    } else if (out_temp >= 105) {
+    } else if (temp_max >= 105) {
       display_alert <- "EXCESSIVE HEAT WARNING"
-    } else if (out_temp <= 50 &&
-      wind_speed >= 5 && windchill <= -25) {
+    } else if (temp_max <= 50 &&
+      wind_max >= 5 && windchill <= -25) {
       display_alert <- "WIND CHILL WARNING"
-    } else if (out_temp <= 50 &&
-      wind_speed >= 5 && windchill <= -15 &&
+    } else if (temp_max <= 50 &&
+      wind_max >= 5 && windchill <= -15 &&
       windchill > -25) {
       display_alert <- "WIND CHILL ADVISORY"
-    } else if (hourly_rain >= 1 && wind_gust >= 58) {
+    } else if (hourly_rain >= 1 && gust_max >= 58) {
       display_alert <- "SEVERE THUNDERSTORM WARNING"
     } else if (hourly_rain >= 3) {
       display_alert <- "FLASH FLOOD WARNING"
@@ -150,7 +159,6 @@ server <- {
   })
 
   # Determine the risk text for the UV index.
-
   get_uv_risk <- (function() {
     uv_risk <- ""
     if (uv_index <= 2) {
@@ -168,7 +176,6 @@ server <- {
   })
 
   # Handle building data graphs and options.
-
   make_graph <- (function(input_type) {
     switch(input_type,
       "Temperature" = plot(
