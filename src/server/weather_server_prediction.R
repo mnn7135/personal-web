@@ -6,162 +6,110 @@ source("src/server/weather_server_data.R", local = TRUE)
 server <- {
   icon_name <- ""
   icon_desc <- ""
-  # Get the current weather conditions.
-  get_current_weather <- (function() {
-    if (hourly_rain > 0) {
-      icon_name <- icon_rain
-      icon_desc <- weather_rain
-    } else if (wind_speed >= 20) {
-      icon_name <- icon_windy
-      icon_desc <- weather_windy
-    } else {
-      if (morning_time <= current_time && current_time < evening_time) {
-        # Display Daytime Indicators
-        if (uv_index > 3) {
-          icon_name <- icon_sunny
-          icon_desc <- weather_sunny
-        } else {
-          icon_name <- icon_cloudy_sun
-          icon_desc <- weather_cloudy
-        }
+  
+  # Predict the Weather based on the given index.
+  
+  predict_weather <- (function(predict_pos) {
+    confidence <- 0.95 + 0.05 * (predict_pos / now_index)
+    predict_time <- current_time_unformatted + as.difftime((predict_pos / 12), units="hours")
+    weather_desc <- ""
+    
+    # PREDICT STUFF HERE
+    
+    weather_temp <- (get_weather_trend(temp_pos, predict_pos) 
+                     * (predict_pos / 12)) + pws_data[[temp_pos]][now_index]
+    
+    pressure_factor <- 20 * (get_weather_trend(pressure_pos, predict_pos))
+    wind_factor <- 20 * (get_weather_trend(wind_speed_pos, predict_pos))
+    temp_factor <- 20 * (get_weather_trend(temp_pos, predict_pos))
+    rain_factor <- 20 * (get_weather_trend(daily_rain_pos, predict_pos))
+    solar_factor <- 10 * (get_weather_trend(solar_rad_pos, predict_pos))
+    humidity_factor <- 10 * (get_weather_trend(humidity_pos, predict_pos))
+    
+    # PREDICTION FORMULA
+    
+    weather_formula <- (
+      pressure_factor 
+      + wind_factor
+      + temp_factor
+      - rain_factor
+      + solar_factor
+      - humidity_factor
+    ) * confidence
+    
+    # GRADE FORMULA RESULT
+    
+    if(weather_formula <= 25) { # Rain Likely
+      weather_desc <- weather_rain
+    } else if(weather_formula <= 50) { # Clouds Likely
+      weather_desc <- weather_cloudy
+    } else if(weather_formula <= 75) { # Wind Likely
+      weather_desc <- weather_windy
+    } else { # Clear or Sunny
+      if(morning_time <= predict_time && predict_time < evening_time) {
+        weather_desc <- weather_sunny
       } else {
-        # Display Nighttime Indicators
-        if ((pws_data[[5]][now_index]
-             - pws_data[[5]][tomorrow_index]) <= -0.20) {
-          icon_name <- icon_cloudy_moon
-          icon_desc <- weather_cloudy
-        } else {
-          icon_name <- icon_clear
-          icon_desc <- weather_clear
-        }
+        weather_desc <- weather_clear
       }
     }
+    
+    # RETURN DATA
+    
+    weather_icon <- get_weather_icon(weather_desc, predict_time)
+    return(c(weather_desc, weather_icon, weather_temp))
+  })
+  
+  
+  # Get the current weather conditions.
+  
+  get_current_weather <- (function() {
+    weather_desc <- get_weather_condition(now_index)
+    weather_icon <- get_weather_icon(weather_desc, now_index)
+    
     # Render current weather icons.
-    output$weather_icon <- renderText(as.character(icon(icon_name,
+    output$weather_icon <- renderText(as.character(icon(weather_icon,
                                                         size_current)))
     output$weather_tooltip <-
-      renderText(as.character(icon(icon_name,
+      renderText(as.character(icon(weather_icon,
                                    size_tooltip)))
-    output$weather_desc <- renderText(icon_desc)
+    output$weather_desc <- renderText(weather_desc)
     
-    return(c(icon_name, icon_desc))
+    return(c(weather_icon, weather_desc))
   })
+  
   # Current weather icon displayed.
+  
   icon_data <- get_current_weather()
   icon_name <- icon_data[1]
   icon_desc <- icon_data[2]
-  # Predict the weather based on a specific index to compare to as well as
-  # a confidence interval.
-  predict_weather_tonight <- (function(index, confidence) {
-    icon_temp <- ""
-    desc_temp <- ""
-    hour_count <- index / 12
-    if ((pws_data[[11]][now_index]
-         - pws_data[[11]][index]) / hour_count
-        + pws_data[[11]][now_index] >= 20 / confidence) {
-      icon_temp <- icon_windy
-      desc_temp <- weather_windy
-    } else if ((pws_data[[5]][now_index]
-                - pws_data[[5]][index]) / hour_count
-               >= prediction_factor_tonight / confidence) {
-      icon_temp <- icon_cloudy_moon
-      desc_temp <- weather_cloudy
-    } else if ((pws_data[[5]][now_index]
-                - pws_data[[5]][index]) / hour_count
-               <= -prediction_factor_tonight / confidence) {
-      if ((pws_data[[7]][now_index]
-           - pws_data[[7]][index]) / hour_count >= 20
-          || pws_data[[7]][now_index] >= 85) {
-        icon_temp <- icon_rain
-        desc_temp <- weather_rain
-      } else {
-        icon_temp <- icon_cloudy_moon
-        desc_temp <- weather_cloudy
-      }
-    } else {
-      if (icon_name == "cloud-moon") {
-        icon_temp <- icon_cloudy_sun
-        desc_temp <- weather_cloudy
-      } else if (icon_name == "moon") {
-        icon_temp <- icon_sunny
-        desc_temp <- weather_sunny
-      } else {
-        icon_temp <- icon_name
-        desc_temp <- icon_desc
-      }
-    }
-    temp_trend <- 0.66
-    if (morning_time <= current_time && current_time < noon_time) {
-      # Likely to warm up a lot in the next 6 hours.
-      temp_trend <- -0.66
-    } else {
-      # Likely to cool down a lot in the next 6 hours.
-      temp_trend <- 0.66
-    }
+  
+  # Get tonight's predicted weather.
+  
+  get_weather_tonight <- (function(predict_pos) {
+    data <- predict_weather(predict_pos)
+    
     output$weather_icon_later <-
-      renderText(as.character(icon(icon_temp, size_predict)))
-    output$weather_desc_later <- renderText(desc_temp)
+      renderText(as.character(icon(data[2], size_predict)))
+    output$weather_desc_later <- renderText(data[1])
     temp_out <- renderText(
       sprintf(
-        "Low %.0f\u00B0 F", (pws_data[[6]][now_index] - pws_data[[6]][index]) 
-        / prediction_factor_tonight * temp_trend + pws_data[[6]][now_index]
+        "Low %.0f\u00B0 F", as.double(data[3])
       )
     )
     output$out_high_later <- temp_out
   })
-  predict_weather_tomorrow <- (function(index, confidence) {
-    icon_temp <- ""
-    desc_temp <- ""
-    hour_count <- index / 12
-    if ((pws_data[[11]][now_index]
-         - pws_data[[11]][index]) / hour_count
-        + pws_data[[11]][now_index] >= 20 / confidence) {
-      icon_temp <- icon_windy
-      desc_temp <- weather_windy
-    } else if ((pws_data[[5]][now_index]
-                - pws_data[[5]][index]) / hour_count
-               >= prediction_factor_tomorrow / confidence) {
-      icon_temp <- icon_cloudy_sun
-      desc_temp <- weather_cloudy
-    } else if ((pws_data[[5]][now_index]
-                - pws_data[[5]][index]) / hour_count
-               <= -prediction_factor_tomorrow / confidence) {
-      if ((pws_data[[7]][now_index]
-           - pws_data[[7]][index]) / hour_count >= 20
-          || pws_data[[7]][now_index] >= 85) {
-        icon_temp <- icon_rain
-        desc_temp <- weather_rain
-      } else {
-        icon_temp <- icon_cloudy_sun
-        desc_temp <- weather_cloudy
-      }
-    } else {
-      if (icon_name == "cloud-moon") {
-        icon_temp <- icon_cloudy_sun
-        desc_temp <- weather_cloudy
-      } else if (icon_name == "moon") {
-        icon_temp <- icon_sunny
-        desc_temp <- weather_sunny
-      } else {
-        icon_temp <- icon_name
-        desc_temp <- icon_desc
-      }
-    }
-    temp_trend <- 0.66
-    if (morning_time <= current_time && current_time < noon_time) {
-      # Likely to warm up a lot in the next 6 hours.
-      temp_trend <- 0.66
-    } else {
-      # Likely to cool down a lot in the next 6 hours.
-      temp_trend <- -0.66
-    }
+  
+  # Get tomorrow's predicted weather.
+  
+  get_weather_tomorrow <- (function(predict_pos) {
+    data <- predict_weather(predict_pos)
+    
     output$weather_icon_1_day <-
-      renderText(as.character(icon(icon_temp, size_predict)))
-    output$weather_desc_1_day <- renderText(desc_temp)
+      renderText(as.character(icon(data[2], size_predict)))
+    output$weather_desc_1_day <- renderText(data[1])
     temp_out <- renderText(
       sprintf(
-        "High %.0f\u00B0 F", (pws_data[[6]][now_index] - pws_data[[6]][index])
-        / prediction_factor_tomorrow * temp_trend + pws_data[[6]][now_index]
+        "High %.0f\u00B0 F", as.double(data[3])
       )
     )
     output$out_high_1_day <- temp_out

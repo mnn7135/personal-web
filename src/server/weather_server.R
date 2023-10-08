@@ -18,8 +18,10 @@ server <- {
     get_current_weather()
     # Outdoor Information
     output$weather_tab <-
-      renderText(sprintf("Victor, NY %.0f\u00B0 F",
-                         out_temp))
+      renderText(sprintf(
+        "Victor, NY %.0f\u00B0 F",
+        out_temp
+      ))
     output$out_dew_point <-
       renderText(sprintf("%.0f\u00B0 F", out_dewpoint))
     output$date <- renderText(sprintf(
@@ -33,8 +35,10 @@ server <- {
     ))
     output$out_temp <- renderText(sprintf("%.0f\u00B0 F", out_temp))
     output$out_feels <-
-      renderText(sprintf("Feels Like %.0f\u00B0 F",
-                         out_feels))
+      renderText(sprintf(
+        "Feels Like %.0f\u00B0 F",
+        out_feels
+      ))
     output$out_humidity <-
       renderText(sprintf("%.0f%%", out_humidity))
     output$out_pressure <-
@@ -43,11 +47,15 @@ server <- {
     # Determine Wind Direction
     wind_direction <- get_wind_direction(wind_dir)
     output$wind_speed <-
-      renderText(sprintf("%.0f mph from %s", wind_speed,
-                         wind_direction))
+      renderText(sprintf(
+        "%.0f mph from %s", wind_speed,
+        wind_direction
+      ))
     output$wind_gust <-
-      renderText(sprintf("%.0f mph from %s", wind_gust,
-                         wind_direction))
+      renderText(sprintf(
+        "%.0f mph from %s", wind_gust,
+        wind_direction
+      ))
     # Get active alerts.
     output$alert <- renderText(get_active_alerts())
     # Determine hourly rain
@@ -89,8 +97,8 @@ server <- {
     output$data_graph_3 <- renderPlot(graph3())
     output$data_graph_4 <- renderPlot(graph4())
     # Weather Prediction
-    predict_weather_tonight(predict_index, 1.00)
-    predict_weather_tomorrow(predict_index, 0.90)
+    get_weather_tonight(six_hour_index)
+    get_weather_tomorrow(last_day_index)
     # Windchill should only be displayed when it has a noticeable value
     if (windchill <= -5) {
       output$windchill_value <-
