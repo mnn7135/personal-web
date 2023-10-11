@@ -4,15 +4,19 @@ source("src/server/weather_server_data.R", local = TRUE)
 
 server <- {
   # Determine the current weather icons to display.
-  get_weather_icon <- (function(weather_condition, predict_time) {
-    use_day_icon <-
-      predict_time >= morning_time && predict_time < evening_time
+  get_weather_icon <- (function(weather_condition, predict_diff) {
+    predict_diff <- predict_diff * 3600 # Hour conversion
+    is_daytime <- FALSE
+    if(predict_diff > 82800) {
+      is_daytime <- current_time >= morning_time && current_time < evening_time
+    } else {
+      is_daytime <- current_time + predict_diff >= morning_time && current_time + predict_diff < evening_time
+    }
     display_icon <- ""
-    
     switch(
       weather_condition,
       Rain = {
-        if (use_day_icon) {
+        if (is_daytime) {
           display_icon <- icon_rain_sun
         } else {
           display_icon <- icon_rain_moon
@@ -27,8 +31,17 @@ server <- {
       Windy = {
         display_icon <- icon_windy
       },
+      Breezy = {
+        display_icon <- icon_windy
+      },
+      Foggy = {
+        display_icon <- icon_fog
+      },
+      Stormy = {
+        display_icon <- icon_storm
+      },
       Cloudy = {
-        if (use_day_icon) {
+        if (is_daytime) {
           display_icon <- icon_cloudy_sun
         } else {
           display_icon <- icon_cloudy_moon
@@ -50,11 +63,19 @@ server <- {
   # Determine the current weather condition description.
   get_weather_condition <- (function(predict_pos) {
     weather_condition <- ""
-    predict_time <- pws_data[[time_pos]][predict_pos]
+    predict_time <- as.POSIXlt(pws_data[[time_pos]][now_index] + (now_index - predict_pos)*3600)
+    wind_max <- get_data_max(wind_speed_pos, 12)
     if (hourly_rain > 0) {
       weather_condition <- weather_rain
-    } else if (wind_speed >= 20) {
+      if(get_weather_trend(pressure_pos, predict_pos) < -0.2*(now_index - predict_pos) / 12) {
+        weather_condition <- weather_storm
+      }
+    } else if (wind_max >= 15 && wind_max < 20) {
+      weather_condition <- weather_breezy
+    } else if (wind_max >= 20) {
       weather_condition <- weather_windy
+    } else if (out_humidity >= 95 && out_temp - out_dewpoint <= 4.5) {
+      weather_condition <- weather_foggy
     } else {
       if (morning_time <= predict_time && predict_time < evening_time) {
         # Display Daytime Indicators
@@ -74,6 +95,19 @@ server <- {
       }
     }
     return(weather_condition)
+  })
+  
+  # If it is afternoon, likely to cool down. Otherwise may warm up.
+  get_temp_trend <- (function(predict_pos) {
+    predict_time <- as.POSIXlt(pws_data[[time_pos]][now_index] + (now_index - predict_pos)*3600)
+    if (morning_time <= predict_time && predict_time < noon_time) {
+      return (0.5)
+    } else if(noon_time <= predict_time && predict_time < evening_time) {
+      return(-0.5)
+    } else if(predict_time >= evening_time) {
+      return(-0.25)
+    }
+    return(0.25)
   })
   
   # Determine the direction of the wind from angle.
@@ -116,10 +150,10 @@ server <- {
     return(wind_direction)
   })
   
-  # Gets the max data point for the previous hour.
-  get_data_max <- (function(data_pos) {
+  # Gets the max data point for the previous given time.
+  get_data_max <- (function(data_pos, time_diff) {
     data_max <- -200
-    for (data_element in pws_data[[data_pos]][(now_index - 12):now_index]) {
+    for (data_element in pws_data[[data_pos]][(now_index - time_diff):now_index]) {
       if (data_element > data_max) {
         data_max <- data_element
       }
@@ -130,9 +164,9 @@ server <- {
   # Determine if there is any active weather alerts.
   get_active_alerts <- (function() {
     display_alert <- ""
-    gust_max <- get_data_max(wind_gust_pos)
-    wind_max <- get_data_max(wind_speed_pos)
-    temp_max <- get_data_max(temp_pos)
+    gust_max <- get_data_max(wind_gust_pos, 12)
+    wind_max <- get_data_max(wind_speed_pos, 12)
+    temp_max <- get_data_max(temp_pos, 12)
     
     if (gust_max >= 46 && gust_max <= 57 ||
         wind_max >= 31 && wind_max >= 39) {
@@ -182,8 +216,8 @@ server <- {
     switch(
       input_type,
       "Temperature" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[6]][now_index:last_day_index],
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[temp_pos]][now_index:buffer_index],
         xlab = "Time (last 24 hours)",
         ylab = "Temperature (\u00B0 F)",
         type = "h",
@@ -192,8 +226,8 @@ server <- {
         xaxt = "n"
       ),
       "Dew Point" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[23]][now_index:last_day_index],
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[dewpoint_pos]][now_index:buffer_index],
         xlab = "Time (last 24 hours)",
         ylab = "Dew Point (\u00B0 F)",
         type = "h",
@@ -202,8 +236,8 @@ server <- {
         xaxt = "n"
       ),
       "Humidity" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[7]][now_index:last_day_index],
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[humidity_pos]][now_index:buffer_index],
         xlab = "Time (last 24 hours)",
         ylab = "Humidity (%)",
         type = "h",
@@ -212,8 +246,8 @@ server <- {
         xaxt = "n"
       ),
       "Pressure" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[5]][now_index:last_day_index] * 33.8639,
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[pressure_pos]][now_index:buffer_index] * to_mbar,
         xlab = "Time (last 24 hours)",
         ylab = "Pressure (millibars)",
         type = "h",
@@ -222,8 +256,8 @@ server <- {
         xaxt = "n"
       ),
       "Rain" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[14]][now_index:last_day_index],
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[hourly_rain_pos]][now_index:buffer_index],
         xlab = "Time (last 24 hours)",
         ylab = "Rainfall (inches)",
         type = "h",
@@ -232,8 +266,8 @@ server <- {
         xaxt = "n"
       ),
       "Wind" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[11]][now_index:last_day_index],
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[wind_speed_pos]][now_index:buffer_index],
         xlab = "Time (last 24 hours)",
         ylab = "Wind Speed (mph)",
         type = "h",
@@ -242,8 +276,8 @@ server <- {
         xaxt = "n"
       ),
       "Wind Gusts" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[12]][now_index:last_day_index],
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[wind_gust_pos]][now_index:buffer_index],
         xlab = "Time (last 24 hours)",
         ylab = "Wind Gust Speed (mph)",
         type = "h",
@@ -252,8 +286,8 @@ server <- {
         xaxt = "n"
       ),
       "UV Index" = plot(
-        pws_data[[1]][now_index:last_day_index],
-        pws_data[[21]][now_index:last_day_index],
+        pws_data[[time_pos]][now_index:buffer_index],
+        pws_data[[uv_index_pos]][now_index:buffer_index],
         xlab = "Time (last 24 hours)",
         ylab = "UV Index",
         type = "h",
@@ -265,9 +299,9 @@ server <- {
     grid()
     axis.POSIXct(
       side = 1,
-      at = cut(pws_data[[1]][now_index:last_day_index],
+      at = cut(pws_data[[time_pos]][now_index:buffer_index],
                "3 hours"),
-      x = pws_data[[1]][now_index:last_day_index],
+      x = pws_data[[time_pos]][now_index:buffer_index],
       format = "%I:%M %p"
     )
   })

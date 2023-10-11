@@ -23,7 +23,10 @@ server <- {
   weather_clear <- "Clear"
   weather_cloudy <- "Cloudy"
   weather_windy <- "Windy"
+  weather_breezy <- "Breezy"
+  weather_foggy <- "Foggy"
   weather_rain <- "Rain"
+  weather_storm <- "Stormy"
   # Font Awesome Icons
   icon_sunny <- "sun"
   icon_clear <- "moon"
@@ -32,19 +35,22 @@ server <- {
   icon_windy <- "wind"
   icon_rain_sun <- "cloud-sun-rain"
   icon_rain_moon <- "cloud-moon-rain"
+  icon_fog <- "smog"
+  icon_storm <- "cloud-bolt"
   # Icon Sizes
   size_tooltip <- "fa-1x"
   size_predict <- "fa-6x"
   size_current <- "fa-10x"
-  # Prediction Factors
-  prediction_factor_tonight <- 0.25
-  prediction_factor_tomorrow <- 0.20
+  # Conversions
+  to_mbar <- 33.8639
+  
   # Indexes for displaying or predicting weather.
   now_index <- 288 # Most recent data
   six_hour_index <-
     216 # Furthest point back for displaying 6-hour changes.
   last_day_index <-
-    4 # Furthest point back for displaying 24-hour changes.
+    72 # Furthest point back for displaying 24-hour changes.
+  buffer_index <- 12
   if (!exists("has_run")) {
     pws_data <- fetch_device_data("E8:DB:84:E4:03:97")$content
     date_time <- pws_data[[1]][now_index]
@@ -77,8 +83,6 @@ server <- {
     - (35.75 * wind_speed ^ 0.16) + (0.4275 * out_temp * wind_speed ^ 0.16)
     
     # Times for use in determining icons/prediction formulas.
-    current_time_unformatted <-
-      as.POSIXlt(pws_data[[time_pos]][now_index])
     current_time <-
       as.POSIXlt(pws_data[[time_pos]][now_index], format = "%H:%M")
     morning_time <- as.POSIXlt(with_tz(ymd_hms(sun_data$sunrise),

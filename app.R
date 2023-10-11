@@ -22,7 +22,7 @@ ui <- fluidPage(
         ".navbar-brand{ display:none; }"
       )
     ),
-    navbarPage(
+    navbarPage(inverse=TRUE,
       "",
       # Home
       tabPanel(
@@ -70,17 +70,18 @@ ui <- fluidPage(
           "src/client/astronomy.R",
           local = TRUE
         )$value))
-      ),
+      ), 
     )
   ),
   hr(),
-  div("Website developed by Michael Nersinger", style = "font-size: 14px;"),
-  tags$a(
-    href = "https://github.com/mnn7135/personal-web/",
-    target = "_blank",
-    "https://github.com/mnn7135/personal-web/",
-    style = "font-size: 14px;"
-  ),
+  div("Website developed by Michael Nersinger | ", 
+      tags$a(
+        href = "https://github.com/mnn7135/personal-web/",
+        target = "_blank",
+        "https://github.com/mnn7135/personal-web/",
+        style = "font-size: 14px;"
+      ),
+      style = "font-size: 14px;"),
   hr()
 )
 server <- function(input, output) {

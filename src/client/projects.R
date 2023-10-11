@@ -12,34 +12,33 @@ tagList(
   tags$h3(fluidRow(
     column(
       6,
-      strong("RShiny Website"),
+      strong("SWEN 262 - Muze Music Library System"),
       hr(),
-      "R and RShiny",
-      br(),
-      tags$a(
-        href = "https://github.com/mnn7135/personal-web/", target =
-          "_blank", "GitHub Repository"
-      ),
+      "Java |",
       br(),
       br(),
-      "This is the website you are currently visiting. My inspiration behind ",
-      "building this website was being able to display information received ",
-      "from an API call to my personal weather station. However, this project ",
-      "soon evolved into building a place to serve as a digital portfolio. ",
-      "While developing this website, I adhered to the Scrum methodology, ",
-      "with 1-2 week sprints. In some cases, sprints stretched a bit longer ",
-      "when coursework became the dominant priority. Overall, the website ",
-      "has made steady progress and is a real passion project for me. This ",
-      "website is deployed automatically after every update via ",
-      "GitHub Actions.",
+      "This class project required us to create the Muze Music Library ",
+      "System, a library for storing music, artists, and albums that ",
+      "contain songs. The main objective of the project was to use design ",
+      "pattern on a team project. The main subsystem I focused on was ",
+      "importing library data from csv files and later on from an online ",
+      "database of music that can be accessed using API GETs to populate ",
+      "user libraries and a local saved database. This also meant that a ",
+      "save system was needed as well, which I implemented with writing to ",
+      "a csv file. The design patterns that I gained the most experience ",
+      "with were the Factory, Composite, and Proxy patterns. It was also ",
+      "great to work on a project that made us of API to retrieve data, ",
+      "which I would use for further projects including this website. The ",
+      "project went well in both part 1 and the part 2 revision. I was ",
+      "satisfied with my ability to identify and justify what patterns ",
+      "would work well.",
       hr()
     ),
     column(
       6,
       strong("SWEN 340 - Hardware LED Project"),
       hr(),
-      "C",
-      br(),
+      "C | ",
       tags$a(
         href = "https://github.com/mnn7135/LED_Final", target =
           "_blank", "GitHub Repository"
@@ -55,7 +54,12 @@ tagList(
       "project were that the demo went perfectly and I made sure that all of ",
       "my code was properly documented and adhered to good software design ",
       "(i.e. Single Responsibility Principle for .c files where appropriate).",
-      hr(),
+      br(),
+      br(),
+      br(),
+      br(),
+      br(),
+      hr()
     )
   )),
   tags$h3(
@@ -64,7 +68,7 @@ tagList(
         6,
         strong("SWEN 356 - TuitionWaster RShiny App"),
         hr(),
-        "R and RShiny",
+        "R and RShiny |",
         br(),
         br(),
         "For this project, we were tasked to build an app to display what ",
@@ -79,13 +83,13 @@ tagList(
         "deploy our website to RShiny apps. At the end, our group received ",
         "great marks from peers, notably because our website was interactive ",
         "during our demo presentation.",
-        hr(),
+        hr()
       ),
       column(
         6,
         strong("CSCI 140 - Reddit Place"),
         hr(),
-        "Java",
+        "Java |",
         br(),
         br(),
         "This class project required us to re-create the Reddit Place tile ",
@@ -101,37 +105,8 @@ tagList(
         br(),
         br(),
         br(),
-        hr(),
+        hr()
       )
-    ),
-    fluidRow(
-      column(3),
-      column(
-        6,
-        strong("SWEN 262 - Muze Music Library System"),
-        hr(),
-        "Java",
-        br(),
-        br(),
-        "This class project required us to create the Muze Music Library ",
-        "System, a library for storing music, artists, and albums that ",
-        "contain songs. The main objective of the project was to use design ",
-        "pattern on a team project. The main subsystem I focused on was ",
-        "importing library data from csv files and later on from an online ",
-        "database of music that can be accessed using API GETs to populate ",
-        "user libraries and a local saved database. This also meant that a ",
-        "save system was needed as well, which I implemented with writing to ",
-        "a csv file. The design patterns that I gained the most experience ",
-        "with were the Factory, Composite, and Proxy patterns. It was also ",
-        "great to work on a project that made us of API to retrieve data, ",
-        "which I would use for further projects including this website. The ",
-        "project went well in both part 1 and the part 2 revision. I was ",
-        "satisfied with my ability to identify and justify what patterns ",
-        "would work well.",
-        br(),
-        hr(),
-      ),
-      column(3)
-    ),
+    )
   )
 )

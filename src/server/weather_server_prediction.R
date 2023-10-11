@@ -7,46 +7,66 @@ server <- {
   # Predict the Weather based on the given index.
   predict_weather <- (function(predict_pos) {
     confidence <- 0.95 + 0.05 * (predict_pos / now_index)
-    predict_time <-
-      current_time_unformatted + as.difftime((predict_pos / 12), units = "hours")
+    predict_diff <- (now_index - predict_pos) / 12
+    predict_time <- as.POSIXlt(pws_data[[time_pos]][now_index] + (now_index - predict_pos)*3600)
     weather_desc <- ""
     
-    # Gather Weather Trend Data
-    weather_temp <- (get_weather_trend(temp_pos, predict_pos)
+    weather_temp <- get_temp_trend(predict_pos)*abs(get_weather_trend(temp_pos, predict_pos)
                      * (predict_pos / 12)) + pws_data[[temp_pos]][now_index]
     
-    pressure_factor <-
-      20 * (get_weather_trend(pressure_pos, predict_pos))
-    wind_factor <-
-      20 * (get_weather_trend(wind_speed_pos, predict_pos))
-    temp_factor <- 20 * (get_weather_trend(temp_pos, predict_pos))
-    rain_factor <-
-      20 * (get_weather_trend(daily_rain_pos, predict_pos))
-    solar_factor <-
-      10 * (get_weather_trend(solar_rad_pos, predict_pos))
-    humidity_factor <-
-      10 * (get_weather_trend(humidity_pos, predict_pos))
+    wind_max <- get_data_max(wind_speed_pos, predict_pos)
+    
+    # Get Trend Data
+    pressure_trend <- get_weather_trend(pressure_pos, predict_pos)
+    temp_trend <- get_weather_trend(temp_pos, predict_pos)
+    humidity_trend <- get_weather_trend(humidity_pos, predict_pos)
+    
+    # Compute Weather Trend Data
+    pressure_factor <- 25
+    if(pressure_trend > 0.25) {
+      pressure_factor <- 35
+    } else if(pressure_trend < -0.25) {
+      pressure_factor <- -35
+    }
+    
+    temp_factor <- 25
+    if(temp_trend > 0.25) {
+      temp_factor <- 25
+    } else if(temp_trend < -0.25) {
+      temp_factor <- -25
+    }
+    
+    rain_factor <- 0
+    if(daily_rain > 0) {
+      rain_factor <- -25
+    } else if(daily_rain > 0.25 && pressure_factor < 0) {
+      rain_factor <- -50
+    }
+    
+    humidity_factor <- 25
+      if(humidity_trend > 0 && out_humidity > 75) {
+        humidity_factor <- -25
+        rain_factor <- rain_factor - 5
+      }
     
     # Prediction Formula
-    weather_formula <- (
-      pressure_factor
-      + wind_factor
+    weather_formula <- (50
+      + pressure_factor
       + temp_factor
-      - rain_factor
-      + solar_factor
-      - humidity_factor
+      + rain_factor
+      + humidity_factor
     ) * confidence
     
     # Grade Formula Result
     if (weather_formula <= 25) {
+      # Storm Likely
+      weather_desc <- weather_storm
+    } else if (weather_formula <= 35) {
       # Rain Likely
       weather_desc <- weather_rain
     } else if (weather_formula <= 50) {
       # Clouds Likely
       weather_desc <- weather_cloudy
-    } else if (weather_formula <= 75) {
-      # Wind Likely
-      weather_desc <- weather_windy
     } else {
       # Clear or Sunny
       if (morning_time <= predict_time &&
@@ -57,11 +77,18 @@ server <- {
       }
     }
     
+    if(wind_max*confidence > 15) {
+      # Breeze Likely
+      weather_desc <- weather_breezy
+    } else if(wind_max*confidence > 25) {
+      # Wind Likely
+      weather_desc <- weather_windy
+    }
+    
     # Return Predicted Data
-    weather_icon <- get_weather_icon(weather_desc, predict_time)
+    weather_icon <- get_weather_icon(weather_desc, predict_diff)
     return(c(weather_desc, weather_icon, weather_temp))
   })
-  
   
   # Get the current weather conditions.
   get_current_weather <- (function() {
