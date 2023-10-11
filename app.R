@@ -22,10 +22,11 @@ ui <- fluidPage(
         ".navbar-brand{ display:none; }"
       )
     ),
-    navbarPage(inverse=TRUE,
+    navbarPage(id = "navbarID", inverse=TRUE,
       "",
       # Home
       tabPanel(
+        value="home",
         tags$h1(strong(
           "|", icon("home"), " Home"
         )),
@@ -36,6 +37,7 @@ ui <- fluidPage(
       ),
       # Projects
       tabPanel(
+        value="projects",
         tags$h1(strong(
           "|", icon("chart-bar"),
           "Projects"
@@ -47,6 +49,7 @@ ui <- fluidPage(
       ),
       # Weather
       tabPanel(
+        value="weather",
         tags$h1(strong(
           "| ",
           uiOutput("weather_tooltip",
@@ -63,6 +66,7 @@ ui <- fluidPage(
       ),
       # Astronomy
       tabPanel(
+        value="astronomy",
         tags$h1(strong(
           "| ", icon("star"), "Astronomy"
         )),
@@ -84,7 +88,7 @@ ui <- fluidPage(
       style = "font-size: 14px;"),
   hr()
 )
-server <- function(input, output) {
+server <- function(input, output, session) {
   # Handle App level server configurations for fetching data.
   Sys.setenv(
     AW_API_KEY =
@@ -98,6 +102,27 @@ server <- function(input, output) {
   Sys.setenv(TZ = "America/New_York")
 
   source("src/server/weather_server.R", local = TRUE)$value
+  
+  observeEvent(input$navbarID, {
+    newURL <- paste0(
+      session$clientData$url_protocol,
+      "//",
+      session$clientData$url_hostname,
+      ":",
+      session$clientData$url_port,
+      session$clientData$url_pathname,
+      "#",
+      input$navbarID
+    )
+    updateQueryString(newURL, mode = "replace", session)
+  })
+  
+  observe({
+    currentTab <- sub("#", "", session$clientData$url_hash)
+    if(!is.null(currentTab)){
+      updateNavbarPage(session, "navbarID", selected = currentTab)
+    }
+  })
 }
 # Run the application.
 shinyApp(ui = ui, server = server)
