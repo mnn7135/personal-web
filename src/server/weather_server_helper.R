@@ -5,13 +5,7 @@ source("src/server/weather_server_data.R", local = TRUE)
 server <- {
   # Determine the current weather icons to display.
   get_weather_icon <- (function(weather_condition, predict_diff) {
-    predict_diff <- predict_diff * 3600 # Hour conversion
-    is_daytime <- FALSE
-    if(predict_diff > 82800) {
-      is_daytime <- current_time >= morning_time && current_time < evening_time
-    } else {
-      is_daytime <- current_time + predict_diff >= morning_time && current_time + predict_diff < evening_time
-    }
+    is_daytime <- hour(current_time + predict_diff) >= hour(morning_time) && hour(current_time + predict_diff) < hour(evening_time)
     display_icon <- ""
     switch(
       weather_condition,
@@ -74,7 +68,7 @@ server <- {
       weather_condition <- weather_breezy
     } else if (wind_max >= 20) {
       weather_condition <- weather_windy
-    } else if (out_humidity >= 95 && out_temp - out_dewpoint <= 4.5) {
+    } else if (out_humidity >= 99 && out_temp - out_dewpoint <= 4.5) {
       weather_condition <- weather_foggy
     } else {
       if (morning_time <= predict_time && predict_time < evening_time) {

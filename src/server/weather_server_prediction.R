@@ -6,9 +6,8 @@ source("src/server/weather_server_data.R", local = TRUE)
 server <- {
   # Predict the Weather based on the given index.
   predict_weather <- (function(predict_pos) {
-    confidence <- 0.95 + 0.05 * (predict_pos / now_index)
-    predict_diff <- (now_index - predict_pos) / 12
-    predict_time <- as.POSIXlt(pws_data[[time_pos]][now_index] + (now_index - predict_pos)*3600)
+    predict_diff <- ((now_index - predict_pos) / 12) * 3600
+    predict_time <- current_time + predict_diff
     weather_desc <- ""
     
     weather_temp <- get_temp_trend(predict_pos)*abs(get_weather_trend(temp_pos, predict_pos)
@@ -55,7 +54,7 @@ server <- {
       + temp_factor
       + rain_factor
       + humidity_factor
-    ) * confidence
+    )
     
     # Grade Formula Result
     if (weather_formula <= 25) {
@@ -69,18 +68,18 @@ server <- {
       weather_desc <- weather_cloudy
     } else {
       # Clear or Sunny
-      if (morning_time <= predict_time &&
-          predict_time < evening_time) {
+      if (hour(morning_time) <= hour(predict_time) &&
+          hour(predict_time) < hour(evening_time)) {
         weather_desc <- weather_sunny
       } else {
         weather_desc <- weather_clear
       }
     }
     
-    if(wind_max*confidence > 15) {
+    if(wind_max > 15) {
       # Breeze Likely
       weather_desc <- weather_breezy
-    } else if(wind_max*confidence > 25) {
+    } else if(wind_max > 25) {
       # Wind Likely
       weather_desc <- weather_windy
     }

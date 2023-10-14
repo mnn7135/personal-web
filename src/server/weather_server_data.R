@@ -49,7 +49,7 @@ server <- {
   six_hour_index <-
     216 # Furthest point back for displaying 6-hour changes.
   last_day_index <-
-    72 # Furthest point back for displaying 24-hour changes.
+    6 # Furthest point back for displaying 24-hour changes.
   buffer_index <- 12
   if (!exists("has_run")) {
     pws_data <- fetch_device_data("E8:DB:84:E4:03:97")$content
