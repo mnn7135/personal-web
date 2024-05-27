@@ -49,7 +49,7 @@ server <- {
       }
     
     # Prediction Formula
-    weather_formula <- (50
+    weather_formula <- (0
       + pressure_factor
       + temp_factor
       + rain_factor

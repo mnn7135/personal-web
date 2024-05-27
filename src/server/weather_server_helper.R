@@ -3,12 +3,13 @@ library(shiny)
 source("src/server/weather_server_data.R", local = TRUE)
 
 server <- {
+  
   # Determine the current weather icons to display.
   get_weather_icon <- (function(weather_condition, predict_diff) {
     is_daytime <- hour(current_time + predict_diff) >= hour(morning_time) && hour(current_time + predict_diff) < hour(evening_time)
     display_icon <- ""
-    switch(
-      weather_condition,
+    
+    switch(weather_condition,
       Rain = {
         if (is_daytime) {
           display_icon <- icon_rain_sun
@@ -16,24 +17,31 @@ server <- {
           display_icon <- icon_rain_moon
         }
       },
+      
       Sunny = {
         display_icon <- icon_sunny
       },
+      
       Clear = {
         display_icon <- icon_clear
       },
+      
       Windy = {
         display_icon <- icon_windy
       },
+      
       Breezy = {
         display_icon <- icon_windy
       },
+      
       Foggy = {
         display_icon <- icon_fog
       },
+      
       Stormy = {
         display_icon <- icon_storm
       },
+      
       Cloudy = {
         if (is_daytime) {
           display_icon <- icon_cloudy_sun
@@ -95,11 +103,11 @@ server <- {
   get_temp_trend <- (function(predict_pos) {
     predict_time <- as.POSIXlt(pws_data[[time_pos]][now_index] + (now_index - predict_pos)*3600)
     if (morning_time <= predict_time && predict_time < noon_time) {
-      return (0.5)
+      return (0.75)
     } else if(noon_time <= predict_time && predict_time < evening_time) {
-      return(-0.5)
+      return(0.75)
     } else if(predict_time >= evening_time) {
-      return(-0.25)
+      return(0.25)
     }
     return(0.25)
   })
@@ -183,7 +191,7 @@ server <- {
     } else if (hourly_rain >= 3) {
       display_alert <- "FLASH FLOOD WARNING"
     } else {
-      display_alert <- "There are no current Warnings or Advisories."
+      display_alert <- ""
     }
     return(display_alert)
   })

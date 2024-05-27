@@ -6,52 +6,55 @@ library(ambientweatheR)
 ui <- fluidPage(
   tags$style(
     ".container-fluid {color: black;
-                                 font-size: 16px;
-                                 font-family: arial;
+    background-color: lightgray;
+                                 font-size: 20px;
+                                 font-family: Roboto;
                                  }
     hr { border-color: black; }"
   ),
   titlePanel(
     title = tags$h1(strong("")),
-    windowTitle = "Michael's Homepage"
+    windowTitle = "Michael's Personal Web"
   ),
   tagList(
     tags$head(
       tags$style(
-        "body { word-wrap: break-word; }",
-        ".navbar-brand{ display:none; }"
+        "body { word-wrap: break-word; }"
       )
     ),
-    navbarPage(id = "navbarID", inverse=TRUE,
+    navbarPage(
+      id = "navbarID",
       "",
       # Home
       tabPanel(
         value="home",
         tags$h1(strong(
-          "|", icon("home"), " Home"
+          icon("home"), " Home"
         )),
         tagList(tags$h3(source(
           "src/client/home.R",
           local = TRUE
         )$value))
       ),
-      # Projects
+      
+      
+      # About Me
       tabPanel(
         value="projects",
         tags$h1(strong(
-          "|", icon("chart-bar"),
-          "Projects"
+          icon("user"),
+          "About Me"
         )),
         tagList(tags$h3(source(
           "src/client/projects.R",
           local = TRUE
         )$value))
       ),
+      
       # Weather
       tabPanel(
         value="weather",
         tags$h1(strong(
-          "| ",
           uiOutput("weather_tooltip",
             inline = TRUE
           ),
@@ -64,11 +67,12 @@ ui <- fluidPage(
           local = TRUE
         )$value))
       ),
+      
       # Astronomy
       tabPanel(
         value="astronomy",
         tags$h1(strong(
-          "| ", icon("star"), "Astronomy"
+          icon("rocket"), "Astronomy"
         )),
         tagList(tags$h3(source(
           "src/client/astronomy.R",

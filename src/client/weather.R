@@ -5,11 +5,9 @@ library(shiny)
 tagList(
   div(tags$h1(hr(),
               div(
-                align = "center", strong("Phoenix Station | Weather Report")
-              ),
-              hr(),)),
+                align = "center", strong("Personal Web | Phoenix Station")
+              ))),
   tags$h3(
-    div(align = "center", tags$h2(textOutput("alert"))),
     hr(),
     tags$h2(div(align = "center", strong("Right Now"))),
     hr(),
@@ -21,6 +19,7 @@ tagList(
         uiOutput("weather_icon"),
         div(tags$h1(textOutput("weather_desc"),
                     style = "font-size: 80px;")),
+        div(align = "center", tags$h1(textOutput("alert"), style="color: red;")),
         hr(),
         div(tags$h1(textOutput("out_temp"),
                     style = "font-size: 120px;")),

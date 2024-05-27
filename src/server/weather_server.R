@@ -7,11 +7,13 @@ source("src/server/weather_server_data.R", local = TRUE)
 # written by Michael N
 #
 # This file handles data associated with the back end of the weather.R page.
-# It pulls data from the weather station using the AmbientWeather API, and
+# It pulls data from the weather station using the Ambient Weather API, and
 # displays current weather information. It also looks at general trends in
 # the data over the previous 24 hours to make predictions about weather in the
 # future.
+
 server <- {
+  
   # Ensure that there is data available from the station.
   if (!is.null(pws_data)) {
     # Get the icon and description for the current weather.

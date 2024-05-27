@@ -4,13 +4,75 @@ library(shiny)
 #
 
 tagList(
-  div(tags$h1(hr(), style = "font-size: 45px;")),
+  div(tags$h1(hr())),
   tags$h1(
-    div(align = "center", strong("Personal Web | Software Projects")),
+    div(align = "center", strong("Personal Web | About Me")),
     hr()
   ),
   tags$h3(fluidRow(
     column(
+      4,
+      strong(div("Contact Details")),
+      hr(),
+      tags$h3(
+        strong("Michael Nersinger"),
+        hr(),
+        "Software Engineering BS at RIT",
+        br(),
+        "History Minor",
+        br(),
+        hr(),
+        "Research Intern at GTRI",
+        br(),
+        hr(),
+        strong("Email"),
+        hr(),
+        "mnn7135@rit.edu",
+        br(),
+        hr(),
+        strong("Programming Languages"),
+        hr(),
+        fluidRow(
+          column(6, div("Java")),
+          column(1),
+          column(5, div("React"))
+        ),
+        hr(),
+        fluidRow(
+          column(6, div("Python")),
+          column(1),
+          column(5, div("C"))
+        ),
+        hr(),
+        fluidRow(
+          column(6, div("JavaScript")),
+          column(1),
+          column(5, div("R"))
+        ),
+        hr(),
+        fluidRow(
+          column(6, div("TypeScript")),
+          column(1),
+          column(5, div(""))
+        ),
+        hr(),
+        br(),
+        strong("Other Technologies"),
+        hr(),
+        fluidRow(
+          column(6, div("AWS")),
+          column(1),
+          column(5, div("SQL"))
+        ),
+        hr(),
+        fluidRow(
+          column(12, div("Scrum"))
+        ),
+        hr(),
+      ),
+    ),
+    column(8,
+           tags$h3(fluidRow(column(
       6,
       strong("SWEN 262 - Muze Music Library System"),
       hr(),
@@ -59,6 +121,8 @@ tagList(
       br(),
       br(),
       br(),
+      br(),
+      br(),
       hr()
     )
   )),
@@ -68,7 +132,7 @@ tagList(
         6,
         strong("SWEN 356 - TuitionWaster RShiny App"),
         hr(),
-        "R and RShiny |",
+        "R |",
         br(),
         br(),
         "For this project, we were tasked to build an app to display what ",
@@ -105,8 +169,12 @@ tagList(
         br(),
         br(),
         br(),
+        br(),
         hr()
       )
     )
   )
+  )
+  )
+)
 )
